@@ -1,98 +1,137 @@
-# Ivochote Digital - Project Skeleton
+ # Ivochote Community Web
 
-Astro + React + TypeScript + TailwindCSS starter structure for the "Ivochote Digital" site.
+ ![Astro](https://img.shields.io/badge/Astro-%20-blue) ![Node](https://img.shields.io/badge/Node-%3E=_18-brightgreen) ![Tailwind](https://img.shields.io/badge/Tailwind-3.x-blue)
 
-## Quick start
+ Sitio institucional para el Centro Poblado de Ivochote. Este repositorio contiene la web estática construida con Astro, componentes React/TS para funcionalidades interactivas y TailwindCSS para estilos.
 
-1. Install dependencies
-<!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Ivochote Digital — Guía rápida</title>
-	</head>
-	<body>
-		<header>
-			<h1>Ivochote Digital</h1>
-			<p>Plantilla profesional basada en <strong>Astro</strong>, <strong>React</strong>, <strong>TypeScript</strong> y <strong>TailwindCSS</strong>. Proyecto orientado a sitios comunitarios y portales municipales.</p>
-		</header>
+ Resumen rápido:
+ - Páginas públicas: noticias, eventos, turismo, servicios, autoridades.
+ - Datos de ejemplo en `src/data/*.json` para desarrollo sin backend.
+ - Estructura modular: `services/`, `types/`, `components/`, `layouts/`.
 
-		<section>
-			<h2>Características principales</h2>
-			<ul>
-				<li>Arquitectura con <em>islands</em> (Astro) y componentes React cuando se necesita interactividad.</li>
-				<li>Tipado estricto con TypeScript.</li>
-				<li>Estilos con TailwindCSS y utilidades personalizadas.</li>
-				<li>Estructura modular: servicios, tipos, layouts y componentes reusables.</li>
-			</ul>
-		</section>
+ ---
 
-		<section>
-			<h2>Requisitos</h2>
-			<ul>
-				<li>Node.js >= 18</li>
-				<li>npm o pnpm como gestor de paquetes</li>
-			</ul>
-		</section>
+ ## Tecnologías
 
-		<section>
-			<h2>Instalación y ejecución</h2>
-			<p>Ejecuta los siguientes comandos en PowerShell (Windows):</p>
-			<pre><code>npm install
-npm run dev</code></pre>
-			<p>Para generar una versión de producción:</p>
-			<pre><code>npm run build
-npm run preview</code></pre>
-		</section>
+ - Astro (SSG / Islands)
+ - React (componentes interactivos)
+ - TypeScript
+ - TailwindCSS
+ - Vite / PostCSS
 
-		<section>
-			<h2>Scripts útiles</h2>
-			<ul>
-				<li><code>npm run dev</code> — servidor de desarrollo</li>
-				<li><code>npm run build</code> — compilar para producción</li>
-				<li><code>npm run preview</code> — previsualizar la build localmente</li>
-				<li><code>npm run typecheck</code> — ejecutar <code>tsc --noEmit</code></li>
-			</ul>
-		</section>
+ ---
 
-		<section>
-			<h2>Estructura del proyecto</h2>
-			<p>Resumen de carpetas y archivos importantes:</p>
-			<ul>
-				<li><code>src/pages/</code> — rutas y páginas del sitio (Astro)</li>
-				<li><code>src/components/</code> — componentes UI reusables</li>
-				<li><code>src/services/</code> — capa de acceso a datos y funciones helper</li>
-				<li><code>src/styles/</code> — hojas globales y utilidades Tailwind</li>
-				<li><code>src/types/</code> — definiciones TypeScript para el dominio</li>
-				<li><code>public/</code> — assets públicos (imágenes, fuentes, descargas)</li>
-				<li><code>astro.config.mjs</code>, <code>tailwind.config.mjs</code>, <code>tsconfig.json</code> — configuraciones principales</li>
-			</ul>
-		</section>
+ ## Estado del proyecto
 
-		<section>
-			<h2>Buenas prácticas y recomendaciones</h2>
-			<ul>
-				<li>Mantener los componentes pequeños y con una sola responsabilidad.</li>
-				<li>Centralizar llamadas a datos en <code>src/services/</code>.</li>
-				<li>Usar tipos estrictos y evitar <code>any</code> cuando sea posible.</li>
-				<li>Servir fuentes y assets desde <code>/public</code> para mejor rendimiento.</li>
-			</ul>
-		</section>
+ Proyecto en desarrollo. Muchas páginas y componentes han sido refactorizados para mejorar accesibilidad, tipado y consistencia. Faltan tareas de validación final (typecheck, tests y ejecución local).
 
-		<section>
-			<h2>Contribuir</h2>
-			<p>Si quieres contribuir:</p>
-			<ol>
-				<li>Fork del repositorio y crea una rama descriptiva.</li>
-				<li>Haz cambios pequeños y testea en <code>npm run dev</code>.</li>
-				<li>Abre un Pull Request con descripción clara y ejemplos si aplica.</li>
-			</ol>
-		</section>
+ ---
 
-		<footer>
-			<p>License: <strong>MIT</strong> — ver <code>LICENSE</code>.</p>
-			<p>Contacto: <a href="mailto:you@example.com">you@example.com</a> (reemplaza con contacto real).</p>
-		</footer>
-	</body>
-</html>
+ ## Estructura principal del repositorio
+
+ Raíz:
+
+ ```
+ astro.config.mjs
+ package.json
+ postcss.config.cjs
+ tailwind.config.mjs
+ tsconfig.json
+ README.md
+ public/
+ src/
+   assets/
+   components/
+   data/
+   hooks/
+   layouts/
+   lib/
+   pages/
+   services/
+   styles/
+   types/
+   utils/
+ tests/
+ ```
+
+ Carpetas clave:
+ - `src/pages/` : rutas y páginas (ej. `noticias`, `eventos`, `turismo`, `servicios`, `autoridades`, `contacto`, `estadisticas`).
+ - `src/components/` : componentes reutilizables (cards, formularios, carrusel, etc.).
+ - `src/services/` : lógica para leer datos desde `src/data/*.json` (servicios, noticias, turismo, autoridades, eventos).
+ - `src/types/` : tipos TypeScript para las entidades del sitio.
+ - `src/data/` : datos JSON usados como mock/local dev.
+
+ ---
+
+ ## Scripts útiles
+
+ Usa PowerShell en Windows (ejemplos):
+
+ ```powershell
+ npm install
+ npm run dev      # Ejecuta el servidor de desarrollo (Vite)
+ npm run build    # Genera la versión de producción
+ npm run typecheck # Ejecuta TypeScript (tsc --noEmit)
+ npm test         # Ejecuta tests (Vitest)
+ ```
+
+ ---
+
+ ## Desarrollo local
+
+ 1. Clona el repositorio y entra en la carpeta:
+
+ ```powershell
+ git clone <repo-url>
+ cd "Ivochote-Community-Web"
+ ```
+
+ 2. Instala dependencias y levanta el entorno:
+
+ ```powershell
+ npm install
+ npm run dev
+ ```
+
+ 3. Para comprobar tipos y errores estáticos:
+
+ ```powershell
+ npm run typecheck
+ ```
+
+ 4. Para construir la versión de producción:
+
+ ```powershell
+ npm run build
+ ```
+
+ ---
+
+ ## Notas sobre desarrollo
+
+ - Los datos de ejemplo están en `src/data/*.json` y los servicios en `src/services/*Service.ts` leen esos ficheros para simular una API.
+ - Los layouts principales son `src/layouts/BaseLayout.astro`, `HomeLayout.astro` y `ArticleLayout.astro`.
+ - Componentes importantes: `src/components/*` (NewsCard, EventCard, ServiceCard, PlaceCard, AuthorityCard, etc.).
+ - Si agregas nuevas rutas, añade la entrada en `config/navigation.ts` si quieres que aparezcan en la `Navbar`.
+
+ ---
+
+ ## Contribuir
+
+ 1. Haz fork del repositorio.
+ 2. Crea una rama con tu feature: `git checkout -b feature/nombre`.
+ 3. Añade cambios, tests y asegúrate que `npm run typecheck` pasa.
+ 4. Abre un Pull Request con descripción clara.
+
+ ---
+
+ ## Contacto
+
+ Para preguntas o coordinación del proyecto, abre un issue o contacta al mantenedor del repositorio vía GitHub.
+
+ ---
+
+ ## Licencia
+
+ Revisa el archivo `LICENSE` en la raíz del repositorio.
+
