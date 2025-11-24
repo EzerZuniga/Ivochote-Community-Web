@@ -1,0 +1,35 @@
+---
+// Home page
+import HomeLayout from '../layouts/HomeLayout.astro';
+import { getNews, getPlaces } from '../lib/api';
+const news = await getNews();
+const places = await getPlaces();
+---
+<HomeLayout>
+  <h1 class="text-3xl font-bold mb-4">Bienvenido a Ivochote</h1>
+  <p class="mb-6 text-gray-700">Portal informativo del centro poblado de Ivochote.</p>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-3">Noticias recientes</h2>
+    <div class="grid gap-4">
+      {news.map(n => (
+        <article class="p-4 border rounded-md">
+          <h3 class="font-semibold">{n.title}</h3>
+          <p class="text-sm text-gray-600">{n.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-semibold mb-3">Lugares turísticos</h2>
+    <div class="grid gap-4">
+      {places.map(p => (
+        <article class="p-4 border rounded-md">
+          <h3 class="font-semibold">{p.name}</h3>
+          <p class="text-sm text-gray-600">{p.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</HomeLayout>

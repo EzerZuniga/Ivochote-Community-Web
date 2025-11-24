@@ -1,0 +1,13 @@
+{
+  "site": {
+    "title": "Comunidad Ivochote"
+  },
+  "nav": {
+    "home": "Inicio",
+    "news": "Noticias",
+    "tourism": "Turismo",
+    "authorities": "Autoridades",
+    "services": "Servicios",
+    "contact": "Contacto"
+  }
+}

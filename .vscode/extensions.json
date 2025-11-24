@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "acrolinx.vscode-astroturf",
+    "astro-build.astro-vscode",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

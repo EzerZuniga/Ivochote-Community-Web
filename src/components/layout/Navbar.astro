@@ -1,0 +1,17 @@
+---
+// Simple navbar Astro component
+import { NAVIGATION } from '../../config/navigation';
+---
+<nav class="bg-white border-b">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <img src="/assets/images/brand/logo.png" alt="logo" class="h-8 w-8" />
+      <span class="font-semibold">Ivochote Digital</span>
+    </a>
+    <ul class="flex gap-4">
+      {NAVIGATION.map((item) => (
+        <li><a class="text-sm" href={item.href}>{item.title}</a></li>
+      ))}
+    </ul>
+  </div>
+</nav>

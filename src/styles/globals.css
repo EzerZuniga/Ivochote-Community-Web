@@ -1,0 +1,10 @@
+@import './tailwind.css';
+
+html,body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;margin:0;padding:0;background:#fff;color:#0f172a;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:#0ea5e9;text-decoration:underline}
+img,video{max-width:100%;height:auto;display:block}
+button{font:inherit}
+input,textarea,select{font:inherit}
+ul{margin:0;padding:0;list-style:none}
+h1,h2,h3,h4,h5,h6{margin:0}
+main{display:block}

@@ -1,0 +1,19 @@
+---
+// Autoridades - listado
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAuthorities } from '../../lib/api';
+const auth = await getAuthorities();
+---
+<BaseLayout>
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Autoridades</h1>
+    <div class="grid gap-4">
+      {auth.map(a => (
+        <article class="p-4 border rounded-md">
+          <h3 class="font-semibold">{a.name}</h3>
+          <p class="text-sm text-gray-600">{a.role}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

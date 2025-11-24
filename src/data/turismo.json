@@ -1,0 +1,15 @@
+[
+  {
+    "id": "t-001",
+    "name": "Mirador del Río",
+    "slug": "mirador-del-rio",
+    "description": "Lugar con vista panorámica al río.",
+    "coords": {
+      "lat": -12.0,
+      "lng": -72.0
+    },
+    "images": [
+      "/assets/images/brand/logo.png"
+    ]
+  }
+]

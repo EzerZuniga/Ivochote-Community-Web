@@ -1,0 +1,11 @@
+[
+  {
+    "id": "n-001",
+    "title": "Bienvenida a Ivochote",
+    "slug": "bienvenida-ivochote",
+    "excerpt": "Ivochote inaugura su portal web.",
+    "content": "Contenido de ejemplo sobre la inauguración del portal de Ivochote.",
+    "date": "2025-11-01",
+    "image": "/assets/images/brand/logo.png"
+  }
+]

@@ -1,0 +1,19 @@
+---
+// Noticias - listado
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getNews } from '../../lib/api';
+const news = await getNews();
+---
+<BaseLayout>
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Noticias</h1>
+    <div class="grid gap-4">
+      {news.map(n => (
+        <article class="p-4 border rounded-md">
+          <a class="text-lg font-semibold" href={`/noticias/${n.slug}`}>{n.title}</a>
+          <p class="text-sm text-gray-600">{n.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

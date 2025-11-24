@@ -1,0 +1,19 @@
+---
+// Turismo - listado
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPlaces } from '../../lib/api';
+const places = await getPlaces();
+---
+<BaseLayout>
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Turismo</h1>
+    <div class="grid gap-4">
+      {places.map(p => (
+        <article class="p-4 border rounded-md">
+          <a class="text-lg font-semibold" href={`/turismo/${p.slug}`}>{p.name}</a>
+          <p class="text-sm text-gray-600">{p.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

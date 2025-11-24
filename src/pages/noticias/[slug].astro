@@ -1,0 +1,20 @@
+---
+// Nota individual - dinámico
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getNews } from '../../lib/api';
+const { params } = Astro;
+const all = await getNews();
+const item = all.find(i => i.slug === params.slug);
+if (!item) {
+  throw new Error('Noticia no encontrada');
+}
+---
+<BaseLayout>
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">{item.title}</h1>
+    <p class="text-sm text-gray-600 mb-6">{item.date}</p>
+    <div class="prose">
+      {item.content}
+    </div>
+  </div>
+</BaseLayout>

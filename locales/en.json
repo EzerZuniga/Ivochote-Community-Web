@@ -1,0 +1,13 @@
+{
+  "site": {
+    "title": "Ivochote Community"
+  },
+  "nav": {
+    "home": "Home",
+    "news": "News",
+    "tourism": "Tourism",
+    "authorities": "Authorities",
+    "services": "Services",
+    "contact": "Contact"
+  }
+}

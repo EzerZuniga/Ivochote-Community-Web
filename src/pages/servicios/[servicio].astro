@@ -1,0 +1,7 @@
+---
+const { params } = Astro;
+---
+<Layout:ArticleLayout title={`Servicio: ${params.servicio}`}>
+  <h1>Servicio — {params.servicio}</h1>
+  <p>Contenido del servicio de ejemplo.</p>
+</Layout:ArticleLayout>
