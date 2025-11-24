@@ -1,17 +1,88 @@
 ---
-// Simple navbar Astro component
-import { NAVIGATION } from '../../config/navigation';
+import { MAIN_NAVIGATION } from '../../config/navigation.ts';
+import { SITE_CONFIG } from '../../config/site.config.ts';
+
+interface NavItem {
+  href: string;
+  label?: string;
+  labelText?: string; // fallback compatibility
+}
+
+const navItems = (MAIN_NAVIGATION as unknown) as NavItem[];
+const siteTitle = SITE_CONFIG.title ?? 'Ivochote';
 ---
-<nav class="bg-white border-b">
-  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3">
-      <img src="/assets/images/brand/logo.png" alt="logo" class="h-8 w-8" />
-      <span class="font-semibold">Ivochote Digital</span>
-    </a>
-    <ul class="flex gap-4">
-      {NAVIGATION.map((item) => (
-        <li><a class="text-sm" href={item.href}>{item.title}</a></li>
-      ))}
-    </ul>
+
+<nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800" role="navigation" aria-label="Main navigation">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/assets/images/brand/logo.png" alt={`${siteTitle} logo`} class="h-8 w-8 object-contain" />
+          <span class="font-semibold text-slate-900 dark:text-slate-100">{siteTitle}</span>
+        </a>
+      </div>
+
+      <!-- Desktop nav -->
+      <ul class="hidden sm:flex sm:items-center sm:gap-6" role="menubar">
+        {navItems.map((item: NavItem) => (
+          <li role="none">
+            <a role="menuitem" href={item.href} class="text-sm text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition" data-href={item.href}>{item.label ?? item.labelText}</a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Mobile controls -->
+      <div class="sm:hidden">
+        <button id="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" class="inline-flex items-center justify-center p-2 rounded-md text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <span class="sr-only">Abrir menú</span>
+          <svg id="nav-open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <svg id="nav-close" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+    </div>
   </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="sm:hidden hidden border-t border-slate-100 dark:border-slate-800">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      {navItems.map((item: NavItem) => (
+        <a href={item.href} class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" data-href={item.href}>{item.label ?? item.labelText}</a>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    // Small client-side behavior: toggle mobile menu and mark active link
+    (function () {
+      try {
+        const toggle = document.getElementById('nav-toggle');
+        const mobile = document.getElementById('mobile-menu');
+        const openIcon = document.getElementById('nav-open');
+        const closeIcon = document.getElementById('nav-close');
+
+        if (toggle && mobile) {
+          toggle.addEventListener('click', function () {
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!expanded));
+            mobile.classList.toggle('hidden');
+            openIcon?.classList.toggle('hidden');
+            closeIcon?.classList.toggle('hidden');
+          });
+        }
+
+        // Mark active links based on current path
+        const path = location.pathname;
+        document.querySelectorAll('[data-href]').forEach((el) => {
+          const href = el.getAttribute('data-href');
+          if (!href) return;
+          if (href === path || (href !== '/' && path.startsWith(href))) {
+            el.classList.add('text-sky-600');
+          }
+        });
+      } catch (e) {
+        // ignore in older browsers
+        console.error(e);
+      }
+    })();
+  </script>
 </nav>

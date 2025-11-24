@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DemoCard from '../../components/DemoCard.astro';
+
+interface DemoItem {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  image?: string;
+}
+
+const items: DemoItem[] = [
+  {
+    title: 'Noticias destacadas',
+    slug: 'noticias-destacadas',
+    excerpt: 'Listado de noticias principales desde el servicio local.',
+    image: '/assets/images/brand/placeholder.jpg',
+  },
+  {
+    title: 'Servicios populares',
+    slug: 'servicios-populares',
+    excerpt: 'Guía rápida de servicios municipales y contactos.',
+    image: '/assets/images/brand/placeholder.jpg',
+  },
+  {
+    title: 'Turismo local',
+    slug: 'turismo-local',
+    excerpt: 'Lugares recomendados y rutas de interés.',
+    image: '/assets/images/brand/placeholder.jpg',
+  },
+];
+---
+
+<BaseLayout title="Demo · Ivochote">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Demostración de componentes Astro</h1>
+
+    <p class="text-slate-600 dark:text-slate-300 mb-6">Página de ejemplo que muestra cómo construir componentes tipados con Astro y Tailwind.</p>
+
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((it) => <DemoCard item={it} />)}
+    </div>
+  </main>
+</BaseLayout>

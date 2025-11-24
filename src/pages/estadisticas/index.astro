@@ -1,7 +1,82 @@
 ---
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { SITE_CONFIG } from '../../../config/site.config';
+
+const stats: { id: string; label: string; value: string }[] = [
+  { id: 'poblacion', label: 'Población estimada', value: '3,428' },
+  { id: 'hogares', label: 'Hogares', value: '820' },
+  { id: 'servicios', label: 'Servicios activos', value: '24' },
+  { id: 'eventos', label: 'Eventos anuales', value: '18' }
+];
+
+const chartData: number[] = [40, 55, 75, 60, 80, 95];
 ---
-<ArticleLayout title="Estadísticas">
-  <h1>Estadísticas</h1>
-  <p>Página placeholder para estadísticas.</p>
+
+<ArticleLayout title="Estadísticas" description={`Estadísticas básicas — ${SITE_CONFIG.title}`}>
+  <header class="mb-6">
+    <h1 class="text-2xl font-bold">Estadísticas</h1>
+    <p class="text-slate-600 dark:text-slate-300">Resumen de métricas clave del Centro Poblado de Ivochote.</p>
+  </header>
+
+  <section aria-labelledby="metrics-heading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <h2 id="metrics-heading" class="sr-only">Métricas principales</h2>
+    {stats.map((s) => (
+      <article class="bg-white dark:bg-slate-800 p-4 rounded shadow-sm" role="article" aria-labelledby={`stat-${s.id}`}>
+        <p id={`stat-${s.id}`} class="text-sm text-slate-500 dark:text-slate-400">{s.label}</p>
+        <p class="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-4 rounded shadow-sm">
+      <h3 class="text-lg font-medium">Tendencia anual</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-400">Gráfico de ejemplo con datos históricos.</p>
+
+      <!-- Simple inline SVG bar chart (placeholder) -->
+      <div class="mt-4">
+        <svg viewBox="0 0 600 120" class="w-full h-32" role="img" aria-label="Gráfico de barras de ejemplo">
+          {chartData.map((v, i) => {
+            const barWidth = 80;
+            const gap = 10;
+            const x = i * (barWidth + gap);
+            const height = (v / 100) * 100;
+            const y = 110 - height;
+            return <rect x={x} y={y} width={barWidth} height={height} fill="#0ea5e9" />;
+          })}
+          <line x1="0" x2="600" y1="110" y2="110" stroke="#94a3b8" stroke-width="1" />
+        </svg>
+      </div>
+    </div>
+
+    <aside class="bg-white dark:bg-slate-800 p-4 rounded shadow-sm">
+      <h3 class="text-lg font-medium">Datos abiertos</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-400">Descarga los datos en CSV para su análisis.</p>
+      <div class="mt-3">
+        <a class="inline-block px-3 py-2 bg-sky-600 text-white rounded hover:bg-sky-700" href="/downloads/estadisticas.csv">Descargar CSV</a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="mt-8 bg-white dark:bg-slate-800 p-4 rounded shadow-sm">
+    <h3 class="text-lg font-medium">Tabla de estadísticas</h3>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="text-sm text-slate-600 dark:text-slate-400">
+            <th class="px-3 py-2">Métrica</th>
+            <th class="px-3 py-2">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stats.map((s) => (
+            <tr class="border-t border-slate-100 dark:border-slate-700">
+              <td class="px-3 py-2 text-slate-700 dark:text-slate-200">{s.label}</td>
+              <td class="px-3 py-2 font-medium">{s.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
 </ArticleLayout>

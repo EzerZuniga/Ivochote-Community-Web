@@ -1,10 +1,72 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { SITE_CONFIG } from '../../config/site.config';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  heroImage?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const { title, subtitle, heroImage, ctaText, ctaHref } = Astro.props as Props;
+const pageTitle = title ?? SITE_CONFIG.title;
+const pageDescription = subtitle ?? SITE_CONFIG.description;
 ---
-<BaseLayout>
-  <section class="bg-green-50 py-12">
-    <div class="max-w-5xl mx-auto px-4">
-      <slot />
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <header class="relative bg-gradient-to-br from-emerald-50 to-white dark:from-slate-800 dark:to-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">{pageTitle}</h1>
+          {subtitle ? <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">{subtitle}</p> : null}
+
+          <div class="mt-6 flex gap-3">
+            {ctaText ? (
+              <a href={ctaHref ?? '/contacto'} class="inline-flex items-center px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-sm font-medium">{ctaText}</a>
+            ) : null}
+            <a href="/noticias" class="inline-flex items-center px-5 py-3 border border-slate-200 dark:border-slate-700 rounded-md text-sm text-slate-700 dark:text-slate-300">Ver noticias</a>
+          </div>
+        </div>
+
+        <div class="hidden lg:block">
+          {heroImage ? (
+            <img src={heroImage} alt={pageTitle} class="w-full h-64 object-cover rounded-lg shadow-md" />
+          ) : (
+            <div class="w-full h-64 bg-gradient-to-tr from-emerald-200 to-emerald-50 rounded-lg shadow-md flex items-center justify-center text-slate-500">Imagen destacada</div>
+          )}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="container mx-auto px-4 py-12">
+    <div class="grid gap-8 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <h2 class="text-2xl font-semibold mb-4">Últimas noticias</h2>
+        <slot name="news">
+          <p class="text-sm text-slate-600 dark:text-slate-300">No hay noticias disponibles. Puedes inyectar la lista con el slot <code>news</code>.</p>
+        </slot>
+      </div>
+
+      <aside>
+        <h3 class="text-lg font-medium mb-3">Servicios rápidos</h3>
+        <slot name="services">
+          <p class="text-sm text-slate-600 dark:text-slate-300">Enlaces a trámites y servicios municipales.</p>
+        </slot>
+      </aside>
     </div>
   </section>
+
+  <section class="bg-slate-50 dark:bg-slate-800 py-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl font-semibold mb-4">Turismo destacado</h2>
+      <slot name="tourism">
+        <p class="text-sm text-slate-600 dark:text-slate-300">Coloca aquí las atracciones o rutas turísticas.</p>
+      </slot>
+    </div>
+  </section>
+
 </BaseLayout>

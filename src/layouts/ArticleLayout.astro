@@ -1,12 +1,54 @@
 ---
-const { title } = Astro.props;
+import BaseLayout from './BaseLayout.astro';
+import { SITE_CONFIG } from '../../config/site.config';
+import formatters from '../utils/formatters';
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: string | Date;
+  author?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const { title, description, date, author, image, canonical } = Astro.props as Props;
+
+const pageTitle = title ? `${title} — ${SITE_CONFIG.title}` : SITE_CONFIG.title;
+const publishDate = date ? formatters.formatDate(date) : undefined;
+const canonicalUrl = canonical ?? (SITE_CONFIG.baseUrl ? new URL(Astro.url.pathname, SITE_CONFIG.baseUrl).toString() : undefined);
 ---
-<html>
+
+<BaseLayout>
   <head>
-    <meta charset="utf-8" />
-    <title>{title ?? 'Artículo'}</title>
+    <title>{pageTitle}</title>
+    {description ? <meta name="description" content={description} /> : null}
+    {canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
+    {image ? <meta property="og:image" content={image} /> : null}
+    <meta property="og:title" content={pageTitle} />
+    {description ? <meta property="og:description" content={description} /> : null}
+    <meta property="og:site_name" content={SITE_CONFIG.title} />
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
   </head>
-  <body>
-    <slot />
-  </body>
-</html>
+
+  <article class="container mx-auto px-4 py-10 prose dark:prose-invert max-w-3xl">
+    <header class="mb-6">
+      <h1 class="text-3xl font-bold leading-tight">{title}</h1>
+      {description ? <p class="text-slate-600 dark:text-slate-300 mt-2">{description}</p> : null}
+
+      <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+        {author ? <span>Por {author}</span> : null}
+        {publishDate ? <><span class="mx-2">•</span><time datetime={String(date)}>{publishDate}</time></> : null}
+      </div>
+    </header>
+
+    <section>
+      <slot />
+    </section>
+
+    <footer class="mt-12 border-t pt-6 text-sm text-slate-600 dark:text-slate-400">
+      <p>Si te interesa este artículo, puedes compartirlo o contactar a <strong>{SITE_CONFIG.author}</strong>.</p>
+    </footer>
+  </article>
+</BaseLayout>
+
