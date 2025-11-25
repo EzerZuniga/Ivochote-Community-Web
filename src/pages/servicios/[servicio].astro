@@ -1,7 +1,15 @@
 ---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import services from '../../data/services.json';
+
+export async function getStaticPaths() {
+  return (services || []).map((s) => ({ params: { servicio: (s.slug ?? s.id ?? String(s)) } }));
+}
+
 const { params } = Astro;
 ---
-<Layout:ArticleLayout title={`Servicio: ${params.servicio}`}>
+
+<ArticleLayout title={`Servicio: ${params.servicio}`}>
   <h1>Servicio — {params.servicio}</h1>
   <p>Contenido del servicio de ejemplo.</p>
-</Layout:ArticleLayout>
+</ArticleLayout>

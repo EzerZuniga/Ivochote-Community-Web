@@ -2,6 +2,12 @@
 // Nota individual - dinámico
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getNews } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const all = await getNews();
+  return all.map((i) => ({ params: { slug: i.slug } }));
+}
+
 const { params } = Astro;
 const all = await getNews();
 const item = all.find(i => i.slug === params.slug);

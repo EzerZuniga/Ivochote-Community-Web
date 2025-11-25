@@ -2,6 +2,12 @@
 // Lugar individual - dinámico
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPlaces } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const all = await getPlaces();
+  return all.map((i) => ({ params: { lugar: i.slug } }));
+}
+
 const { params } = Astro;
 const all = await getPlaces();
 const item = all.find(i => i.slug === params.lugar);

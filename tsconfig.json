@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
+    "module": "ESNext",
     "lib": ["DOM", "ES2022"],
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "strict": true,
@@ -13,14 +13,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
       "@components/*": ["src/components/*"],
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
       "@types/*": ["src/types/*"]
     },
-    "types": ["astro/client"]
+    "types": ["astro/client", "vite/client", "react"]
   },
   "include": ["src", "src/**/*.astro", "astro.config.mjs"],
   "exclude": ["node_modules", "dist", "public"]

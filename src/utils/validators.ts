@@ -1,4 +1,4 @@
-export function isNotEmpty(s?: string): boolean {
+export function isNotEmpty(s?: string): s is string {
   return typeof s === 'string' && s.trim().length > 0;
 }
 
@@ -30,10 +30,10 @@ export function isPhone(s?: string): boolean {
 
 export function hasMinLength(s?: string, min = 1): boolean {
   if (!isNotEmpty(s)) return false;
-  return s!.trim().length >= min;
+  return s.trim().length >= min;
 }
 
-export function hasMaxLength(s?: string, max: number): boolean {
+export function hasMaxLength(s?: string, max = Infinity): boolean {
   if (typeof max !== 'number' || max < 0) return false;
   if (s == null) return true;
   return s.trim().length <= max;
@@ -41,7 +41,7 @@ export function hasMaxLength(s?: string, max: number): boolean {
 
 export function normalizeString(s?: string): string {
   if (!isNotEmpty(s)) return '';
-  return s!.trim().replace(/\s+/g, ' ');
+  return s.trim().replace(/\s+/g, ' ');
 }
 
 export function toTitleCase(s?: string): string {
