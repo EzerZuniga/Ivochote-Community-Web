@@ -72,7 +72,7 @@ npm run typecheck
 
 4.  Para construir la versión de producción:
 
-# Ivochote Community Web
+# WEB DESCRIPCION
 
 Sitio institucional del Centro Poblado de Ivochote. Proyecto construido con Astro, componentes React + TypeScript para las porciones interactivas y Tailwind CSS para el sistema de estilos.
 
@@ -86,24 +86,6 @@ Sitio institucional del Centro Poblado de Ivochote. Proyecto construido con Astr
 - [Construcción y despliegue](#construcción-y-despliegue)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Internals importantes](#internals-importantes)
-
-# Ivochote Community Web
-
-Sitio institucional del Centro Poblado de Ivochote. Proyecto construido con Astro, componentes React + TypeScript para las porciones interactivas y Tailwind CSS para el sistema de estilos.
-
-## Índice
-
-- [Descripción](#descripción)
-- [Características](#características)
-- [Requisitos](#requisitos)
-- [Instalación](#instalación)
-- [Desarrollo](#desarrollo)
-- [Construcción y despliegue](#construcción-y-despliegue)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Internals importantes](#internals-importantes)
-- [Contribuir](#contribuir)
-- [Licencia](#licencia)
-- [Contacto](#contacto)
 
 ## Descripción
 
