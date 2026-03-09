@@ -1,21 +1,18 @@
 ---
-// Contacto
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
 ---
----
 
-<BaseLayout title="Contacto" description={`Contáctanos — ${SITE_CONFIG.title}`}>
+<BaseLayout title="Contacto" description={`Contáctanos — ${SITE_CONFIG.shortTitle}`}>
   <div class="max-w-6xl mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Contact details -->
       <section class="space-y-4">
         <h1 class="text-3xl font-bold">Contacto</h1>
-        <p class="text-slate-600 dark:text-slate-300">Estamos para ayudarte. Usa el formulario o los datos de contacto.</p>
+        <p class="text-primary-900/60">Comunícate con la Municipalidad del Centro Poblado de Ivochote. Estamos para servirte.</p>
 
-        <div class="mt-6 space-y-3 text-slate-700 dark:text-slate-200">
+        <div class="mt-6 space-y-4 text-primary-900">
           <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-sky-600 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l.4 2M7 13h10l1.4-8H5.6L7 13zM16 21a2 2 0 002-2v-5H6v5a2 2 0 002 2h6z"/></svg>
+            <span class="text-primary-700 text-lg">📞</span>
             <div>
               <p class="font-medium">Teléfono</p>
               <p class="text-sm">{SITE_CONFIG.phone}</p>
@@ -23,71 +20,64 @@ import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
           </div>
 
           <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-rose-600 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 01-8 0m8 0A4 4 0 008 12M12 4v1m0 14v1M4 12H3m18 0h-1M6.22 6.22l-.7-.7M18.48 18.48l-.7-.7M6.22 17.78l-.7.7M18.48 5.52l-.7.7"/></svg>
+            <span class="text-primary-700 text-lg">✉️</span>
             <div>
-              <p class="font-medium">Correo</p>
-              <p class="text-sm"><a class="text-sky-600 hover:underline" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a></p>
+              <p class="font-medium">Correo electrónico</p>
+              <p class="text-sm"><a class="text-primary-700 hover:underline" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a></p>
             </div>
           </div>
 
           <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-600 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-6l-4 3v-3H7a2 2 0 01-2-2v-6a2 2 0 012-2h2"/></svg>
+            <span class="text-primary-700 text-lg">📍</span>
             <div>
               <p class="font-medium">Dirección</p>
               <p class="text-sm">{SITE_CONFIG.address}</p>
             </div>
           </div>
 
-          <div class="pt-4">
-            <p class="font-medium">Síguenos</p>
-            <div class="flex gap-3 mt-2">
-              <a class="text-sky-600 hover:underline" href={SOCIAL_LINKS.facebook} aria-label="Facebook">Facebook</a>
-              <a class="text-sky-600 hover:underline" href={SOCIAL_LINKS.twitter} aria-label="Twitter">Twitter</a>
-              <a class="text-sky-600 hover:underline" href={SOCIAL_LINKS.youtube} aria-label="YouTube">YouTube</a>
+          {SOCIAL_LINKS.facebook && (
+            <div class="pt-4">
+              <p class="font-medium">Síguenos</p>
+              <div class="flex gap-3 mt-2">
+                <a class="text-primary-700 hover:underline" href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">Facebook</a>
+                {SOCIAL_LINKS.tiktok && <a class="text-primary-700 hover:underline" href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
-      <!-- Contact form -->
       <section>
-        <form class="bg-white/80 dark:bg-slate-800/70 p-6 rounded-lg shadow-sm" method="post" action={`mailto:${SITE_CONFIG.email}`} encType="text/plain">
+        <h2 class="text-xl font-semibold mb-4">Envíanos un mensaje</h2>
+        <form class="bg-white p-6 rounded-lg shadow-sm border border-primary-100" method="post" action={`mailto:${SITE_CONFIG.email}`} enctype="text/plain">
           <div class="grid grid-cols-1 gap-4">
             <label class="flex flex-col">
-              <span class="text-sm font-medium">Nombre</span>
-              <input name="name" type="text" required class="mt-1 block w-full rounded border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-700" />
+              <span class="text-sm font-medium">Nombre completo</span>
+              <input name="nombre" type="text" required class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
             </label>
 
             <label class="flex flex-col">
               <span class="text-sm font-medium">Correo electrónico</span>
-              <input name="email" type="email" required class="mt-1 block w-full rounded border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-700" />
+              <input name="correo" type="email" required class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
             </label>
 
             <label class="flex flex-col">
               <span class="text-sm font-medium">Asunto</span>
-              <input name="subject" type="text" class="mt-1 block w-full rounded border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-700" />
+              <input name="asunto" type="text" class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
             </label>
 
             <label class="flex flex-col">
               <span class="text-sm font-medium">Mensaje</span>
-              <textarea name="message" rows="6" required class="mt-1 block w-full rounded border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-700"></textarea>
+              <textarea name="mensaje" rows="5" required class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300"></textarea>
             </label>
 
             <div class="flex items-center justify-end gap-3">
-              <button type="reset" class="px-4 py-2 rounded bg-slate-200 text-slate-800 hover:bg-slate-300">Limpiar</button>
-              <button type="submit" class="px-4 py-2 rounded bg-sky-600 text-white hover:bg-sky-700">Enviar mensaje</button>
+              <button type="reset" class="px-4 py-2 rounded bg-primary-100 text-primary-900 hover:bg-primary-200">Limpiar</button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary-900 text-white hover:bg-primary-800">Enviar mensaje</button>
             </div>
           </div>
         </form>
       </section>
-    </div>
-
-    <!-- Optional: mapa/ubicación -->
-    <div class="mt-10">
-      <h2 class="text-lg font-semibold">Ubicación</h2>
-      <div class="mt-4 w-full h-64 bg-slate-100 dark:bg-slate-800 rounded overflow-hidden">
-        <iframe class="w-full h-full border-0" loading="lazy" title="Mapa de Ivochote" src="https://www.google.com/maps?q=Ivochote&output=embed" aria-hidden="false"></iframe>
-      </div>
     </div>
   </div>
 </BaseLayout>

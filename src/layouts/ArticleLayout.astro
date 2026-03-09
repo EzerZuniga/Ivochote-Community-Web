@@ -34,9 +34,9 @@ const canonicalUrl = canonical ?? (SITE_CONFIG.baseUrl ? new URL(Astro.url.pathn
   <article class="container mx-auto px-4 py-10 prose dark:prose-invert max-w-3xl">
     <header class="mb-6">
       <h1 class="text-3xl font-bold leading-tight">{title}</h1>
-      {description ? <p class="text-slate-600 dark:text-slate-300 mt-2">{description}</p> : null}
+      {description ? <p class="text-primary-900/60 mt-2">{description}</p> : null}
 
-      <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+      <div class="mt-4 text-sm text-primary-900/50">
         {author ? <span>Por {author}</span> : null}
         {publishDate ? <><span class="mx-2">•</span><time datetime={String(date)}>{publishDate}</time></> : null}
       </div>
@@ -46,7 +46,7 @@ const canonicalUrl = canonical ?? (SITE_CONFIG.baseUrl ? new URL(Astro.url.pathn
       <slot />
     </section>
 
-    <footer class="mt-12 border-t pt-6 text-sm text-slate-600 dark:text-slate-400">
+    <footer class="mt-12 border-t border-primary-100 pt-6 text-sm text-primary-900/60">
       <p>Si te interesa este artículo, puedes compartirlo o contactar a <strong>{SITE_CONFIG.author}</strong>.</p>
     </footer>
   </article>

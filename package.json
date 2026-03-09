@@ -2,7 +2,7 @@
   "name": "centro-poblado-ivochote",
   "version": "1.0.0",
   "type": "module",
-  "description": "Sitio web oficial del Centro Poblado de Ivochote",
+  "description": "Portal web oficial de la Municipalidad del Centro Poblado de Ivochote - Echarati, La Convención, Cusco",
   "engines": {
     "node": ">=18"
   },

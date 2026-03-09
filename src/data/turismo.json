@@ -1,15 +1,64 @@
 [
   {
     "id": "t-001",
-    "name": "Mirador del Río",
-    "slug": "mirador-del-rio",
-    "description": "Lugar con vista panorámica al río.",
-    "coords": {
-      "lat": -12.0,
-      "lng": -72.0
-    },
-    "images": [
-      "/assets/images/brand/logo.png"
+    "name": "Río Urubamba - Sector Ivochote",
+    "slug": "rio-urubamba-ivochote",
+    "description": "El majestuoso río Urubamba atraviesa el centro poblado de Ivochote, ofreciendo paisajes espectaculares de la selva alta cusqueña y oportunidades para la observación de flora y fauna amazónica.",
+    "fullDescription": "El río Urubamba en el sector de Ivochote es uno de los atractivos naturales más importantes de la zona. Sus aguas cristalinas discurren entre exuberante vegetación tropical, creando un escenario ideal para el ecoturismo. La zona es hábitat de diversas especies de aves, mariposas y peces, lo que la convierte en un destino perfecto para los amantes de la naturaleza.",
+    "location": "Centro Poblado de Ivochote, Echarati",
+    "coordinates": { "lat": -12.6833, "lng": -72.6167 },
+    "category": "naturaleza",
+    "images": ["/assets/images/turismo/rio-urubamba.jpg"],
+    "featured": true,
+    "tags": ["río", "naturaleza", "selva", "ecoturismo"]
+  },
+  {
+    "id": "t-002",
+    "name": "Bosques Tropicales de La Convención",
+    "slug": "bosques-tropicales-convencion",
+    "description": "Los bosques tropicales que rodean Ivochote albergan una biodiversidad extraordinaria, con especies endémicas de flora y fauna de la ceja de selva cusqueña.",
+    "fullDescription": "La zona de Ivochote se ubica en la ceja de selva del departamento de Cusco, una región de transición entre los Andes y la Amazonía. Los bosques tropicales circundantes son hogar de orquídeas, helechos gigantes, monos, tucanes y una infinidad de especies de mariposas. Se pueden realizar caminatas guiadas por senderos naturales.",
+    "location": "Alrededores de Ivochote, Echarati",
+    "coordinates": { "lat": -12.69, "lng": -72.62 },
+    "category": "naturaleza",
+    "difficulty": "media",
+    "duration": "3-5 horas",
+    "bestSeason": ["mayo", "junio", "julio", "agosto", "septiembre"],
+    "images": ["/assets/images/turismo/bosques-tropicales.jpg"],
+    "featured": true,
+    "tags": ["bosque", "biodiversidad", "trekking", "naturaleza"]
+  },
+  {
+    "id": "t-003",
+    "name": "Plantaciones de Café y Cacao",
+    "slug": "plantaciones-cafe-cacao",
+    "description": "Ivochote es una zona productora de café y cacao de alta calidad. Visita las chacras locales y conoce el proceso artesanal de producción.",
+    "fullDescription": "La provincia de La Convención es reconocida internacionalmente por la calidad de su café y cacao. En Ivochote, los agricultores locales mantienen tradiciones de cultivo orgánico que se pueden conocer de primera mano. Los visitantes pueden recorrer las plantaciones, participar en la cosecha y degustar café y chocolate artesanal directamente en las fincas.",
+    "location": "Chacras de Ivochote, Echarati",
+    "coordinates": { "lat": -12.68, "lng": -72.61 },
+    "category": "gastronomia",
+    "difficulty": "baja",
+    "duration": "2-3 horas",
+    "images": ["/assets/images/turismo/cafe-cacao.jpg"],
+    "featured": true,
+    "tags": ["café", "cacao", "agroturismo", "gastronomía"]
+  },
+  {
+    "id": "t-004",
+    "name": "Comunidades Nativas Machiguenga",
+    "slug": "comunidades-nativas-machiguenga",
+    "description": "Conoce la cultura viva del pueblo Machiguenga (Matsigenka), comunidades originarias que habitan ancestralmente el valle del Urubamba.",
+    "fullDescription": "En las cercanías de Ivochote se encuentran comunidades nativas del pueblo Machiguenga (Matsigenka), quienes conservan sus tradiciones culturales, artesanía textil, gastronomía tradicional y conocimientos ancestrales sobre la selva. El turismo vivencial permite a los visitantes compartir experiencias con las familias comuneras de manera respetuosa y sostenible.",
+    "location": "Comunidades aledañas a Ivochote",
+    "coordinates": { "lat": -12.7, "lng": -72.63 },
+    "category": "cultura",
+    "difficulty": "baja",
+    "images": ["/assets/images/turismo/comunidades-nativas.jpg"],
+    "tags": [
+      "cultura",
+      "comunidades nativas",
+      "machiguenga",
+      "turismo vivencial"
     ]
   }
 ]

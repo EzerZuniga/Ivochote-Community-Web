@@ -1,1 +1,53 @@
-[]
+[
+  {
+    "id": "s-001",
+    "title": "Registro Civil",
+    "slug": "registro-civil",
+    "description": "Trámites de partidas de nacimiento, matrimonio, defunción y otros certificados del registro civil municipal.",
+    "category": "administrativo",
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "s-002",
+    "title": "Licencias y Autorizaciones",
+    "slug": "licencias-autorizaciones",
+    "description": "Emisión de licencias de funcionamiento, autorizaciones de construcción y permisos municipales.",
+    "category": "administrativo",
+    "featured": true,
+    "order": 2
+  },
+  {
+    "id": "s-003",
+    "title": "Programas Sociales",
+    "slug": "programas-sociales",
+    "description": "Información sobre los programas sociales activos: Vaso de Leche, comedores populares y apoyo alimentario.",
+    "category": "salud",
+    "featured": true,
+    "order": 3
+  },
+  {
+    "id": "s-004",
+    "title": "Defensa Civil",
+    "slug": "defensa-civil",
+    "description": "Prevención y atención de emergencias, gestión de riesgos y desastres naturales en el centro poblado.",
+    "category": "otros",
+    "order": 4
+  },
+  {
+    "id": "s-005",
+    "title": "Limpieza Pública",
+    "slug": "limpieza-publica",
+    "description": "Servicio de recolección de residuos sólidos, limpieza de calles y mantenimiento de áreas verdes.",
+    "category": "otros",
+    "order": 5
+  },
+  {
+    "id": "s-006",
+    "title": "Biblioteca Municipal",
+    "slug": "biblioteca-municipal",
+    "description": "Acceso a material bibliográfico, sala de lectura y programas de fomento a la lectura para la comunidad.",
+    "category": "educacion",
+    "order": 6
+  }
+]

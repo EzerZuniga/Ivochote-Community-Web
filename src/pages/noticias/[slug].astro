@@ -1,26 +1,32 @@
 ---
-// Nota individual - dinámico
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getNews } from '../../lib/api';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { fetchNews, fetchNewsBySlug } from '../../services/newsService';
 
 export async function getStaticPaths() {
-  const all = await getNews();
-  return all.map((i) => ({ params: { slug: i.slug } }));
+  const all = await fetchNews();
+  return all.map((n) => ({ params: { slug: n.slug } }));
 }
 
-const { params } = Astro;
-const all = await getNews();
-const item = all.find(i => i.slug === params.slug);
+const { slug } = Astro.params;
+const item = await fetchNewsBySlug(slug!);
 if (!item) {
   throw new Error('Noticia no encontrada');
 }
 ---
-<BaseLayout>
-  <div class="max-w-5xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-4">{item.title}</h1>
-    <p class="text-sm text-gray-600 mb-6">{item.date}</p>
-    <div class="prose">
-      {item.content}
-    </div>
+
+<ArticleLayout title={item.title} description={item.excerpt} date={item.date} author={typeof item.author === 'string' ? item.author : item.author?.name} image={item.image}>
+  <div class="prose dark:prose-invert max-w-none">
+    {item.image && <img src={item.image} alt={item.title} class="w-full h-64 object-cover rounded-lg mb-6" />}
+    <p>{item.content}</p>
+    {item.tags && item.tags.length > 0 && (
+      <div class="mt-6 flex flex-wrap gap-2">
+        {item.tags.map(tag => (
+          <span class="bg-primary-100 text-primary-900 text-xs px-2 py-1 rounded-full">{tag}</span>
+        ))}
+      </div>
+    )}
   </div>
-</BaseLayout>
+  <div class="mt-8">
+    <a href="/noticias" class="text-primary-900 font-medium hover:underline">← Volver a noticias</a>
+  </div>
+</ArticleLayout>

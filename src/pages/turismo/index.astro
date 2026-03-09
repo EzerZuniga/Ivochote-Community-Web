@@ -1,19 +1,36 @@
 ---
-// Turismo - listado
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getPlaces } from '../../lib/api';
-const places = await getPlaces();
+import { fetchPlaces } from '../../services/tourismService';
+
+const places = await fetchPlaces();
 ---
-<BaseLayout>
-  <div class="max-w-5xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Turismo</h1>
-    <div class="grid gap-4">
-      {places.map(p => (
-        <article class="p-4 border rounded-md">
-          <a class="text-lg font-semibold" href={`/turismo/${p.slug}`}>{p.name}</a>
-          <p class="text-sm text-gray-600">{p.description}</p>
-        </article>
-      ))}
-    </div>
+
+<BaseLayout title="Turismo" description="Descubre los atractivos turísticos de Ivochote, en el corazón de La Convención, Cusco">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold">Turismo en Ivochote</h1>
+      <p class="mt-2 text-primary-900/60">Descubre la riqueza natural y cultural del Centro Poblado de Ivochote, ubicado en la selva alta del Cusco.</p>
+    </header>
+
+    {places.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {places.map(p => (
+          <article class="bg-white border border-primary-100 rounded-lg overflow-hidden hover:shadow-md transition">
+            {p.images?.[0] && <img src={p.images[0]} alt={p.name} class="w-full h-48 object-cover" />}
+            <div class="p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs bg-primary-100 text-primary-900 px-2 py-0.5 rounded-full capitalize">{p.category}</span>
+                {p.difficulty && <span class="text-xs text-primary-900/50">Dificultad: {p.difficulty}</span>}
+              </div>
+              <a href={`/turismo/${p.slug}`} class="text-lg font-semibold text-primary-900 hover:text-primary-700 no-underline">{p.name}</a>
+              <p class="text-sm text-primary-900/60 mt-2">{p.description}</p>
+              {p.duration && <p class="text-xs text-primary-900/50 mt-2">Duración: {p.duration}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="p-6 bg-primary-50 rounded-md text-primary-900/60">Atractivos turísticos próximamente.</div>
+    )}
   </div>
 </BaseLayout>

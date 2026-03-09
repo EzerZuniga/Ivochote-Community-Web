@@ -1,35 +1,72 @@
 ---
-// Home page
 import HomeLayout from '../layouts/HomeLayout.astro';
-import { getNews, getPlaces } from '../lib/api';
-const news = await getNews();
-const places = await getPlaces();
+import { fetchNews } from '../services/newsService';
+import { getFeaturedPlaces } from '../services/tourismService';
+import { fetchServices } from '../services/servicesService';
+import { formatDate } from '../utils/formatters';
+
+const news = await fetchNews();
+const places = await getFeaturedPlaces();
+const services = await fetchServices();
 ---
-<HomeLayout>
-  <h1 class="text-3xl font-bold mb-4">Bienvenido a Ivochote</h1>
-  <p class="mb-6 text-gray-700">Portal informativo del centro poblado de Ivochote.</p>
 
-  <section class="mb-8">
-    <h2 class="text-2xl font-semibold mb-3">Noticias recientes</h2>
-    <div class="grid gap-4">
-      {news.map(n => (
-        <article class="p-4 border rounded-md">
-          <h3 class="font-semibold">{n.title}</h3>
-          <p class="text-sm text-gray-600">{n.excerpt}</p>
-        </article>
-      ))}
-    </div>
-  </section>
+<HomeLayout
+  title="Municipalidad del Centro Poblado de Ivochote"
+  subtitle="Portal web oficial - Distrito de Echarati, Provincia de La Convención, Cusco"
+  ctaText="Contáctanos"
+  ctaHref="/contacto"
+>
+  <div slot="news">
+    {news.length > 0 ? (
+      <div class="grid gap-4">
+        {news.slice(0, 4).map(n => (
+          <article class="bg-white border border-primary-100 rounded-lg p-4 hover:shadow-md transition">
+            <a href={`/noticias/${n.slug}`} class="text-lg font-semibold text-primary-900 hover:text-primary-700 no-underline">{n.title}</a>
+            <p class="text-sm text-primary-900/60 mt-1">{n.excerpt}</p>
+            <time class="text-xs text-primary-900/40 mt-2 block">{formatDate(n.date)}</time>
+          </article>
+        ))}
+        <a href="/noticias" class="text-sm text-primary-900 font-medium hover:underline">Ver todas las noticias →</a>
+      </div>
+    ) : (
+      <p class="text-sm text-primary-900/50">No hay noticias disponibles.</p>
+    )}
+  </div>
 
-  <section>
-    <h2 class="text-2xl font-semibold mb-3">Lugares turísticos</h2>
-    <div class="grid gap-4">
-      {places.map(p => (
-        <article class="p-4 border rounded-md">
-          <h3 class="font-semibold">{p.name}</h3>
-          <p class="text-sm text-gray-600">{p.description}</p>
-        </article>
-      ))}
-    </div>
-  </section>
+  <div slot="services">
+    {services.length > 0 ? (
+      <ul class="space-y-2">
+        {services.slice(0, 5).map(s => (
+          <li>
+            <a href={`/servicios/${s.slug}`} class="flex items-center gap-2 text-sm text-primary-900/70 hover:text-primary-700 no-underline">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary-300 flex-shrink-0"></span>
+              {s.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="text-sm text-primary-900/50">Servicios próximamente.</p>
+    )}
+    <a href="/servicios" class="text-sm text-primary-900 font-medium hover:underline mt-3 block">Ver todos los servicios →</a>
+  </div>
+
+  <div slot="tourism">
+    {places.length > 0 ? (
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {places.map(p => (
+          <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+            {p.images?.[0] && <img src={p.images[0]} alt={p.name} class="w-full h-40 object-cover" />}
+            <div class="p-4">
+              <h3 class="font-semibold text-primary-900">{p.name}</h3>
+              <p class="text-sm text-primary-900/60 mt-1">{p.description}</p>
+              <a href={`/turismo/${p.slug}`} class="text-sm text-primary-900 font-medium hover:underline mt-2 inline-block">Conocer más →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="text-sm text-primary-900/50">Atractivos turísticos próximamente.</p>
+    )}
+  </div>
 </HomeLayout>

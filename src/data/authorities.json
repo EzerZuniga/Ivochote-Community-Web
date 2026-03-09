@@ -1,9 +1,47 @@
 [
   {
     "id": "a-001",
-    "name": "Juan Pérez",
-    "role": "Teniente Gobernador",
-    "photo": "/assets/images/brand/logo.png",
-    "bio": "Breve biografía."
+    "name": "Alcalde del Centro Poblado",
+    "position": "Alcalde",
+    "department": "Alcaldía",
+    "bio": "Autoridad principal del Centro Poblado de Ivochote, encargada de la administración y gestión municipal local.",
+    "image": "/assets/images/autoridades/alcalde.jpg",
+    "order": 1
+  },
+  {
+    "id": "a-002",
+    "name": "Teniente Alcalde",
+    "position": "Teniente Alcalde",
+    "department": "Alcaldía",
+    "bio": "Segundo al mando en la gestión municipal del Centro Poblado de Ivochote.",
+    "image": "/assets/images/autoridades/teniente-alcalde.jpg",
+    "order": 2
+  },
+  {
+    "id": "a-003",
+    "name": "Regidor de Obras",
+    "position": "Regidor",
+    "department": "Infraestructura y Obras",
+    "bio": "Encargado de supervisar las obras públicas y proyectos de infraestructura del centro poblado.",
+    "image": "/assets/images/autoridades/regidor-obras.jpg",
+    "order": 3
+  },
+  {
+    "id": "a-004",
+    "name": "Regidor de Educación y Cultura",
+    "position": "Regidor",
+    "department": "Educación y Cultura",
+    "bio": "Responsable de promover la educación y las actividades culturales en Ivochote.",
+    "image": "/assets/images/autoridades/regidor-educacion.jpg",
+    "order": 4
+  },
+  {
+    "id": "a-005",
+    "name": "Regidor de Desarrollo Social",
+    "position": "Regidor",
+    "department": "Desarrollo Social",
+    "bio": "Encargado de los programas sociales y el bienestar de la comunidad de Ivochote.",
+    "image": "/assets/images/autoridades/regidor-social.jpg",
+    "order": 5
   }
 ]

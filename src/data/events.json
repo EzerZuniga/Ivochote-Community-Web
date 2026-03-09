@@ -1,1 +1,49 @@
-[]
+[
+  {
+    "id": "e-001",
+    "title": "Aniversario del Centro Poblado de Ivochote",
+    "slug": "aniversario-ivochote",
+    "date": "2026-07-15",
+    "description": "Celebración del aniversario de creación del Centro Poblado de Ivochote con actividades culturales, deportivas y sociales para toda la comunidad.",
+    "location": "Plaza Principal de Ivochote",
+    "category": "institucional",
+    "featured": true,
+    "status": "upcoming",
+    "tags": ["aniversario", "celebración", "comunidad"]
+  },
+  {
+    "id": "e-002",
+    "title": "Feria del Café y Cacao de La Convención",
+    "slug": "feria-cafe-cacao",
+    "date": "2026-06-20",
+    "description": "Feria anual que reúne a productores locales de café y cacao para exhibir y comercializar sus productos de alta calidad.",
+    "location": "Centro Poblado de Ivochote",
+    "category": "cultural",
+    "featured": true,
+    "status": "upcoming",
+    "tags": ["feria", "café", "cacao", "agricultura"]
+  },
+  {
+    "id": "e-003",
+    "title": "Campaña de Limpieza del Río Urubamba",
+    "slug": "limpieza-rio-urubamba",
+    "date": "2026-04-22",
+    "description": "Jornada comunitaria de limpieza y conservación de las riberas del río Urubamba en conmemoración del Día de la Tierra.",
+    "location": "Riberas del Río Urubamba - Sector Ivochote",
+    "category": "ambiental",
+    "status": "upcoming",
+    "tags": ["medio ambiente", "limpieza", "río", "comunidad"]
+  },
+  {
+    "id": "e-004",
+    "title": "Festividad de la Virgen del Carmen",
+    "slug": "virgen-del-carmen",
+    "date": "2026-07-16",
+    "description": "Festividad religiosa y cultural en honor a la Virgen del Carmen, patrona de la región, con procesiones y danzas típicas.",
+    "location": "Iglesia y Plaza Principal de Ivochote",
+    "category": "cultural",
+    "featured": true,
+    "status": "upcoming",
+    "tags": ["religión", "cultura", "tradición", "danzas"]
+  }
+]

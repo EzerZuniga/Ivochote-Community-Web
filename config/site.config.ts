@@ -1,18 +1,22 @@
 export const SITE_CONFIG = {
-  title: 'Centro Poblado de Ivochote',
-  description: 'Sitio web oficial del Centro Poblado de Ivochote - Gobierno Local',
-  baseUrl: 'https://ivochote.gob.pe',
-  language: 'es',
-  locale: 'es_PE',
-  author: 'Municipalidad Centro Poblado Ivochote',
-  email: 'contacto@ivochote.gob.pe',
-  phone: '+51 XXX XXX XXX',
-  address: 'Ivochote, Provincia de La Convención, Cusco, Perú'
+  title: "Municipalidad del Centro Poblado de Ivochote",
+  shortTitle: "MCP Ivochote",
+  description:
+    "Portal web oficial de la Municipalidad del Centro Poblado de Ivochote, distrito de Echarati, provincia de La Convención, departamento de Cusco, Perú.",
+  baseUrl: "https://ivochote.gob.pe",
+  language: "es",
+  locale: "es_PE",
+  author: "Municipalidad del Centro Poblado de Ivochote",
+  email: "municipalidad@ivochote.gob.pe",
+  phone: "+51 984 000 000",
+  address:
+    "Plaza Principal s/n, Centro Poblado de Ivochote, Distrito de Echarati, Provincia de La Convención, Cusco, Perú",
+  district: "Echarati",
+  province: "La Convención",
+  department: "Cusco",
 };
 
 export const SOCIAL_LINKS = {
-  facebook: 'https://facebook.com/ivochote',
-  twitter: 'https://twitter.com/ivochote',
-  youtube: 'https://youtube.com/ivochote',
-  tiktok: 'https://tiktok.com/@ivochote'
+  facebook: "https://facebook.com/MunicipalidadIvochote",
+  tiktok: "https://tiktok.com/@municipalidadivochote",
 };

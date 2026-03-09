@@ -1,15 +1,38 @@
 ---
-import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import services from '../../data/services.json';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { fetchServices, fetchServiceBySlug } from '../../services/servicesService';
 
 export async function getStaticPaths() {
-  return (services || []).map((s) => ({ params: { servicio: (s.slug ?? s.id ?? String(s)) } }));
+  const all = await fetchServices();
+  return all.map((s) => ({ params: { servicio: s.slug ?? s.id } }));
 }
 
-const { params } = Astro;
+const { servicio } = Astro.params;
+const item = await fetchServiceBySlug(servicio!);
+if (!item) {
+  throw new Error('Servicio no encontrado');
+}
 ---
 
-<ArticleLayout title={`Servicio: ${params.servicio}`}>
-  <h1>Servicio — {params.servicio}</h1>
-  <p>Contenido del servicio de ejemplo.</p>
-</ArticleLayout>
+<BaseLayout title={item.title} description={item.description}>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="mb-6">
+      <a href="/servicios" class="text-primary-900 font-medium hover:underline text-sm">← Volver a servicios</a>
+    </nav>
+
+    <h1 class="text-3xl font-bold mb-2">{item.title}</h1>
+    <span class="text-xs bg-primary-100 text-primary-900 px-2 py-1 rounded-full capitalize">{item.category ?? 'general'}</span>
+
+    <div class="prose dark:prose-invert max-w-none mt-6">
+      <p>{item.description}</p>
+    </div>
+
+    {item.contact && (
+      <div class="mt-8 p-4 bg-primary-50 rounded-lg">
+        <h3 class="font-semibold text-sm mb-2">Información de contacto</h3>
+        {item.contact.phone && <p class="text-sm text-primary-900/60">Teléfono: {item.contact.phone}</p>}
+        {item.contact.email && <p class="text-sm"><a class="text-primary-700 hover:underline" href={`mailto:${item.contact.email}`}>{item.contact.email}</a></p>}
+      </div>
+    )}
+  </div>
+</BaseLayout>
