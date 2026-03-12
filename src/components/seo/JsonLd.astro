@@ -1,0 +1,120 @@
+---
+/**
+ * Genera JSON-LD de Schema.org para SEO estructurado.
+ * Inyecta GovernmentOrganization + WebSite + BreadcrumbList.
+ */
+import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
+
+interface BreadcrumbItem {
+  name: string;
+  href: string;
+}
+
+interface Props {
+  breadcrumbs?: BreadcrumbItem[];
+  /** Para páginas de artículo/noticia */
+  article?: {
+    title: string;
+    description?: string;
+    image?: string;
+    datePublished?: string;
+    author?: string;
+  };
+}
+
+const { breadcrumbs, article } = Astro.props;
+
+const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'GovernmentOrganization',
+  name: SITE_CONFIG.title,
+  alternateName: SITE_CONFIG.shortTitle,
+  url: SITE_CONFIG.baseUrl,
+  logo: `${SITE_CONFIG.baseUrl}/assets/images/brand/logoivo.png`,
+  description: SITE_CONFIG.description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Plaza Principal s/n',
+    addressLocality: 'Ivochote',
+    addressRegion: 'Cusco',
+    addressCountry: 'PE',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: SITE_CONFIG.coordinates.lat,
+    longitude: SITE_CONFIG.coordinates.lng,
+  },
+  telephone: SITE_CONFIG.phone,
+  email: SITE_CONFIG.email,
+  sameAs: [SOCIAL_LINKS.facebook, SOCIAL_LINKS.tiktok].filter(Boolean),
+  areaServed: {
+    '@type': 'AdministrativeArea',
+    name: `Centro Poblado de Ivochote, ${SITE_CONFIG.district}, ${SITE_CONFIG.province}, ${SITE_CONFIG.department}`,
+  },
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_CONFIG.title,
+  alternateName: SITE_CONFIG.shortTitle,
+  url: SITE_CONFIG.baseUrl,
+  inLanguage: SITE_CONFIG.language,
+  publisher: {
+    '@type': 'GovernmentOrganization',
+    name: SITE_CONFIG.title,
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE_CONFIG.baseUrl}/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const breadcrumbLd = breadcrumbs && breadcrumbs.length > 0
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE_CONFIG.baseUrl },
+        ...breadcrumbs.map((b, i) => ({
+          '@type': 'ListItem',
+          position: i + 2,
+          name: b.name,
+          item: `${SITE_CONFIG.baseUrl}${b.href}`,
+        })),
+      ],
+    }
+  : null;
+
+const articleLd = article
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: article.title,
+      description: article.description,
+      image: article.image ? `${SITE_CONFIG.baseUrl}${article.image}` : undefined,
+      datePublished: article.datePublished,
+      author: {
+        '@type': 'Organization',
+        name: article.author ?? SITE_CONFIG.author,
+      },
+      publisher: {
+        '@type': 'GovernmentOrganization',
+        name: SITE_CONFIG.title,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_CONFIG.baseUrl}/assets/images/brand/logoivo.png`,
+        },
+      },
+    }
+  : null;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+{breadcrumbLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />}
+{articleLd && <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />}

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Página no encontrada" description="La página que buscas no existe o fue movida" noindex={true}>
+  <section class="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
+    <h1 class="text-7xl font-extrabold text-primary-300">404</h1>
+    <h2 class="mt-4 text-2xl font-bold text-primary-900">Página no encontrada</h2>
+    <p class="mt-2 text-primary-900/60 max-w-md">
+      La página que buscas no existe, fue removida o cambió de dirección.
+    </p>
+    <div class="mt-8 flex gap-3">
+      <a href="/" class="inline-flex items-center px-5 py-3 bg-primary-900 hover:bg-primary-800 text-white rounded-md text-sm font-medium transition-colors">
+        Ir al inicio
+      </a>
+      <a href="/contacto" class="inline-flex items-center px-5 py-3 border border-primary-200 rounded-md text-sm text-primary-900 hover:bg-primary-50 transition-colors">
+        Contactar
+      </a>
+    </div>
+  </section>
+</BaseLayout>

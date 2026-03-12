@@ -1,38 +1,73 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchNews } from '../../services/newsService';
-import { formatDate } from '../../utils/formatters';
+import { fetchNews, getCategories } from '../../services/newsService';
+import NewsSearch from '../../components/news/NewsSearch';
 
 const news = await fetchNews();
+const categories = await getCategories();
+
+const sorted = news.slice().sort((a, b) => {
+  const ta = new Date(a.date).getTime() || 0;
+  const tb = new Date(b.date).getTime() || 0;
+  return tb - ta;
+});
 ---
 
-<BaseLayout title="Noticias" description="Últimas noticias de la Municipalidad del Centro Poblado de Ivochote">
-  <div class="max-w-5xl mx-auto px-4 py-10">
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold">Noticias</h1>
-      <p class="mt-2 text-primary-900/60">Mantente informado sobre las actividades y novedades de nuestra municipalidad.</p>
-    </header>
-
-    {news.length > 0 ? (
-      <div class="grid gap-6">
-        {news.map(n => (
-          <article class="bg-white border border-primary-100 rounded-lg p-5 hover:shadow-md transition">
-            <div class="flex flex-col sm:flex-row gap-4">
-              {n.image && <img src={n.image} alt={n.title} class="w-full sm:w-48 h-32 object-cover rounded-md flex-shrink-0" />}
-              <div class="flex-1">
-                <a class="text-xl font-semibold text-primary-900 hover:text-primary-700 no-underline" href={`/noticias/${n.slug}`}>{n.title}</a>
-                <p class="text-sm text-primary-900/60 mt-2">{n.excerpt}</p>
-                <div class="mt-3 flex items-center gap-3 text-xs text-primary-900/50">
-                  <time datetime={n.date}>{formatDate(n.date)}</time>
-                  {n.category && <span class="bg-primary-100 text-primary-900 px-2 py-0.5 rounded-full">{n.category}</span>}
-                </div>
-              </div>
-            </div>
-          </article>
-        ))}
+<BaseLayout
+  title="Noticias"
+  description="Últimas noticias y comunicados de la Municipalidad del Centro Poblado de Ivochote, Echarati, La Convención, Cusco"
+  breadcrumbs={[{ name: 'Noticias', href: '/noticias' }]}
+>
+  <!-- Hero -->
+  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <nav class="flex items-center gap-2 text-sm text-white/50 mb-6" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span aria-current="page" class="text-white/80 font-medium">Noticias</span>
+      </nav>
+      <div class="flex items-center gap-4">
+        <div class="flex-shrink-0 bg-white/10 p-3.5">
+          <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">Noticias</h1>
+          <p class="mt-1.5 text-white/60 text-sm sm:text-base max-w-lg">
+            Mantente informado sobre las actividades y novedades de la Municipalidad de Ivochote.
+          </p>
+        </div>
       </div>
+      <div class="mt-7 flex items-center gap-6 text-sm border-t border-white/10 pt-5">
+        <span class="text-white/50">
+          <strong class="text-white font-bold">{news.length}</strong> publicaciones
+        </span>
+        {categories.length > 0 && (
+          <>
+            <span class="text-white/20">|</span>
+            <span class="text-white/50">
+              <strong class="text-white font-bold">{categories.length}</strong> categorías
+            </span>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    {sorted.length > 0 ? (
+      <NewsSearch news={sorted} categories={categories} client:load />
     ) : (
-      <div class="p-6 bg-primary-50 rounded-md text-primary-900/60">No hay noticias disponibles en este momento.</div>
+      <div class="py-24 flex flex-col items-center gap-4 text-center">
+        <svg class="w-16 h-16 text-primary-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6"/>
+        </svg>
+        <p class="text-primary-900/60 font-medium">No hay noticias disponibles en este momento.</p>
+      </div>
     )}
   </div>
 </BaseLayout>

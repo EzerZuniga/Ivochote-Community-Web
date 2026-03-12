@@ -14,6 +14,12 @@ export const SITE_CONFIG = {
   district: "Echarati",
   province: "La Convención",
   department: "Cusco",
+  /** Coordenadas para JSON-LD y mapas */
+  coordinates: { lat: -12.6833, lng: -72.6167 },
+  /** Imagen por defecto para Open Graph */
+  ogImage: "/assets/images/brand/og-default.png",
+  /** Color de tema para dispositivos móviles */
+  themeColor: "#084734",
 };
 
 export const SOCIAL_LINKS = {

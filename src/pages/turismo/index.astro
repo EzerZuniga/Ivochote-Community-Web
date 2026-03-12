@@ -1,36 +1,37 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaceCard from '../../components/tourism/PlaceCard';
 import { fetchPlaces } from '../../services/tourismService';
 
 const places = await fetchPlaces();
 ---
 
-<BaseLayout title="Turismo" description="Descubre los atractivos turísticos de Ivochote, en el corazón de La Convención, Cusco">
+<BaseLayout
+  title="Turismo"
+  description="Descubre los atractivos turísticos de Ivochote: naturaleza, cultura, gastronomía y aventura en la selva alta de La Convención, Cusco"
+  breadcrumbs={[{ name: 'Turismo', href: '/turismo' }]}
+>
   <div class="max-w-6xl mx-auto px-4 py-10">
     <header class="mb-8">
-      <h1 class="text-3xl font-bold">Turismo en Ivochote</h1>
+      <nav class="text-sm text-primary-900/50 mb-4" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2">
+          <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-primary-900 font-medium" aria-current="page">Turismo</li>
+        </ol>
+      </nav>
+      <h1 class="text-3xl font-bold text-primary-900">Turismo en Ivochote</h1>
       <p class="mt-2 text-primary-900/60">Descubre la riqueza natural y cultural del Centro Poblado de Ivochote, ubicado en la selva alta del Cusco.</p>
     </header>
 
     {places.length > 0 ? (
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {places.map(p => (
-          <article class="bg-white border border-primary-100 rounded-lg overflow-hidden hover:shadow-md transition">
-            {p.images?.[0] && <img src={p.images[0]} alt={p.name} class="w-full h-48 object-cover" />}
-            <div class="p-4">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs bg-primary-100 text-primary-900 px-2 py-0.5 rounded-full capitalize">{p.category}</span>
-                {p.difficulty && <span class="text-xs text-primary-900/50">Dificultad: {p.difficulty}</span>}
-              </div>
-              <a href={`/turismo/${p.slug}`} class="text-lg font-semibold text-primary-900 hover:text-primary-700 no-underline">{p.name}</a>
-              <p class="text-sm text-primary-900/60 mt-2">{p.description}</p>
-              {p.duration && <p class="text-xs text-primary-900/50 mt-2">Duración: {p.duration}</p>}
-            </div>
-          </article>
+          <PlaceCard place={p} href={`/turismo/${p.slug}`} />
         ))}
       </div>
     ) : (
-      <div class="p-6 bg-primary-50 rounded-md text-primary-900/60">Atractivos turísticos próximamente.</div>
+      <div class="p-6 bg-primary-50 rounded-lg text-primary-900/60">Atractivos turísticos próximamente.</div>
     )}
   </div>
 </BaseLayout>

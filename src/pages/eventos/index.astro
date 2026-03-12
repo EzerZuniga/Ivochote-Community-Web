@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventCard from '../../components/events/EventCard';
 import { fetchEvents } from '../../services/eventsService';
-import { formatDate } from '../../utils/formatters';
 import type { EventItem } from '../../types/events';
 
 const events = (await fetchEvents()) as EventItem[];
@@ -12,38 +12,28 @@ const sorted = events.slice().sort((a, b) => {
 });
 ---
 
-<BaseLayout title="Eventos" description="Eventos y actividades del Centro Poblado de Ivochote">
+<BaseLayout
+  title="Eventos"
+  description="Calendario de eventos, actividades culturales, sociales e institucionales del Centro Poblado de Ivochote, Echarati, La Convención, Cusco"
+  breadcrumbs={[{ name: 'Eventos', href: '/eventos' }]}
+>
   <div class="max-w-6xl mx-auto px-4 py-10">
     <header class="mb-8">
-      <h1 class="text-3xl font-bold">Eventos</h1>
+      <nav class="text-sm text-primary-900/50 mb-4" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2">
+          <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-primary-900 font-medium" aria-current="page">Eventos</li>
+        </ol>
+      </nav>
+      <h1 class="text-3xl font-bold text-primary-900">Eventos</h1>
       <p class="mt-2 text-primary-900/60">Calendario de actividades culturales, sociales e institucionales del Centro Poblado de Ivochote.</p>
     </header>
 
     {sorted.length > 0 ? (
       <div class="grid gap-6 sm:grid-cols-2">
         {sorted.map((e: EventItem) => (
-          <article class="bg-white border border-primary-100 rounded-lg p-5 hover:shadow-md transition">
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-14 h-14 bg-primary-100 rounded-lg flex flex-col items-center justify-center">
-                {e.date && (
-                  <>
-                    <span class="text-lg font-bold text-primary-900">{new Date(e.date).getDate()}</span>
-                    <span class="text-xs text-primary-700 uppercase">{new Date(e.date).toLocaleDateString('es-PE', { month: 'short' })}</span>
-                  </>
-                )}
-              </div>
-              <div class="flex-1">
-                <h3 class="text-lg font-semibold text-primary-900">{e.title}</h3>
-                {e.date && <time class="text-xs text-primary-900/50" datetime={e.date}>{formatDate(e.date)}</time>}
-                {e.description && <p class="text-sm text-primary-900/60 mt-2">{e.description}</p>}
-                {typeof e.location === 'string' && <p class="text-xs text-primary-900/50 mt-2">📍 {e.location}</p>}
-                <div class="mt-3 flex flex-wrap gap-2">
-                  {e.category && <span class="text-xs bg-primary-100 text-primary-900 px-2 py-0.5 rounded-full">{e.category}</span>}
-                  {e.status && <span class="text-xs bg-primary-50 text-primary-700 px-2 py-0.5 rounded-full capitalize">{e.status === 'upcoming' ? 'Próximamente' : e.status === 'ongoing' ? 'En curso' : e.status === 'past' ? 'Finalizado' : 'Cancelado'}</span>}
-                </div>
-              </div>
-            </div>
-          </article>
+          <EventCard event={e} />
         ))}
       </div>
     ) : (

@@ -2,57 +2,229 @@
 import BaseLayout from './BaseLayout.astro';
 import { SITE_CONFIG } from '../../config/site.config';
 
+interface HeroSlide {
+  image: string;
+  title: string;
+  subtitle?: string;
+}
+
 interface Props {
   title?: string;
   subtitle?: string;
-  heroImage?: string;
+  heroSlides?: HeroSlide[];
   ctaText?: string;
   ctaHref?: string;
 }
 
-const { title, subtitle, heroImage, ctaText, ctaHref } = Astro.props as Props;
+const { title, subtitle, heroSlides, ctaText, ctaHref } = Astro.props as Props;
 const pageTitle = title ?? SITE_CONFIG.title;
 const pageDescription = subtitle ?? SITE_CONFIG.description;
+
+const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
-  <header class="relative bg-gradient-to-br from-primary-100 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary-900">{pageTitle}</h1>
-          {subtitle ? <p class="mt-4 text-lg text-primary-900/60">{subtitle}</p> : null}
+<BaseLayout title={pageTitle} description={pageDescription} showPreloader={true}>
+  <!-- ===== HERO CARRUSEL ===== -->
+  <header id="hero-carousel" class="relative w-full h-screen min-h-[500px] flex items-center overflow-hidden">
 
-          <div class="mt-6 flex gap-3">
-            {ctaText ? (
-              <a href={ctaHref ?? '/contacto'} class="inline-flex items-center px-5 py-3 bg-primary-900 hover:bg-primary-800 text-white rounded-md text-sm font-medium">{ctaText}</a>
-            ) : null}
-            <a href="/noticias" class="inline-flex items-center px-5 py-3 border border-primary-200 rounded-md text-sm text-primary-900 hover:bg-primary-50">Ver noticias</a>
+    <!-- Slides -->
+    {slides.length > 0 ? (
+      slides.map((slide, i) => (
+        <div
+          class:list={[
+            "hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out",
+            i === 0 ? "opacity-100" : "opacity-0"
+          ]}
+          data-slide={i}
+        >
+          {/* Imagen */}
+          <img
+            src={slide.image}
+            alt=""
+            class="absolute inset-0 w-full h-full object-cover"
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+            fetchpriority={i === 0 ? "high" : "auto"}
+          />
+          {/* Gradiente para legibilidad del texto */}
+          <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent hidden sm:block" aria-hidden="true"></div>
+          <div class="absolute inset-0 bg-black/40 sm:hidden" aria-hidden="true"></div>
+          <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true"></div>
+
+          {/* Texto de cada slide — centrado en móvil, izquierda en desktop */}
+          <div class="absolute inset-0 z-10 flex items-center">
+            <div class="max-w-7xl w-full mx-auto px-6 sm:px-10 lg:px-14">
+              <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] drop-shadow-lg max-w-[16ch] sm:max-w-[14ch]">
+                {slide.title}
+              </h2>
+              {slide.subtitle && (
+                <p class="mt-4 sm:mt-5 text-base sm:text-lg lg:text-xl text-white/85 max-w-[42ch] sm:max-w-[36ch] leading-relaxed">
+                  {slide.subtitle}
+                </p>
+              )}
+              {/* Botones CTA */}
+              <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+                {ctaText && (
+                  <a href={ctaHref ?? '/contacto'}
+                    class="group inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-primary-600 hover:bg-primary-500 text-white text-sm sm:text-base font-bold uppercase tracking-wider transition-all duration-200 shadow-lg hover:shadow-primary-600/40 hover:-translate-y-0.5">
+                    <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    {ctaText}
+                  </a>
+                )}
+                <a href="/servicios"
+                  class="group inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-white/10 hover:bg-white/20 border border-white/40 hover:border-white/70 text-white text-sm sm:text-base font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                  Servicios
+                </a>
+                <a href="/noticias"
+                  class="group inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-white/10 hover:bg-white/20 border border-white/40 hover:border-white/70 text-white text-sm sm:text-base font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                  Noticias
+                </a>
+              </div>
+            </div>
           </div>
         </div>
+      ))
+    ) : (
+      <div class="absolute inset-0 bg-primary-900"></div>
+    )}
 
-        <div class="hidden lg:block">
-          {heroImage ? (
-            <img src={heroImage} alt={pageTitle} class="w-full h-64 object-cover rounded-lg shadow-md" />
-          ) : (
-            <div class="w-full h-64 bg-gradient-to-tr from-primary-300 to-primary-100 rounded-lg shadow-md flex items-center justify-center text-primary-900">Imagen destacada</div>
-          )}
+    <!-- Barra inferior — solo indicadores si se necesitan -->
+    {slides.length > 0 && (
+      <div class="absolute bottom-0 left-0 right-0 z-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 pb-5 sm:pb-7">
+          {/* Indicadores (dots) — ocultos */}
         </div>
       </div>
-    </div>
+    )}
+
+    <!-- Flechas prev/next -->
+    {slides.length > 1 && (
+      <>
+        <button
+          id="hero-prev"
+          type="button"
+          aria-label="Imagen anterior"
+          class="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 hidden sm:flex items-center justify-center text-white/70 hover:text-white transition-all duration-200 focus:outline-none"
+        >
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button
+          id="hero-next"
+          type="button"
+          aria-label="Imagen siguiente"
+          class="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 hidden sm:flex items-center justify-center text-white/70 hover:text-white transition-all duration-200 focus:outline-none"
+        >
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </>
+    )}
   </header>
 
-  <section class="container mx-auto px-4 py-12">
-    <div class="grid gap-8 lg:grid-cols-3">
+  <script>
+    (function () {
+      const slides = document.querySelectorAll<HTMLElement>('.hero-slide');
+      const dots = document.querySelectorAll<HTMLElement>('.hero-dot');
+      const prevBtn = document.getElementById('hero-prev');
+      const nextBtn = document.getElementById('hero-next');
+      if (slides.length < 2) return;
+
+      let current = 0;
+      let timer: ReturnType<typeof setInterval>;
+      const INTERVAL = 5000;
+
+      function goTo(index: number) {
+        slides[current].classList.remove('opacity-100');
+        slides[current].classList.add('opacity-0');
+        dots[current]?.classList.remove('bg-white', 'scale-110');
+        dots[current]?.classList.add('bg-white/40');
+        dots[current]?.setAttribute('aria-selected', 'false');
+
+        current = (index + slides.length) % slides.length;
+
+        slides[current].classList.remove('opacity-0');
+        slides[current].classList.add('opacity-100');
+        dots[current]?.classList.remove('bg-white/40');
+        dots[current]?.classList.add('bg-white', 'scale-110');
+        dots[current]?.setAttribute('aria-selected', 'true');
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      function startAuto() {
+        clearInterval(timer);
+        timer = setInterval(next, INTERVAL);
+      }
+
+      prevBtn?.addEventListener('click', function () { prev(); startAuto(); });
+      nextBtn?.addEventListener('click', function () { next(); startAuto(); });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          const idx = Number(dot.getAttribute('data-dot'));
+          if (!isNaN(idx)) { goTo(idx); startAuto(); }
+        });
+      });
+
+      startAuto();
+
+      const carousel = document.getElementById('hero-carousel');
+      carousel?.addEventListener('mouseenter', function () { clearInterval(timer); });
+      carousel?.addEventListener('mouseleave', startAuto);
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { clearInterval(timer); } else { startAuto(); }
+      });
+    })();
+  </script>
+
+  <!-- Atención al Ciudadano -->
+  <section class="citizen-services-section py-16 sm:py-20" aria-labelledby="home-citizen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 sm:mb-14">
+        <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary-600 mb-3">
+          <span class="block w-6 h-px bg-primary-500"></span>
+          Primera plataforma
+          <span class="block w-6 h-px bg-primary-500"></span>
+        </span>
+        <h2 id="home-citizen" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-900 leading-tight">
+          Atención para el Ciudadano
+        </h2>
+        <p class="mt-3 text-sm sm:text-base text-primary-900/50 max-w-xl mx-auto">
+          Accede a los servicios municipales de forma rápida y sencilla desde cualquier dispositivo.
+        </p>
+      </div>
+      <slot name="citizen-services">
+        <p class="text-sm text-primary-900/50 text-center">Servicios próximamente.</p>
+      </slot>
+      <div class="text-center mt-10">
+        <a href="/servicios" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-700 hover:bg-primary-600 text-white font-semibold text-sm uppercase tracking-wider transition-all duration-200 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          Ver todos los servicios
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" aria-labelledby="home-news">
+    <div class="grid gap-10 lg:grid-cols-3">
       <div class="lg:col-span-2">
-        <h2 class="text-2xl font-semibold mb-4">Últimas noticias</h2>
+        <div class="flex items-center gap-3 mb-7">
+          <span class="w-1 h-7 bg-primary-600 rounded-full"></span>
+          <h2 id="home-news" class="text-2xl font-bold text-primary-900">Últimas noticias</h2>
+        </div>
         <slot name="news">
-          <p class="text-sm text-primary-900/50">No hay noticias disponibles. Puedes inyectar la lista con el slot <code>news</code>.</p>
+          <p class="text-sm text-primary-900/50">No hay noticias disponibles.</p>
         </slot>
       </div>
 
-      <aside>
-        <h3 class="text-lg font-medium mb-3">Servicios rápidos</h3>
+      <aside aria-labelledby="home-services" class="bg-primary-50 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="w-1 h-6 bg-primary-500 rounded-full"></span>
+          <h3 id="home-services" class="text-lg font-bold text-primary-900">Servicios rápidos</h3>
+        </div>
         <slot name="services">
           <p class="text-sm text-primary-900/50">Enlaces a trámites y servicios municipales.</p>
         </slot>
@@ -60,13 +232,55 @@ const pageDescription = subtitle ?? SITE_CONFIG.description;
     </div>
   </section>
 
-  <section class="bg-primary-50 py-10">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl font-semibold mb-4">Turismo destacado</h2>
+  <!-- Stats -->
+  <section
+    id="stats-section"
+    class="relative overflow-hidden"
+    aria-labelledby="home-stats"
+    style="background-image: url('/assets/images/fondo.png'); background-size: cover; background-position: center; background-attachment: fixed;"
+  >
+    <!-- Overlay oscuro sobre la imagen -->
+    <div class="absolute inset-0 bg-primary-950/50"></div>
+    <slot name="stats" />
+  </section>
+
+  <!-- Turismo -->
+  <section class="bg-primary-50/70 py-14" aria-labelledby="home-tourism">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-7">
+        <div class="flex items-center gap-3">
+          <span class="w-1 h-7 bg-primary-600 rounded-full"></span>
+          <h2 id="home-tourism" class="text-2xl font-bold text-primary-900">Turismo destacado</h2>
+        </div>
+        <a href="/turismo" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
+          Ver todo
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
       <slot name="tourism">
         <p class="text-sm text-primary-900/50">Coloca aquí las atracciones o rutas turísticas.</p>
       </slot>
     </div>
   </section>
+
+  <!-- Autoridades -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" aria-labelledby="home-auth">
+    <div class="flex items-center justify-between mb-7">
+      <div class="flex items-center gap-3">
+        <span class="w-1 h-7 bg-primary-600 rounded-full"></span>
+        <h2 id="home-auth" class="text-2xl font-bold text-primary-900">Nuestras autoridades</h2>
+      </div>
+      <a href="/autoridades" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
+        Ver todas
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+    </div>
+    <slot name="authorities">
+      <p class="text-sm text-primary-900/50">Autoridades próximamente.</p>
+    </slot>
+  </section>
+
+  <!-- CTA Banner -->
+  <slot name="cta" />
 
 </BaseLayout>

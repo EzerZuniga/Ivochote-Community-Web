@@ -1,119 +1,124 @@
 ---
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config.ts';
-import { FOOTER_NAVIGATION } from '../../../config/navigation.ts';
 
 const year = new Date().getFullYear();
-const footerNav = FOOTER_NAVIGATION as Record<string, { href: string; label: string }[]>;
 ---
 
-<footer role="contentinfo" aria-label="Pie de página" class="bg-primary-900 text-primary-100 mt-16">
-  <!-- Sección principal -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+<footer role="contentinfo" aria-label="Pie de página" class="bg-primary-900 text-primary-100">
+
+  <!-- ===== CUERPO PRINCIPAL ===== -->
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-14 pb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
       <!-- Columna 1: Logo + descripción + redes -->
-      <div class="sm:col-span-2 lg:col-span-1">
-        <a href="/" class="inline-block group">
+      <div class="md:col-span-2 lg:col-span-1">
+        <a href="/" class="inline-block group" aria-label="Inicio">
           <img
             src="/assets/images/brand/logofooter.png"
-            alt={`${SITE_CONFIG.title} logo`}
+            alt={`Logo ${SITE_CONFIG.shortTitle}`}
             class="h-20 w-auto object-contain transition-opacity duration-200 group-hover:opacity-80"
             loading="lazy"
           />
         </a>
-        <p class="mt-4 text-sm leading-relaxed text-primary-100/70 max-w-xs">
+        <p class="mt-5 text-sm leading-7 text-primary-100/60 max-w-sm">
           {SITE_CONFIG.description}
         </p>
-
         <!-- Redes sociales -->
-        <div class="mt-5 flex items-center gap-3">
-          {SOCIAL_LINKS.facebook ? (
-            <a
-              href={SOCIAL_LINKS.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-800 text-primary-100/60 hover:bg-blue-600 hover:text-white transition-all duration-200"
-              aria-label="Facebook"
-            >
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+        <div class="mt-6 flex items-center gap-2.5">
+          {SOCIAL_LINKS.facebook && (
+            <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+              class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-800 hover:bg-[#1877F2] text-primary-100/60 hover:text-white transition-all duration-200">
+              <svg class="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
             </a>
-          ) : null}
-
-          {SOCIAL_LINKS.tiktok ? (
-            <a
-              href={SOCIAL_LINKS.tiktok}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-800 text-primary-100/60 hover:bg-primary-700 hover:text-white transition-all duration-200"
-              aria-label="TikTok"
-            >
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1 0-5.78 2.92 2.92 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 3 15.64 6.33 6.33 0 0 0 9.37 22a6.33 6.33 0 0 0 6.38-6.36V9.25a8.16 8.16 0 0 0 4.84 1.58V7.38a4.85 4.85 0 0 1-1-.69z"/></svg>
+          )}
+          {SOCIAL_LINKS.tiktok && (
+            <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+              class="flex items-center justify-center w-9 h-9 rounded-full bg-primary-800 hover:bg-black text-primary-100/60 hover:text-white transition-all duration-200">
+              <svg class="w-[16px] h-[16px]" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1 0-5.78 2.92 2.92 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 3 15.64 6.33 6.33 0 0 0 9.37 22a6.33 6.33 0 0 0 6.38-6.36V9.25a8.16 8.16 0 0 0 4.84 1.58V7.38a4.85 4.85 0 0 1-1-.69z"/></svg>
             </a>
-          ) : null}
+          )}
         </div>
       </div>
 
-      <!-- Columnas de navegación -->
-      {Object.entries(footerNav).map(([section, links]) => (
-        <div>
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-primary-300 mb-4">{section}</h4>
-          <ul class="space-y-2.5">
-            {links.map((l: { href: string; label: string }) => (
-              <li>
-                <a
-                  href={l.href}
-                  class="text-sm text-primary-100/60 hover:text-primary-300 transition-colors duration-200 inline-flex items-center gap-1.5 group"
-                >
-                  <svg class="w-3 h-3 text-primary-100/30 group-hover:text-primary-300 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-
-      <!-- Columna: Contacto -->
+      <!-- Columna 2: Gobierno -->
       <div>
-        <h4 class="text-sm font-semibold uppercase tracking-wider text-primary-300 mb-4">Contacto</h4>
+        <h4 class="text-xs font-bold uppercase tracking-[0.12em] text-primary-400 mb-5">Gobierno</h4>
+        <ul class="space-y-3">
+          {[
+            { href: '/autoridades', label: 'Autoridades' },
+            { href: '/servicios', label: 'Servicios Municipales' },
+            { href: '/transparencia', label: 'Transparencia' },
+          ].map(l => (
+            <li>
+              <a href={l.href} class="group flex items-center gap-2 text-sm text-primary-100/60 hover:text-primary-300 transition-colors duration-200">
+                <svg class="w-3 h-3 text-primary-600 group-hover:text-primary-400 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Columna 3: Comunidad -->
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-[0.12em] text-primary-400 mb-5">Comunidad</h4>
+        <ul class="space-y-3">
+          {[
+            { href: '/noticias', label: 'Noticias' },
+            { href: '/eventos', label: 'Eventos' },
+            { href: '/turismo', label: 'Turismo' },
+            { href: '/contacto', label: 'Contáctanos' },
+          ].map(l => (
+            <li>
+              <a href={l.href} class="group flex items-center gap-2 text-sm text-primary-100/60 hover:text-primary-300 transition-colors duration-200">
+                <svg class="w-3 h-3 text-primary-600 group-hover:text-primary-400 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Columna 4: Contacto -->
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-[0.12em] text-primary-400 mb-5">Contacto</h4>
         <ul class="space-y-4">
           <li class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-primary-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <svg class="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             <span class="text-sm text-primary-100/60 leading-relaxed">{SITE_CONFIG.address}</span>
           </li>
           <li>
             <a href={`mailto:${SITE_CONFIG.email}`} class="flex items-center gap-3 text-sm text-primary-100/60 hover:text-primary-300 transition-colors duration-200 group">
-              <svg class="w-5 h-5 text-primary-300 flex-shrink-0 group-hover:text-primary-200 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <svg class="w-4 h-4 text-primary-400 group-hover:text-primary-300 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               {SITE_CONFIG.email}
             </a>
           </li>
           <li>
             <a href={`tel:${SITE_CONFIG.phone}`} class="flex items-center gap-3 text-sm text-primary-100/60 hover:text-primary-300 transition-colors duration-200 group">
-              <svg class="w-5 h-5 text-primary-300 flex-shrink-0 group-hover:text-primary-200 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <svg class="w-4 h-4 text-primary-400 group-hover:text-primary-300 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               {SITE_CONFIG.phone}
-            </a>
-          </li>
-          <li class="pt-1">
-            <a href="/contacto" class="inline-flex items-center gap-2 text-sm font-medium text-primary-300 hover:text-primary-200 transition-colors duration-200 group">
-              <span>Enviar mensaje</span>
-              <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
           </li>
         </ul>
       </div>
+
     </div>
   </div>
 
-  <!-- Barra inferior -->
-  <div class="border-t border-primary-800 bg-primary-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-xs text-primary-100/40 text-center sm:text-left">
+  <!-- ===== DIVISOR ===== -->
+  <div class="border-t border-primary-800/60"></div>
+
+  <!-- ===== BARRA INFERIOR ===== -->
+  <div class="bg-black">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p class="text-sm text-white/40 text-center sm:text-left">
         © {year} {SITE_CONFIG.title}. Todos los derechos reservados.
       </p>
-      <div class="flex items-center gap-4 text-xs text-primary-100/40">
-        <span>{SITE_CONFIG.district}, {SITE_CONFIG.province} — {SITE_CONFIG.department}, Perú</span>
-      </div>
+      <p class="text-sm text-white/40">
+        Desarrollado por: <a href="https://www.instagram.com/ezer.zuniga" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-300 font-semibold transition-colors duration-200">Ezer Zuñiga</a>.
+      </p>
     </div>
   </div>
+
 </footer>
 

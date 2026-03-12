@@ -7,6 +7,7 @@ export interface SocialLinks {
 
 export interface Authority {
   id: string;
+  slug?: string;
   name: string;
   position?: string;
   department?: string;

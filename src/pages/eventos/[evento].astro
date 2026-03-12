@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { fetchEvents, fetchEventBySlug } from '../../services/eventsService';
+import { formatDate } from '../../utils/formatters';
+import type { EventItem } from '../../types/events';
+
+export async function getStaticPaths() {
+  const all = await fetchEvents();
+  return all.map((e) => ({ params: { evento: e.slug ?? e.id } }));
+}
+
+const { evento } = Astro.params;
+const item = await fetchEventBySlug(evento!) as EventItem | undefined;
+if (!item) {
+  throw new Error('Evento no encontrado');
+}
+
+const locationText = typeof item.location === 'string' ? item.location : item.location?.name ?? '';
+const eventDate = item.date ? formatDate(item.date) : undefined;
+const statusLabels: Record<string, string> = {
+  upcoming: 'Próximamente',
+  ongoing: 'En curso',
+  past: 'Finalizado',
+  cancelled: 'Cancelado',
+};
+const statusColors: Record<string, string> = {
+  upcoming: 'bg-blue-100 text-blue-800',
+  ongoing: 'bg-green-100 text-green-800',
+  past: 'bg-gray-100 text-gray-600',
+  cancelled: 'bg-red-100 text-red-800',
+};
+---
+
+<BaseLayout
+  title={item.title}
+  description={item.description ?? `Evento: ${item.title} en el Centro Poblado de Ivochote`}
+  image={item.image}
+  breadcrumbs={[
+    { name: 'Eventos', href: '/eventos' },
+    { name: item.title, href: `/eventos/${evento}` },
+  ]}
+>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="text-sm text-primary-900/50 mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-2">
+        <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/eventos" class="hover:text-primary-700 transition-colors">Eventos</a></li>
+        <li aria-hidden="true">/</li>
+        <li class="text-primary-900 font-medium truncate" aria-current="page">{item.title}</li>
+      </ol>
+    </nav>
+
+    {item.image && (
+      <img
+        src={item.image}
+        alt={item.title}
+        class="w-full h-64 sm:h-72 object-cover rounded-xl mb-6 shadow-md"
+        loading="eager"
+        decoding="async"
+      />
+    )}
+
+    <h1 class="text-3xl font-bold text-primary-900 mb-3">{item.title}</h1>
+
+    <div class="flex flex-wrap gap-2 mb-6">
+      {item.category && (
+        <span class="text-xs bg-primary-100 text-primary-900 px-2.5 py-1 rounded-full capitalize font-semibold">
+          {item.category}
+        </span>
+      )}
+      {item.status && (
+        <span class={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[item.status] ?? 'bg-gray-100 text-gray-600'}`}>
+          {statusLabels[item.status] ?? item.status}
+        </span>
+      )}
+      {item.featured && (
+        <span class="text-xs bg-yellow-100 text-yellow-800 px-2.5 py-1 rounded-full font-medium">
+          ⭐ Destacado
+        </span>
+      )}
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 mb-8">
+      {eventDate && (
+        <div class="flex items-start gap-3 p-4 bg-primary-50 rounded-lg">
+          <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <div>
+            <p class="text-xs font-semibold text-primary-900/50 uppercase tracking-wide">Fecha</p>
+            <p class="text-sm text-primary-900 font-medium">{eventDate}</p>
+          </div>
+        </div>
+      )}
+      {locationText && (
+        <div class="flex items-start gap-3 p-4 bg-primary-50 rounded-lg">
+          <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          <div>
+            <p class="text-xs font-semibold text-primary-900/50 uppercase tracking-wide">Ubicación</p>
+            <p class="text-sm text-primary-900 font-medium">{locationText}</p>
+          </div>
+        </div>
+      )}
+    </div>
+
+    {item.description && (
+      <div class="prose max-w-none">
+        <p class="text-primary-900/70 leading-relaxed text-base">{item.description}</p>
+      </div>
+    )}
+
+    {item.tags && item.tags.length > 0 && (
+      <div class="mt-8 flex flex-wrap gap-2">
+        {item.tags.map((tag) => (
+          <span class="bg-primary-50 text-primary-700 text-xs px-2.5 py-1 rounded-full">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <div class="mt-10 text-center">
+      <a href="/eventos" class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 hover:text-primary-500 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Volver a Eventos
+      </a>
+    </div>
+  </div>
+</BaseLayout>

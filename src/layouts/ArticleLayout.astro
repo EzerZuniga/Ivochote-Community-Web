@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { SITE_CONFIG } from '../../config/site.config';
-import formatters from '../utils/formatters';
+import { formatDate } from '../utils/formatters';
 
 interface Props {
   title: string;
@@ -10,44 +10,110 @@ interface Props {
   author?: string;
   image?: string;
   canonical?: string;
+  readingTime?: number;
+  category?: string;
 }
 
-const { title, description, date, author, image, canonical } = Astro.props as Props;
+const { title, description, date, author, image, canonical, readingTime, category } = Astro.props as Props;
 
-const pageTitle = title ? `${title} — ${SITE_CONFIG.title}` : SITE_CONFIG.title;
-const publishDate = date ? formatters.formatDate(date) : undefined;
+const publishDate = date ? formatDate(date) : undefined;
 const canonicalUrl = canonical ?? (SITE_CONFIG.baseUrl ? new URL(Astro.url.pathname, SITE_CONFIG.baseUrl).toString() : undefined);
+const dateStr = date ? (date instanceof Date ? date.toISOString() : date) : undefined;
+
+const CAT_COLORS: Record<string, string> = {
+  institucional: 'bg-primary-700',
+  obras: 'bg-amber-600',
+  salud: 'bg-emerald-600',
+  comunidad: 'bg-sky-600',
+};
+const catColor = category ? (CAT_COLORS[category.toLowerCase()] ?? 'bg-primary-600') : 'bg-primary-600';
 ---
 
-<BaseLayout>
-  <head>
-    <title>{pageTitle}</title>
-    {description ? <meta name="description" content={description} /> : null}
-    {canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
-    {image ? <meta property="og:image" content={image} /> : null}
-    <meta property="og:title" content={pageTitle} />
-    {description ? <meta property="og:description" content={description} /> : null}
-    <meta property="og:site_name" content={SITE_CONFIG.title} />
-    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
-  </head>
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  canonical={canonicalUrl}
+  type="article"
+  publishedTime={dateStr}
+  author={author}
+  breadcrumbs={[{ name: 'Noticias', href: '/noticias' }, { name: title, href: Astro.url.pathname }]}
+  article={{
+    title,
+    description,
+    image,
+    datePublished: dateStr,
+    author,
+  }}
+>
+  <!-- Hero header -->
+  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <nav class="flex items-center gap-2 text-sm text-white/50 mb-6" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <a href="/noticias" class="hover:text-white transition-colors">Noticias</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span aria-current="page" class="text-white/80 font-medium line-clamp-1">{title}</span>
+      </nav>
 
-  <article class="container mx-auto px-4 py-10 prose dark:prose-invert max-w-3xl">
-    <header class="mb-6">
-      <h1 class="text-3xl font-bold leading-tight">{title}</h1>
-      {description ? <p class="text-primary-900/60 mt-2">{description}</p> : null}
+      {category && (
+        <span class={`inline-block text-white text-xs font-bold uppercase tracking-wider px-3 py-1 mb-4 ${catColor}`}>
+          {category}
+        </span>
+      )}
 
-      <div class="mt-4 text-sm text-primary-900/50">
-        {author ? <span>Por {author}</span> : null}
-        {publishDate ? <><span class="mx-2">•</span><time datetime={String(date)}>{publishDate}</time></> : null}
+      <h1 class="text-2xl sm:text-4xl font-extrabold leading-tight tracking-tight" itemprop="headline">{title}</h1>
+
+      {description && (
+        <p class="mt-3 text-white/70 text-base leading-relaxed max-w-2xl" itemprop="description">{description}</p>
+      )}
+
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/50 border-t border-white/10 pt-5">
+        {author && (
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span itemprop="author">{author}</span>
+          </span>
+        )}
+        {publishDate && (
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <time datetime={dateStr} itemprop="datePublished">{publishDate}</time>
+          </span>
+        )}
+        {readingTime && (
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z"/>
+            </svg>
+            {readingTime} min de lectura
+          </span>
+        )}
       </div>
-    </header>
+    </div>
+  </div>
 
-    <section>
+  <!-- Article body -->
+  <article
+    class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 prose prose-primary dark:prose-invert"
+    itemscope
+    itemtype="https://schema.org/Article"
+  >
+    <section itemprop="articleBody">
       <slot />
     </section>
 
-    <footer class="mt-12 border-t border-primary-100 pt-6 text-sm text-primary-900/60">
-      <p>Si te interesa este artículo, puedes compartirlo o contactar a <strong>{SITE_CONFIG.author}</strong>.</p>
+    <footer class="not-prose mt-12 border-t border-primary-100 pt-6 text-sm text-primary-900/50">
+      <p>Si te interesa este artículo, puedes compartirlo o contactar a <strong class="text-primary-900/70">{SITE_CONFIG.author}</strong>.</p>
     </footer>
   </article>
 </BaseLayout>

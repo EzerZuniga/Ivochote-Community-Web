@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { fetchAuthorities, fetchAuthorityBySlug } from '../../services/authoritiesService';
+
+export async function getStaticPaths() {
+  const all = await fetchAuthorities();
+  return all.map((a) => ({ params: { autoridad: a.slug ?? a.id } }));
+}
+
+const { autoridad } = Astro.params;
+const item = await fetchAuthorityBySlug(autoridad!);
+if (!item) {
+  throw new Error('Autoridad no encontrada');
+}
+---
+
+<BaseLayout
+  title={item.name}
+  description={item.bio ?? `Perfil de ${item.name} — ${item.position ?? 'Autoridad'} del Centro Poblado de Ivochote`}
+  image={item.image}
+  breadcrumbs={[
+    { name: 'Autoridades', href: '/autoridades' },
+    { name: item.name, href: `/autoridades/${autoridad}` },
+  ]}
+>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="text-sm text-primary-900/50 mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-2">
+        <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/autoridades" class="hover:text-primary-700 transition-colors">Autoridades</a></li>
+        <li aria-hidden="true">/</li>
+        <li class="text-primary-900 font-medium truncate" aria-current="page">{item.name}</li>
+      </ol>
+    </nav>
+
+    <div class="flex flex-col sm:flex-row gap-8">
+      {item.image && (
+        <div class="flex-shrink-0">
+          <img
+            src={item.image}
+            alt={item.name}
+            class="w-48 h-48 sm:w-56 sm:h-56 object-cover rounded-xl shadow-md mx-auto sm:mx-0"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <div class="flex-1 min-w-0">
+        <h1 class="text-3xl font-bold text-primary-900 mb-2">{item.name}</h1>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+          {item.position && (
+            <span class="text-xs bg-primary-100 text-primary-800 px-2.5 py-1 rounded-full font-semibold">
+              {item.position}
+            </span>
+          )}
+          {item.department && (
+            <span class="text-xs bg-primary-50 text-primary-700 px-2.5 py-1 rounded-full">
+              {item.department}
+            </span>
+          )}
+        </div>
+
+        {item.bio && (
+          <div class="prose max-w-none mt-4">
+            <p class="text-primary-900/70 leading-relaxed">{item.bio}</p>
+          </div>
+        )}
+
+        {(item.email || item.phone) && (
+          <div class="mt-6 p-4 bg-primary-50 rounded-lg">
+            <h3 class="font-semibold text-sm text-primary-900 mb-2">Información de contacto</h3>
+            {item.phone && (
+              <p class="text-sm text-primary-900/60">
+                Teléfono: <a href={`tel:${item.phone}`} class="text-primary-700 hover:underline">{item.phone}</a>
+              </p>
+            )}
+            {item.email && (
+              <p class="text-sm mt-1">
+                Correo: <a href={`mailto:${item.email}`} class="text-primary-700 hover:underline">{item.email}</a>
+              </p>
+            )}
+          </div>
+        )}
+
+        {item.social && (
+          <div class="mt-4 flex gap-3">
+            {item.social.facebook && (
+              <a href={item.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-primary-600 hover:text-primary-800 transition-colors">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+
+    <div class="mt-10 text-center">
+      <a href="/autoridades" class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 hover:text-primary-500 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Volver a Autoridades
+      </a>
+    </div>
+  </div>
+</BaseLayout>

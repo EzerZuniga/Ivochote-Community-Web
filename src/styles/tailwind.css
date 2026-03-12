@@ -6,21 +6,32 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-white text-primary-900 antialiased;
+  }
+  /* Quitar outline por defecto y usar focus-visible */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold bg-primary-900 text-white hover:bg-primary-800;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm bg-primary-900 text-white hover:bg-primary-800 transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm bg-primary-100 text-primary-900 hover:bg-primary-200 transition-colors;
   }
   .card {
     @apply bg-white rounded-lg shadow-md overflow-hidden flex flex-col;
   }
   .input {
-    @apply w-full px-3 py-2 rounded-md border border-primary-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200;
+    @apply w-full px-3 py-2.5 rounded-lg border border-primary-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 transition-shadow;
   }
 }
 

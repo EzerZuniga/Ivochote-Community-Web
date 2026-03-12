@@ -1,0 +1,16 @@
+# Municipalidad del Centro Poblado de Ivochote
+# https://ivochote.gob.pe
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_astro/
+
+# Crawl-delay para bots agresivos
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+Sitemap: https://ivochote.gob.pe/sitemap-index.xml

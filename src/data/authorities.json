@@ -1,6 +1,7 @@
 [
   {
     "id": "a-001",
+    "slug": "alcalde",
     "name": "Alcalde del Centro Poblado",
     "position": "Alcalde",
     "department": "Alcaldía",
@@ -10,6 +11,7 @@
   },
   {
     "id": "a-002",
+    "slug": "teniente-alcalde",
     "name": "Teniente Alcalde",
     "position": "Teniente Alcalde",
     "department": "Alcaldía",
@@ -19,6 +21,7 @@
   },
   {
     "id": "a-003",
+    "slug": "regidor-obras",
     "name": "Regidor de Obras",
     "position": "Regidor",
     "department": "Infraestructura y Obras",
@@ -28,6 +31,7 @@
   },
   {
     "id": "a-004",
+    "slug": "regidor-educacion",
     "name": "Regidor de Educación y Cultura",
     "position": "Regidor",
     "department": "Educación y Cultura",
@@ -37,6 +41,7 @@
   },
   {
     "id": "a-005",
+    "slug": "regidor-desarrollo-social",
     "name": "Regidor de Desarrollo Social",
     "position": "Regidor",
     "department": "Desarrollo Social",

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuthorityCard from '../../components/authorities/AuthorityCard';
 import { fetchAuthorities } from '../../services/authoritiesService';
 import type { Authority } from '../../types/authorities';
 
@@ -7,10 +8,21 @@ const authorities = (await fetchAuthorities()) as Authority[];
 const sorted = authorities.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 ---
 
-<BaseLayout title="Autoridades" description="Conoce a las autoridades de la Municipalidad del Centro Poblado de Ivochote">
+<BaseLayout
+  title="Autoridades"
+  description="Conoce a las autoridades electas de la Municipalidad del Centro Poblado de Ivochote, Echarati, La Convención, Cusco"
+  breadcrumbs={[{ name: 'Autoridades', href: '/autoridades' }]}
+>
   <div class="max-w-6xl mx-auto px-4 py-10">
     <header class="mb-8">
-      <h1 class="text-3xl font-bold">Autoridades Municipales</h1>
+      <nav class="text-sm text-primary-900/50 mb-4" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2">
+          <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-primary-900 font-medium" aria-current="page">Autoridades</li>
+        </ol>
+      </nav>
+      <h1 class="text-3xl font-bold text-primary-900">Autoridades Municipales</h1>
       <p class="mt-2 text-primary-900/60">Conoce a las autoridades electas que representan al Centro Poblado de Ivochote.</p>
     </header>
 
@@ -18,32 +30,12 @@ const sorted = authorities.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 
       <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 list-none" role="list">
         {sorted.map((a: Authority) => (
           <li>
-            <article class="bg-white border border-primary-100 rounded-lg p-5 shadow-sm hover:shadow-md transition">
-              <div class="flex items-start gap-4">
-                {a.image ? (
-                  <img src={a.image} alt={a.name} class="w-20 h-20 rounded-full object-cover border-2 border-primary-200" />
-                ) : (
-                  <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center text-primary-900 text-2xl font-bold">
-                    {a.name.charAt(0)}
-                  </div>
-                )}
-                <div class="flex-1">
-                  <h3 class="text-lg font-semibold text-primary-900">{a.name}</h3>
-                  {a.position && <div class="text-sm font-medium text-primary-700">{a.position}</div>}
-                  {a.department && <div class="text-xs text-primary-900/50 mt-0.5">{a.department}</div>}
-                </div>
-              </div>
-              {a.bio && <p class="mt-3 text-sm text-primary-900/60">{a.bio}</p>}
-              <div class="mt-3 flex gap-3">
-                {a.email && <a class="text-xs text-primary-700 hover:underline" href={`mailto:${a.email}`}>{a.email}</a>}
-                {a.phone && <span class="text-xs text-primary-900/50">{a.phone}</span>}
-              </div>
-            </article>
+            <AuthorityCard authority={a} />
           </li>
         ))}
       </ul>
     ) : (
-      <div class="p-6 bg-primary-50 rounded-md text-primary-900/60">Información de autoridades próximamente.</div>
+      <div class="p-6 bg-primary-50 rounded-lg text-primary-900/60">Información de autoridades próximamente.</div>
     )}
   </div>
 </BaseLayout>

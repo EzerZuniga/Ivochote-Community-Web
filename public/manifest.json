@@ -1,0 +1,24 @@
+{
+  "name": "MCP Ivochote",
+  "short_name": "Ivochote",
+  "description": "Portal web oficial de la Municipalidad del Centro Poblado de Ivochote, Echarati, La Convención, Cusco, Perú.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#084734",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/assets/images/brand/logoivo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/brand/logoivo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["government"]
+}

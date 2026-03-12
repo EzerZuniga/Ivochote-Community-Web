@@ -3,30 +3,82 @@ import HomeLayout from '../layouts/HomeLayout.astro';
 import { fetchNews } from '../services/newsService';
 import { getFeaturedPlaces } from '../services/tourismService';
 import { fetchServices } from '../services/servicesService';
+import { fetchEvents } from '../services/eventsService';
+import { fetchAuthorities } from '../services/authoritiesService';
 import { formatDate } from '../utils/formatters';
 
 const news = await fetchNews();
 const places = await getFeaturedPlaces();
 const services = await fetchServices();
+const events = await fetchEvents();
+const authorities = await fetchAuthorities();
 ---
 
 <HomeLayout
   title="Municipalidad del Centro Poblado de Ivochote"
-  subtitle="Portal web oficial - Distrito de Echarati, Provincia de La Convención, Cusco"
+  subtitle="El Centro Poblado de Ivochote posee una riqueza cultural extraordinaria y un potencial turístico único en la selva cusqueña."
+  heroSlides={[
+    {
+      image: "/assets/images/carrusel/foto1.png",
+      title: "Bienvenidos a Ivochote",
+      subtitle: "Centro Poblado del distrito de Echarati, puerta de ingreso a la selva de La Convención, Cusco."
+    },
+    {
+      image: "/assets/images/carrusel/foto2.png",
+      title: "Naturaleza y Cultura Viva",
+      subtitle: "Riqueza cultural extraordinaria, comunidades nativas y biodiversidad única en la selva cusqueña."
+    },
+    {
+      image: "/assets/images/carrusel/foto3.png",
+      title: "Trabajando por Nuestro Pueblo",
+      subtitle: "Gestión municipal comprometida con el desarrollo y bienestar de toda la comunidad."
+    }
+  ]}
   ctaText="Contáctanos"
   ctaHref="/contacto"
 >
   <div slot="news">
     {news.length > 0 ? (
-      <div class="grid gap-4">
-        {news.slice(0, 4).map(n => (
-          <article class="bg-white border border-primary-100 rounded-lg p-4 hover:shadow-md transition">
-            <a href={`/noticias/${n.slug}`} class="text-lg font-semibold text-primary-900 hover:text-primary-700 no-underline">{n.title}</a>
-            <p class="text-sm text-primary-900/60 mt-1">{n.excerpt}</p>
-            <time class="text-xs text-primary-900/40 mt-2 block">{formatDate(n.date)}</time>
-          </article>
+      <div class="flex flex-col gap-4">
+        {news.slice(0, 3).map(n => (
+          <a
+            href={`/noticias/${n.slug}`}
+            class="group relative flex gap-4 bg-white shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden no-underline hover:-translate-y-0.5"
+          >
+            {n.image && (
+              <div class="flex-shrink-0 w-24 sm:w-28 overflow-hidden bg-primary-50">
+                <img
+                  src={n.image}
+                  alt=""
+                  aria-hidden="true"
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                  width="112"
+                  height="88"
+                />
+              </div>
+            )}
+            <div class="flex-1 min-w-0 py-3 pr-3">
+              {n.category && (
+                <span class="text-[10px] font-bold uppercase tracking-wider text-primary-600">{n.category}</span>
+              )}
+              <p class="text-sm font-semibold text-primary-900 leading-snug line-clamp-2 group-hover:text-primary-700 transition-colors mt-0.5">
+                {n.title}
+              </p>
+              <time class="text-xs text-primary-900/40 mt-1 block" datetime={n.date}>{formatDate(n.date)}</time>
+            </div>
+            <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary-600 transition-all duration-400 group-hover:w-full" aria-hidden="true"></div>
+          </a>
         ))}
-        <a href="/noticias" class="text-sm text-primary-900 font-medium hover:underline">Ver todas las noticias →</a>
+        <a
+          href="/noticias"
+          class="inline-flex items-center gap-2 text-sm font-bold text-primary-700 hover:text-primary-500 transition-colors mt-1 uppercase tracking-wide"
+        >
+          Ver todas las noticias
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
       </div>
     ) : (
       <p class="text-sm text-primary-900/50">No hay noticias disponibles.</p>
@@ -35,11 +87,11 @@ const services = await fetchServices();
 
   <div slot="services">
     {services.length > 0 ? (
-      <ul class="space-y-2">
+      <ul class="space-y-2" role="list">
         {services.slice(0, 5).map(s => (
           <li>
-            <a href={`/servicios/${s.slug}`} class="flex items-center gap-2 text-sm text-primary-900/70 hover:text-primary-700 no-underline">
-              <span class="w-1.5 h-1.5 rounded-full bg-primary-300 flex-shrink-0"></span>
+            <a href={`/servicios/${s.slug ?? s.id}`} class="flex items-center gap-2.5 text-sm text-primary-900/70 hover:text-primary-700 no-underline py-1 transition-colors group">
+              <span class="w-2 h-2 rounded-full bg-primary-300 flex-shrink-0 group-hover:bg-primary-500 transition-colors"></span>
               {s.title}
             </a>
           </li>
@@ -48,19 +100,35 @@ const services = await fetchServices();
     ) : (
       <p class="text-sm text-primary-900/50">Servicios próximamente.</p>
     )}
-    <a href="/servicios" class="text-sm text-primary-900 font-medium hover:underline mt-3 block">Ver todos los servicios →</a>
+    <a href="/servicios" class="inline-flex items-center gap-1 text-sm text-primary-900 font-semibold hover:text-primary-700 mt-4 transition-colors">
+      Ver todos los servicios
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
   </div>
 
   <div slot="tourism">
     {places.length > 0 ? (
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {places.map(p => (
-          <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
-            {p.images?.[0] && <img src={p.images[0]} alt={p.name} class="w-full h-40 object-cover" />}
+          <article class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200">
+            {p.images?.[0] && (
+              <img
+                src={p.images[0]}
+                alt={p.name}
+                class="w-full h-44 object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="176"
+              />
+            )}
             <div class="p-4">
-              <h3 class="font-semibold text-primary-900">{p.name}</h3>
-              <p class="text-sm text-primary-900/60 mt-1">{p.description}</p>
-              <a href={`/turismo/${p.slug}`} class="text-sm text-primary-900 font-medium hover:underline mt-2 inline-block">Conocer más →</a>
+              <h3 class="font-semibold text-primary-900 group-hover:text-primary-700 transition-colors">{p.name}</h3>
+              {p.description && <p class="text-sm text-primary-900/60 mt-1 line-clamp-2">{p.description}</p>}
+              <a href={`/turismo/${p.slug}`} class="inline-flex items-center gap-1 text-sm text-primary-900 font-medium hover:text-primary-700 mt-3 transition-colors">
+                Conocer más
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </a>
             </div>
           </article>
         ))}
@@ -68,5 +136,336 @@ const services = await fetchServices();
     ) : (
       <p class="text-sm text-primary-900/50">Atractivos turísticos próximamente.</p>
     )}
+  </div>
+
+  <!-- ===== ESTADÍSTICAS ===== -->
+  <div slot="stats">
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
+      {[
+        {
+          value: authorities.length, label: 'Autoridades', href: '/autoridades',
+          svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+          </svg>`,
+        },
+        {
+          value: services.length, label: 'Servicios', href: '/servicios',
+          svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z" />
+          </svg>`,
+        },
+        {
+          value: events.length, label: 'Eventos', href: '/eventos',
+          svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+          </svg>`,
+        },
+        {
+          value: places.length, label: 'Destinos', href: '/turismo',
+          svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>`,
+        },
+      ].map((stat) => (
+        <a
+          href={stat.href}
+          class="stat-card group flex flex-col items-center gap-2 p-5 cursor-pointer no-underline
+                 border border-white/15 hover:border-amber-400/70
+                 transition-all duration-300 hover:-translate-y-1 hover:bg-white/8 backdrop-blur-sm"
+          aria-label={`Ver ${stat.label}`}
+        >
+          <span class="text-white/80 transition-colors duration-300 group-hover:text-amber-400" aria-hidden="true">
+            <Fragment set:html={stat.svg} />
+          </span>
+          <span
+            class="stat-number text-4xl sm:text-5xl font-black text-white leading-none
+                   transition-colors duration-300 group-hover:text-amber-400"
+            data-target={stat.value}
+          >0</span>
+          <span class="text-[11px] sm:text-xs font-bold text-white/60 uppercase tracking-widest
+                       transition-colors duration-300 group-hover:text-amber-300">
+            {stat.label}
+          </span>
+          <span class="block h-[2px] w-0 bg-amber-400 transition-all duration-500 group-hover:w-3/4" aria-hidden="true"></span>
+        </a>
+      ))}
+    </div>
+
+    <script>
+      (function () {
+        function animateCounter(el: HTMLElement, target: number, duration: number) {
+          const start = performance.now();
+          const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+          function step(now: number) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            el.textContent = String(Math.round(easeOut(progress) * target));
+            if (progress < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }
+
+        const section = document.getElementById('stats-section');
+        if (!section) return;
+
+        let triggered = false;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (triggered) return;
+            const entry = entries[0];
+            if (!entry.isIntersecting) return;
+            triggered = true;
+            observer.disconnect();
+            section.querySelectorAll<HTMLElement>('.stat-number').forEach((el) => {
+              const target = parseInt(el.dataset.target ?? '0', 10);
+              animateCounter(el, target, 1600);
+            });
+          },
+          { threshold: 0.3 }
+        );
+        observer.observe(section);
+      })();
+    </script>
+  </div>
+
+  <!-- ===== ATENCIÓN AL CIUDADANO ===== -->
+  <div slot="citizen-services">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+      {[
+        {
+          title: 'Registro Civil',
+          href: '/servicios/registro-civil',
+          vb: '0 0 64 64',
+          icon: `<rect x="4" y="10" width="56" height="44" rx="4" fill="none"/><rect x="12" y="4" width="40" height="12" rx="3" fill="none"/><circle cx="24" cy="32" r="7"/><path d="M13 50c0-6.075 4.925-11 11-11s11 4.925 11 11"/><line x1="40" y1="28" x2="52" y2="28"/><line x1="40" y1="35" x2="52" y2="35"/><line x1="40" y1="42" x2="48" y2="42"/>`,
+        },
+        {
+          title: 'Mesa de Partes Virtual',
+          href: '/contacto',
+          vb: '0 0 64 64',
+          icon: `<rect x="8" y="12" width="36" height="48" rx="3" fill="none"/><path d="M18 12V7a5 5 0 0110 0v5"/><rect x="20" y="4" width="6" height="6" rx="1" fill="none"/><line x1="16" y1="24" x2="36" y2="24"/><line x1="16" y1="32" x2="36" y2="32"/><line x1="16" y1="40" x2="30" y2="40"/><path d="M44 20l12 10-12 10" fill="none"/><line x1="44" y1="30" x2="56" y2="30"/>`,
+        },
+        {
+          title: 'Licencias y Autorizaciones',
+          href: '/servicios/licencias-autorizaciones',
+          vb: '0 0 64 64',
+          icon: `<path d="M32 4L8 18v14c0 16 10 26 24 28 14-2 24-12 24-28V18L32 4z" fill="none"/><polyline points="20,32 28,40 44,24" fill="none"/>`,
+        },
+        {
+          title: 'Programas Sociales',
+          href: '/servicios/programas-sociales',
+          vb: '0 0 64 64',
+          icon: `<circle cx="32" cy="16" r="8"/><path d="M16 56v-6c0-6.627 7.163-12 16-12s16 5.373 16 12v6"/><circle cx="12" cy="22" r="5.5"/><path d="M4 56v-4c0-4.418 3.582-8 8-8"/><circle cx="52" cy="22" r="5.5"/><path d="M60 56v-4c0-4.418-3.582-8-8-8"/>`,
+        },
+        {
+          title: 'Defensa Civil',
+          href: '/servicios/defensa-civil',
+          vb: '0 0 64 64',
+          icon: `<path d="M32 6L4 56h56L32 6z" fill="none"/><line x1="32" y1="24" x2="32" y2="38"/><circle cx="32" cy="46" r="2.5" fill="currentColor" stroke="none"/>`,
+        },
+        {
+          title: 'Limpieza Pública',
+          href: '/servicios/limpieza-publica',
+          vb: '0 0 64 64',
+          icon: `<path d="M20 8h24v6H20z" fill="none"/><path d="M16 14h32l-4 42H20L16 14z" fill="none"/><line x1="26" y1="22" x2="24" y2="48"/><line x1="32" y1="22" x2="32" y2="48"/><line x1="38" y1="22" x2="40" y2="48"/><path d="M12 14h40"/>`,
+        },
+        {
+          title: 'Biblioteca Municipal',
+          href: '/servicios/biblioteca-municipal',
+          vb: '0 0 64 64',
+          icon: `<path d="M32 12C26 8 18 6 8 6v40c10 0 18 2 24 6" fill="none"/><path d="M32 12c6-4 14-6 24-6v40c-10 0-18 2-24 6" fill="none"/><line x1="32" y1="12" x2="32" y2="52"/><line x1="14" y1="18" x2="26" y2="18"/><line x1="14" y1="26" x2="26" y2="26"/><line x1="14" y1="34" x2="24" y2="34"/><line x1="38" y1="18" x2="50" y2="18"/><line x1="38" y1="26" x2="50" y2="26"/>`,
+        },
+        {
+          title: 'Libro de Reclamaciones',
+          href: '/contacto',
+          vb: '0 0 64 64',
+          icon: `<path d="M12 4h32a4 4 0 014 4v48a4 4 0 01-4 4H12a4 4 0 01-4-4V8a4 4 0 014-4z" fill="none"/><path d="M8 8h6v48H8" fill="none"/><line x1="22" y1="18" x2="40" y2="18"/><line x1="22" y1="26" x2="40" y2="26"/><line x1="22" y1="34" x2="36" y2="34"/><path d="M38 42l10 2-2 10-10-2z" fill="none"/><line x1="38" y1="42" x2="48" y2="44"/>`,
+        },
+      ].map((svc, i) => (
+        <a
+          href={svc.href}
+          class="citizen-card group relative flex flex-col items-center overflow-hidden bg-primary-100"
+          style={`--delay: ${i * 0.06}s`}
+        >
+          {/* Zona del icono */}
+          <div class="citizen-card-icon relative w-full flex items-center justify-center pt-10 pb-8 sm:pt-14 sm:pb-10">
+            <svg class="w-20 h-20 sm:w-24 sm:h-24 text-primary-950 transition-all duration-400 group-hover:scale-110 group-hover:text-white relative z-10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox={svc.vb} stroke-linecap="round" stroke-linejoin="round">
+              <Fragment set:html={svc.icon} />
+            </svg>
+            {/* Línea decorativa al borde inferior del icono */}
+            <div class="citizen-card-line absolute bottom-0 left-0 right-0 h-[3px] bg-amber-500" aria-hidden="true"></div>
+          </div>
+
+          {/* Zona del texto */}
+          <div class="citizen-card-text relative w-full text-center px-3 py-4 sm:px-4 sm:py-5">
+            <h3 class="font-bold text-sm sm:text-base text-primary-950 leading-snug transition-colors duration-400 group-hover:text-white relative z-10">
+              {svc.title}
+            </h3>
+          </div>
+
+          {/* Overlay verde oscuro que sube desde abajo */}
+          <div class="citizen-card-overlay absolute inset-0 bg-primary-900" aria-hidden="true"></div>
+
+          {/* Triángulo dorado en esquina inferior derecha */}
+          <div class="citizen-card-corner absolute bottom-0 right-0" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 44 44" class="block">
+              <polygon points="44,0 44,44 0,44" fill="#C9A227"/>
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===== AUTORIDADES ===== -->
+  <div slot="authorities">
+    {authorities.length > 0 ? (() => {
+      const avatarColors = [
+        'from-emerald-600 to-primary-800',
+        'from-primary-700 to-emerald-800',
+        'from-teal-600 to-primary-700',
+        'from-green-700 to-teal-800',
+        'from-primary-600 to-green-800',
+      ];
+      return (
+        <div class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {authorities.slice(0, 5).map((a, i) => {
+            const initials = a.name
+              .split(' ')
+              .filter((w: string) => w.length > 2)
+              .slice(0, 2)
+              .map((w: string) => w[0].toUpperCase())
+              .join('');
+            const gradient = avatarColors[i % avatarColors.length];
+            return (
+              <article class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <!-- Cabecera con gradiente + iniciales -->
+                <div class={`relative bg-gradient-to-br ${gradient} h-28 flex items-center justify-center`}>
+                  <!-- Círculo decorativo de fondo -->
+                  <div class="absolute right-0 bottom-0 w-20 h-20 rounded-full bg-white/5 translate-x-4 translate-y-4"></div>
+                  <div class="absolute left-2 top-2 w-10 h-10 rounded-full bg-white/5"></div>
+                  <!-- Iniciales -->
+                  <span class="relative z-10 text-3xl font-black text-white tracking-tight drop-shadow-sm select-none">
+                    {initials}
+                  </span>
+                </div>
+                <!-- Cuerpo -->
+                <div class="p-4">
+                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider bg-primary-50 text-primary-600 rounded-full px-2.5 py-0.5 mb-2">
+                    {a.department}
+                  </span>
+                  <h3 class="font-bold text-primary-900 text-sm leading-snug group-hover:text-primary-700 transition-colors">
+                    {a.name}
+                  </h3>
+                  <p class="text-xs text-primary-900/50 mt-0.5 font-medium">{a.position}</p>
+                  {a.bio && (
+                    <p class="text-xs text-primary-900/40 mt-2 leading-relaxed line-clamp-2">{a.bio}</p>
+                  )}
+                </div>
+                <!-- Footer -->
+                <div class="px-4 pb-4">
+                  <a
+                    href={`/autoridades`}
+                    class="inline-flex items-center gap-1 text-xs font-semibold text-primary-700 hover:text-primary-500 transition-colors"
+                  >
+                    Ver perfil
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      );
+    })() : (
+      <p class="text-sm text-primary-900/50">Autoridades próximamente.</p>
+    )}
+    <div class="text-center mt-8 sm:hidden">
+      <a href="/autoridades" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
+        Ver todas las autoridades
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== CTA BANNER ===== -->
+  <div slot="cta">
+    <section class="bg-gray-50 border-t border-primary-100 py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+          <!-- Columna izquierda: texto + botones -->
+          <div>
+            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary-600 mb-4">
+              <span class="block w-7 h-px bg-primary-500"></span>
+              Portal ciudadano
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-primary-900 leading-tight">
+              Tu voz importa en<br class="hidden sm:block" /> nuestra comunidad
+            </h2>
+            <p class="mt-4 text-base text-primary-900/60 leading-relaxed max-w-md">
+              Accede a información oficial, consulta documentos y acuerdos municipales. Tu participación activa fortalece Ivochote.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a
+                href="/contacto"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-primary-700 hover:bg-primary-600 text-white font-semibold transition-colors duration-200 shadow-sm"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Contáctanos
+              </a>
+              <a
+                href="/servicios"
+                class="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary-700 text-primary-700 hover:bg-primary-700 hover:text-white font-semibold transition-colors duration-200"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                Ver servicios
+              </a>
+            </div>
+          </div>
+
+          <!-- Columna derecha: 3 tarjetas de acceso rápido -->
+          <div class="grid gap-4">
+            {[
+              {
+                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
+                title: 'Documentos oficiales',
+                desc: 'Acuerdos, ordenanzas y resoluciones municipales publicadas.',
+                href: '/servicios',
+              },
+              {
+                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>',
+                title: 'Presupuesto participativo',
+                desc: 'Consulta la ejecución presupuestal y el gasto municipal.',
+                href: '/servicios',
+              },
+              {
+                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>',
+                title: 'Mesa de partes virtual',
+                desc: 'Envía documentos y realiza trámites sin salir de casa.',
+                href: '/contacto',
+              },
+            ].map(card => (
+              <a
+                href={card.href}
+                class="group flex items-start gap-4 bg-white border border-primary-100 hover:border-primary-400 rounded-xl p-5 transition-all duration-200 hover:shadow-md"
+              >
+                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-100 group-hover:bg-primary-700 flex items-center justify-center transition-colors duration-200">
+                  <svg class="w-5 h-5 text-primary-700 group-hover:text-white transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <Fragment set:html={card.icon} />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-primary-900 group-hover:text-primary-700 transition-colors text-sm">{card.title}</h3>
+                  <p class="text-xs text-primary-900/50 mt-0.5 leading-relaxed">{card.desc}</p>
+                </div>
+                <svg class="ml-auto flex-shrink-0 w-4 h-4 text-primary-300 group-hover:text-primary-600 mt-0.5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </section>
   </div>
 </HomeLayout>

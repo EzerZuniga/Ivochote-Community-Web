@@ -12,21 +12,58 @@ const item = await fetchNewsBySlug(slug!);
 if (!item) {
   throw new Error('Noticia no encontrada');
 }
+
+const authorName = typeof item.author === 'string' ? item.author : item.author?.name;
+const words = (item.content ?? '').split(/\s+/).filter(Boolean).length;
+const readingTime = Math.max(1, Math.round(words / 200));
 ---
 
-<ArticleLayout title={item.title} description={item.excerpt} date={item.date} author={typeof item.author === 'string' ? item.author : item.author?.name} image={item.image}>
-  <div class="prose dark:prose-invert max-w-none">
-    {item.image && <img src={item.image} alt={item.title} class="w-full h-64 object-cover rounded-lg mb-6" />}
-    <p>{item.content}</p>
-    {item.tags && item.tags.length > 0 && (
-      <div class="mt-6 flex flex-wrap gap-2">
+<ArticleLayout
+  title={item.title}
+  description={item.excerpt}
+  date={item.date}
+  author={authorName}
+  image={item.image}
+  readingTime={readingTime}
+  category={item.category}
+>
+  {item.image && (
+    <figure class="not-prose mb-8">
+      <img
+        src={item.image}
+        alt={item.title}
+        class="w-full aspect-video object-cover"
+        width="768"
+        height="432"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </figure>
+  )}
+
+  <p class="lead text-base sm:text-lg text-primary-900/80 leading-relaxed">{item.content}</p>
+
+  {item.tags && item.tags.length > 0 && (
+    <div class="not-prose mt-10 pt-6 border-t border-primary-100">
+      <p class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-3">Etiquetas</p>
+      <div class="flex flex-wrap gap-2">
         {item.tags.map(tag => (
-          <span class="bg-primary-100 text-primary-900 text-xs px-2 py-1 rounded-full">{tag}</span>
+          <span class="bg-primary-50 border border-primary-200 text-primary-800 text-xs font-medium px-3 py-1.5">#{tag}</span>
         ))}
       </div>
-    )}
-  </div>
-  <div class="mt-8">
-    <a href="/noticias" class="text-primary-900 font-medium hover:underline">← Volver a noticias</a>
-  </div>
+    </div>
+  )}
+
+  <nav class="not-prose mt-10 pt-6 border-t border-primary-100 flex items-center justify-between" aria-label="Navegación">
+    <a
+      href="/noticias"
+      class="inline-flex items-center gap-2 text-sm font-bold text-primary-700 hover:text-primary-500 transition-colors group uppercase tracking-wide"
+    >
+      <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Volver a noticias
+    </a>
+  </nav>
 </ArticleLayout>
