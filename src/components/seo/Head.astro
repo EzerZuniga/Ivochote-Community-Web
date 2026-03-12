@@ -51,6 +51,11 @@ const ogImage = image
 <meta name="keywords" content={metaKeywords} />
 <link rel="canonical" href={canonicalUrl} />
 
+<!-- Google Search Console verificación -->
+{SITE_CONFIG.googleSiteVerification && (
+  <meta name="google-site-verification" content={SITE_CONFIG.googleSiteVerification} />
+)}
+
 <!-- Robots -->
 {noindex
   ? <meta name="robots" content="noindex,nofollow" />

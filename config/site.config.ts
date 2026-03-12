@@ -23,6 +23,14 @@ export const SITE_CONFIG = {
   /** Palabras clave SEO globales */
   keywords:
     "Municipalidad Ivochote, Centro Poblado Ivochote, Echarati, La Convención, Cusco, Perú, gobierno local, municipalidad centro poblado, servicios municipales, trámites municipales, turismo Ivochote, selva cusqueña, noticias Ivochote, eventos Ivochote",
+  /**
+   * Código de verificación de Google Search Console.
+   * Obtenerlo en: https://search.google.com/search-console
+   * Método: "Etiqueta HTML" → copiar solo el valor del atributo content.
+   * Ejemplo: si Google da <meta name="google-site-verification" content="ABC123" />
+   * poner aquí solo "ABC123"
+   */
+  googleSiteVerification: "",
 };
 
 export const SOCIAL_LINKS = {
