@@ -30,7 +30,7 @@ export const SITE_CONFIG = {
    * Ejemplo: si Google da <meta name="google-site-verification" content="ABC123" />
    * poner aquí solo "ABC123"
    */
-  googleSiteVerification: "",
+    googleSiteVerification: "n5T9bgviyHU5mpti7fzXziBLe-kuJCsNzKmwM5xGcxg",
 };
 
 export const SOCIAL_LINKS = {
