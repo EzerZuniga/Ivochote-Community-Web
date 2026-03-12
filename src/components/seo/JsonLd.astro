@@ -1,7 +1,7 @@
 ---
 /**
  * Genera JSON-LD de Schema.org para SEO estructurado.
- * Inyecta GovernmentOrganization + WebSite + BreadcrumbList.
+ * Inyecta GovernmentOrganization + WebSite + WebPage + BreadcrumbList + NewsArticle.
  */
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
 
@@ -18,25 +18,38 @@ interface Props {
     description?: string;
     image?: string;
     datePublished?: string;
+    dateModified?: string;
     author?: string;
   };
+  /** Tipo de página para WebPage schema */
+  pageType?: 'WebPage' | 'ContactPage' | 'AboutPage' | 'CollectionPage';
 }
 
-const { breadcrumbs, article } = Astro.props;
+const { breadcrumbs, article, pageType = 'WebPage' } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, SITE_CONFIG.baseUrl).toString();
 
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'GovernmentOrganization',
+  '@id': `${SITE_CONFIG.baseUrl}/#organization`,
   name: SITE_CONFIG.title,
-  alternateName: SITE_CONFIG.shortTitle,
+  alternateName: [SITE_CONFIG.shortTitle, 'Municipalidad Ivochote', 'MCP Ivochote'],
   url: SITE_CONFIG.baseUrl,
-  logo: `${SITE_CONFIG.baseUrl}/assets/images/brand/logoivo.png`,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE_CONFIG.baseUrl}/assets/images/brand/logoivo.png`,
+    width: 512,
+    height: 512,
+  },
+  image: `${SITE_CONFIG.baseUrl}/assets/images/brand/logoivo.png`,
   description: SITE_CONFIG.description,
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Plaza Principal s/n',
-    addressLocality: 'Ivochote',
+    addressLocality: 'Ivochote, Echarati',
     addressRegion: 'Cusco',
+    postalCode: '08451',
     addressCountry: 'PE',
   },
   geo: {
@@ -51,27 +64,53 @@ const organizationLd = {
     '@type': 'AdministrativeArea',
     name: `Centro Poblado de Ivochote, ${SITE_CONFIG.district}, ${SITE_CONFIG.province}, ${SITE_CONFIG.department}`,
   },
+  knowsAbout: [
+    'Gobierno local',
+    'Servicios municipales',
+    'Turismo en Ivochote',
+    'Selva cusqueña',
+    'Centro Poblado de Ivochote',
+    'Distrito de Echarati',
+  ],
+  foundingDate: '1990',
+  slogan: 'Trabajando por el desarrollo de Ivochote',
 };
 
 const websiteLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': `${SITE_CONFIG.baseUrl}/#website`,
   name: SITE_CONFIG.title,
-  alternateName: SITE_CONFIG.shortTitle,
+  alternateName: [
+    SITE_CONFIG.shortTitle,
+    'Municipalidad Ivochote',
+    'Municipalidad de Ivochote',
+    'Municipalidad Centro Poblado Ivochote',
+    'MCP Ivochote',
+  ],
   url: SITE_CONFIG.baseUrl,
-  inLanguage: SITE_CONFIG.language,
-  publisher: {
-    '@type': 'GovernmentOrganization',
-    name: SITE_CONFIG.title,
-  },
+  description: SITE_CONFIG.description,
+  inLanguage: 'es-PE',
+  publisher: { '@id': `${SITE_CONFIG.baseUrl}/#organization` },
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: `${SITE_CONFIG.baseUrl}/?q={search_term_string}`,
+      urlTemplate: `${SITE_CONFIG.baseUrl}/noticias?q={search_term_string}`,
     },
     'query-input': 'required name=search_term_string',
   },
+};
+
+const webPageLd = {
+  '@context': 'https://schema.org',
+  '@type': pageType,
+  '@id': `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: SITE_CONFIG.title,
+  isPartOf: { '@id': `${SITE_CONFIG.baseUrl}/#website` },
+  about: { '@id': `${SITE_CONFIG.baseUrl}/#organization` },
+  inLanguage: 'es-PE',
 };
 
 const breadcrumbLd = breadcrumbs && breadcrumbs.length > 0
@@ -98,6 +137,8 @@ const articleLd = article
       description: article.description,
       image: article.image ? `${SITE_CONFIG.baseUrl}${article.image}` : undefined,
       datePublished: article.datePublished,
+      dateModified: article.dateModified ?? article.datePublished,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
       author: {
         '@type': 'Organization',
         name: article.author ?? SITE_CONFIG.author,
@@ -116,5 +157,6 @@ const articleLd = article
 
 <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
 <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(webPageLd)} />
 {breadcrumbLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />}
 {articleLd && <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />}

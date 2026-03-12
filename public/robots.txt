@@ -1,10 +1,11 @@
 # Municipalidad del Centro Poblado de Ivochote
-# https://ivochote.gob.pe
+# https://municipalidad-de-ivochote.netlify.app
 
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /_astro/
+Disallow: /404
 
 # Crawl-delay para bots agresivos
 User-agent: AhrefsBot
@@ -13,4 +14,11 @@ Crawl-delay: 10
 User-agent: SemrushBot
 Crawl-delay: 10
 
-Sitemap: https://ivochote.gob.pe/sitemap-index.xml
+# Bots de IA que no queremos indexen
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://municipalidad-de-ivochote.netlify.app/sitemap-index.xml

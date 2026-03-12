@@ -17,13 +17,12 @@ interface Props {
 }
 
 const { title, subtitle, heroSlides, ctaText, ctaHref } = Astro.props as Props;
-const pageTitle = title ?? SITE_CONFIG.title;
 const pageDescription = subtitle ?? SITE_CONFIG.description;
 
 const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription} showPreloader={true}>
+<BaseLayout title={title} description={pageDescription} showPreloader={true}>
   <!-- ===== HERO CARRUSEL ===== -->
   <header id="hero-carousel" class="relative w-full h-screen min-h-[500px] flex items-center overflow-hidden">
 

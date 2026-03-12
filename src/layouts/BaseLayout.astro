@@ -27,8 +27,10 @@ interface Props {
     description?: string;
     image?: string;
     datePublished?: string;
+    dateModified?: string;
     author?: string;
   };
+  pageType?: 'WebPage' | 'ContactPage' | 'AboutPage' | 'CollectionPage';
 }
 
 const {
@@ -43,6 +45,7 @@ const {
   author,
   breadcrumbs,
   article,
+  pageType,
 } = Astro.props as Props;
 ---
 
@@ -59,7 +62,7 @@ const {
       publishedTime={publishedTime}
       author={author}
     />
-    <JsonLd breadcrumbs={breadcrumbs} article={article} />
+    <JsonLd breadcrumbs={breadcrumbs} article={article} pageType={pageType} />
   </head>
 
   <body class="min-h-screen flex flex-col bg-white text-primary-900">

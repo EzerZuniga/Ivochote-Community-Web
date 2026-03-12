@@ -2,11 +2,11 @@ export const SITE_CONFIG = {
   title: "Municipalidad del Centro Poblado de Ivochote",
   shortTitle: "MCP Ivochote",
   description:
-    "Portal web oficial de la Municipalidad del Centro Poblado de Ivochote, distrito de Echarati, provincia de La Convención, departamento de Cusco, Perú.",
-  baseUrl: "https://ivochote.gob.pe",
+    "Portal web oficial de la Municipalidad del Centro Poblado de Ivochote. Gobierno local del distrito de Echarati, provincia de La Convención, Cusco, Perú. Servicios municipales, trámites, turismo, noticias y eventos.",
+  baseUrl: "https://municipalidad-de-ivochote.netlify.app",
   language: "es",
   locale: "es_PE",
-  author: "Municipalidad del Centro Poblado de Ivochote",
+  author: "Ezer B. Zuniga Chura",
   email: "municipalidad@ivochote.gob.pe",
   phone: "+51 984 000 000",
   address:
@@ -20,6 +20,9 @@ export const SITE_CONFIG = {
   ogImage: "/assets/images/brand/og-default.png",
   /** Color de tema para dispositivos móviles */
   themeColor: "#084734",
+  /** Palabras clave SEO globales */
+  keywords:
+    "Municipalidad Ivochote, Centro Poblado Ivochote, Echarati, La Convención, Cusco, Perú, gobierno local, municipalidad centro poblado, servicios municipales, trámites municipales, turismo Ivochote, selva cusqueña, noticias Ivochote, eventos Ivochote",
 };
 
 export const SOCIAL_LINKS = {

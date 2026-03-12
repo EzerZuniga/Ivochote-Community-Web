@@ -29,12 +29,11 @@ const {
   keywords,
 } = Astro.props;
 
-const defaultKeywords = 'Ivochote, Municipalidad, Centro Poblado, Echarati, La Convención, Cusco, Perú, gobierno local, servicios municipales, trámites, turismo Ivochote';
-const metaKeywords = keywords ?? defaultKeywords;
+const metaKeywords = keywords ?? SITE_CONFIG.keywords;
 
 const siteTitle = title
-  ? `${title} — ${SITE_CONFIG.shortTitle}`
-  : SITE_CONFIG.title;
+  ? `${title} | ${SITE_CONFIG.title}`
+  : `${SITE_CONFIG.title} — Gobierno Local de Echarati, La Convención, Cusco`;
 
 const canonicalUrl = canonical
   ?? new URL(Astro.url.pathname, SITE_CONFIG.baseUrl).toString();
@@ -58,6 +57,10 @@ const ogImage = image
   : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
 }
 
+<!-- DNS Prefetch para recursos externos -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
 <!-- Google Fonts: Inter (tipografía institucional) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -68,26 +71,38 @@ const ogImage = image
 <link rel="icon" href="/assets/images/brand/logoivo.png" type="image/png" />
 <link rel="apple-touch-icon" href="/assets/images/brand/logoivo.png" />
 
+<!-- Manifest PWA -->
+<link rel="manifest" href="/manifest.json" />
+
 <!-- Theme -->
 <meta name="theme-color" content={SITE_CONFIG.themeColor} />
 <meta name="color-scheme" content="light" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content={SITE_CONFIG.shortTitle} />
 
 <!-- Open Graph -->
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content={SITE_CONFIG.title} />
 <meta property="og:title" content={siteTitle} />
+<meta name="application-name" content={SITE_CONFIG.title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={siteTitle} />
 <meta property="og:locale" content={SITE_CONFIG.locale} />
 {publishedTime && <meta property="article:published_time" content={publishedTime} />}
 {author && <meta property="article:author" content={author} />}
 
 <!-- Twitter / X -->
-<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={siteTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={siteTitle} />
 
 <!-- Geo -->
 <meta name="geo.region" content="PE-CUS" />
@@ -98,6 +113,14 @@ const ogImage = image
 <!-- Idioma y autor -->
 <meta name="language" content={SITE_CONFIG.language} />
 <meta name="author" content={SITE_CONFIG.author} />
+<meta name="generator" content={Astro.generator} />
+<meta name="rating" content="general" />
+<meta name="distribution" content="global" />
+<meta name="revisit-after" content="3 days" />
+
+<!-- Alternativas de idioma (hreflang para Google) -->
+<link rel="alternate" hreflang="es-PE" href={canonicalUrl} />
+<link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
