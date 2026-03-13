@@ -13,6 +13,10 @@ export interface ServiceItem {
   description?: string;
   category?: ServiceCategory | string;
   image?: string;
+  icon?: string;
+  hours?: string;
+  steps?: string[];
+  requirements?: string[];
   contact?: ServiceContact;
   featured?: boolean;
   order?: number;

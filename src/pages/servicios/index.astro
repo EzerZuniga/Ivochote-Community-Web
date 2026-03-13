@@ -2,38 +2,118 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ServiceCard from '../../components/services/ServiceCard';
 import { fetchServices } from '../../services/servicesService';
+import type { ServiceItem } from '../../types/services';
 
 const services = await fetchServices();
 const sorted = services.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+const featured = sorted.filter((s: ServiceItem) => s.featured);
 ---
 
 <BaseLayout
   title="Servicios Municipales"
-  description="Servicios municipales de la Municipalidad del Centro Poblado de Ivochote: trámites, registro civil, programas sociales, defensa civil y atención ciudadana en Echarati, La Convención, Cusco, Perú."
+  description="Servicios municipales del Centro Poblado de Ivochote: registro civil, licencias, programas sociales, defensa civil, limpieza pública y biblioteca en Echarati, La Convención, Cusco."
   breadcrumbs={[{ name: 'Servicios', href: '/servicios' }]}
   pageType="CollectionPage"
 >
-  <div class="max-w-6xl mx-auto px-4 py-10">
-    <header class="mb-8">
-      <nav class="text-sm text-primary-900/50 mb-4" aria-label="Breadcrumb">
-        <ol class="flex items-center gap-2">
-          <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
-          <li aria-hidden="true">/</li>
-          <li class="text-primary-900 font-medium" aria-current="page">Servicios</li>
-        </ol>
+  <!-- Hero -->
+  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span aria-current="page" class="text-white/80 font-medium">Servicios</span>
       </nav>
-      <h1 class="text-3xl font-bold text-primary-900">Servicios Municipales</h1>
-      <p class="mt-2 text-primary-900/60">Conoce los servicios que brinda la Municipalidad del Centro Poblado de Ivochote a la comunidad.</p>
-    </header>
 
-    {sorted.length > 0 ? (
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {sorted.map(s => (
-          <ServiceCard service={s} href={`/servicios/${s.slug ?? s.id}`} />
-        ))}
+      <div class="flex items-start gap-4 mb-8">
+        <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
+          <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">Atención Ciudadana</span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+            Servicios<br class="hidden sm:block"/> Municipales
+          </h1>
+          <p class="mt-3 text-white/60 text-sm sm:text-base leading-relaxed max-w-lg">
+            La Municipalidad del Centro Poblado de Ivochote pone a disposición de su comunidad los siguientes servicios públicos para mejorar tu calidad de vida.
+          </p>
+        </div>
       </div>
-    ) : (
-      <div class="p-6 bg-primary-50 rounded-lg text-primary-900/60">Información de servicios próximamente.</div>
+
+      <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+        <div>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Servicios</p>
+          <p class="text-white font-bold">{sorted.length} disponibles</p>
+        </div>
+        <div>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Horario</p>
+          <p class="text-white font-bold">L – V, 8am–5pm</p>
+        </div>
+        <div>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Emergencias</p>
+          <p class="text-white font-bold">24 horas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-14">
+
+    <!-- Servicios Destacados -->
+    {featured.length > 0 && (
+      <section aria-labelledby="destacados-heading">
+        <div class="flex items-center gap-4 mb-6">
+          <h2 id="destacados-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 whitespace-nowrap">
+            Servicios Destacados
+          </h2>
+          <div class="h-px flex-1 bg-gray-100" aria-hidden="true"></div>
+        </div>
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 list-none" role="list">
+          {featured.map((s: ServiceItem) => (
+            <li>
+              <ServiceCard service={s} href={`/servicios/${s.slug ?? s.id}`} />
+            </li>
+          ))}
+        </ul>
+      </section>
     )}
+
+    <!-- Todos los Servicios -->
+    <section aria-labelledby="todos-heading">
+      <div class="flex items-center gap-4 mb-6">
+        <h2 id="todos-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 whitespace-nowrap">
+          Todos los Servicios
+        </h2>
+        <div class="h-px flex-1 bg-gray-100" aria-hidden="true"></div>
+      </div>
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 list-none" role="list">
+        {sorted.map((s: ServiceItem) => (
+          <li>
+            <ServiceCard service={s} href={`/servicios/${s.slug ?? s.id}`} />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-primary-950 text-white p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between" aria-labelledby="cta-heading">
+      <div>
+        <h2 id="cta-heading" class="text-lg sm:text-xl font-extrabold mb-1">¿Tienes alguna consulta?</h2>
+        <p class="text-white/60 text-sm max-w-md">Nuestro equipo está listo para orientarte. Visítanos en la Municipalidad o contáctanos por teléfono y correo.</p>
+      </div>
+      <a
+        href="/contacto"
+        class="flex-shrink-0 inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-amber-900 font-bold text-sm px-6 py-3 transition-colors duration-200"
+      >
+        Contáctanos
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </a>
+    </section>
+
   </div>
 </BaseLayout>

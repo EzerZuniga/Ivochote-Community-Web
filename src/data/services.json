@@ -3,51 +3,160 @@
     "id": "s-001",
     "title": "Registro Civil",
     "slug": "registro-civil",
-    "description": "Trámites de partidas de nacimiento, matrimonio, defunción y otros certificados del registro civil municipal.",
+    "description": "Tramita partidas de nacimiento, matrimonio y defunción, así como certificados y constancias del registro civil municipal de manera rápida y segura.",
     "category": "administrativo",
+    "icon": "id-card",
+    "hours": "Lunes a Viernes: 8:00 am – 1:00 pm",
     "featured": true,
-    "order": 1
+    "order": 1,
+    "steps": [
+      "Acércate a la Municipalidad con tu DNI original",
+      "Solicita el formulario en Mesa de Partes",
+      "Completa el formulario y adjunta los documentos requeridos",
+      "Realiza el pago de la tasa municipal correspondiente",
+      "Recoge tu certificado en el plazo indicado (1–3 días hábiles)"
+    ],
+    "requirements": [
+      "DNI original y copia del solicitante",
+      "Pago de tasa municipal según tipo de trámite",
+      "Formulario de solicitud debidamente llenado"
+    ],
+    "contact": {
+      "phone": "+51 984 000 000",
+      "email": "registrocivil@ivochote.gob.pe"
+    }
   },
   {
     "id": "s-002",
     "title": "Licencias y Autorizaciones",
     "slug": "licencias-autorizaciones",
-    "description": "Emisión de licencias de funcionamiento, autorizaciones de construcción y permisos municipales.",
+    "description": "Obtén licencias de funcionamiento comercial, autorizaciones de construcción, anuncios y demás permisos municipales para ejercer actividades en el centro poblado.",
     "category": "administrativo",
+    "icon": "license",
+    "hours": "Lunes a Viernes: 8:00 am – 1:00 pm",
     "featured": true,
-    "order": 2
+    "order": 2,
+    "steps": [
+      "Presenta tu solicitud en Mesa de Partes",
+      "Adjunta los documentos según el tipo de licencia",
+      "El área técnica realiza la inspección correspondiente",
+      "Paga la tasa municipal establecida",
+      "Recibe tu licencia o autorización aprobada"
+    ],
+    "requirements": [
+      "DNI o RUC del solicitante",
+      "Planos o memorias descriptivas (para obras)",
+      "Pago de tasa municipal",
+      "Informe técnico previo (cuando aplique)"
+    ],
+    "contact": {
+      "phone": "+51 984 000 000",
+      "email": "licencias@ivochote.gob.pe"
+    }
   },
   {
     "id": "s-003",
     "title": "Programas Sociales",
     "slug": "programas-sociales",
-    "description": "Información sobre los programas sociales activos: Vaso de Leche, comedores populares y apoyo alimentario.",
+    "description": "Accede a los programas de apoyo social activos: Vaso de Leche, comedores populares y asistencia alimentaria para familias en situación de vulnerabilidad.",
     "category": "salud",
+    "icon": "social",
+    "hours": "Lunes a Viernes: 8:00 am – 2:00 pm",
     "featured": true,
-    "order": 3
+    "order": 3,
+    "steps": [
+      "Acércate al área de Programas Sociales de la Municipalidad",
+      "Presenta tu DNI y acreditación de residencia",
+      "Completa el padrón de beneficiarios",
+      "Espera la evaluación y aprobación de tu inscripción",
+      "Recibe información sobre fechas y puntos de distribución"
+    ],
+    "requirements": [
+      "DNI del titular y de los beneficiarios",
+      "Certificado de residencia en Ivochote",
+      "Ficha socioeconómica (se llena en el momento)"
+    ],
+    "contact": {
+      "phone": "+51 984 000 000",
+      "email": "social@ivochote.gob.pe"
+    }
   },
   {
     "id": "s-004",
     "title": "Defensa Civil",
     "slug": "defensa-civil",
-    "description": "Prevención y atención de emergencias, gestión de riesgos y desastres naturales en el centro poblado.",
+    "description": "Prevención y atención de emergencias, gestión de riesgos ante desastres naturales y coordinación de brigadas de respuesta rápida en el centro poblado.",
     "category": "otros",
-    "order": 4
+    "icon": "shield",
+    "hours": "Atención de emergencias: 24 horas",
+    "order": 4,
+    "steps": [
+      "En caso de emergencia, llama al número de Defensa Civil",
+      "Proporciona tu ubicación exacta y tipo de emergencia",
+      "Sigue las instrucciones del operador",
+      "Permanece en un lugar seguro hasta la llegada del personal",
+      "Colabora con el informe posterior del siniestro"
+    ],
+    "requirements": [
+      "Reporte verbal de la emergencia o siniestro",
+      "DNI para registro en caso de solicitud de apoyo",
+      "Informe técnico previo para inspecciones programadas"
+    ],
+    "contact": {
+      "phone": "+51 984 000 000",
+      "email": "defensacivil@ivochote.gob.pe"
+    }
   },
   {
     "id": "s-005",
     "title": "Limpieza Pública",
     "slug": "limpieza-publica",
-    "description": "Servicio de recolección de residuos sólidos, limpieza de calles y mantenimiento de áreas verdes.",
+    "description": "Recolección de residuos sólidos domiciliarios, limpieza de calles, parques y mantenimiento de áreas verdes en todo el centro poblado de Ivochote.",
     "category": "otros",
-    "order": 5
+    "icon": "clean",
+    "hours": "Recolección: Lunes, Miércoles y Viernes",
+    "order": 5,
+    "steps": [
+      "Coloca tus residuos en bolsas correctamente cerradas",
+      "Saca los residuos solo el día de recolección antes de las 7:00 am",
+      "Separa los residuos reciclables si es posible",
+      "Para limpieza especial, comunícate con la Municipalidad",
+      "Mantén limpia la vereda frente a tu domicilio"
+    ],
+    "requirements": [
+      "Residuos debidamente embolsados y cerrados",
+      "Cumplir el horario de recolección establecido",
+      "No arrojar desmonte ni residuos de construcción en vía pública"
+    ],
+    "contact": {
+      "phone": "+51 984 000 000",
+      "email": "limpieza@ivochote.gob.pe"
+    }
   },
   {
     "id": "s-006",
     "title": "Biblioteca Municipal",
     "slug": "biblioteca-municipal",
-    "description": "Acceso a material bibliográfico, sala de lectura y programas de fomento a la lectura para la comunidad.",
+    "description": "Acceso libre a material bibliográfico, sala de lectura, internet gratuito y programas de fomento a la lectura para niños, jóvenes y adultos de la comunidad.",
     "category": "educacion",
-    "order": 6
+    "icon": "book",
+    "hours": "L–V: 8:00 am – 5:00 pm | Sáb: 8:00 am – 12:00 pm",
+    "order": 6,
+    "steps": [
+      "Acércate a la Biblioteca Municipal con tu DNI",
+      "Inscríbete como usuario para obtener tu carnet gratuito",
+      "Accede al catálogo de libros y materiales disponibles",
+      "Solicita el préstamo o realiza tu consulta en sala",
+      "Devuelve los materiales en el plazo establecido"
+    ],
+    "requirements": [
+      "DNI para inscripción como usuario",
+      "Carnet de biblioteca vigente para préstamos a domicilio",
+      "Respetar el reglamento interno de la biblioteca"
+    ],
+    "contact": {
+      "phone": "+51 984 000 000",
+      "email": "biblioteca@ivochote.gob.pe"
+    }
   }
 ]
