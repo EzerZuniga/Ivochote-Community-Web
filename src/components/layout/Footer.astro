@@ -99,6 +99,33 @@ const year = new Date().getFullYear();
               {SITE_CONFIG.phone}
             </a>
           </li>
+
+          <!-- Mapa de ubicación -->
+          <li>
+            <div class="mt-1 overflow-hidden rounded-lg border border-primary-700/50 shadow-md">
+              <iframe
+                title="Ubicación del Centro Poblado de Ivochote, Echarati, Cusco"
+                src="https://maps.google.com/maps?q=Centro+Poblado+de+Ivochote,+Echarati,+La+Convenci%C3%B3n,+Cusco,+Per%C3%BA&output=embed&z=13"
+                width="100%"
+                height="170"
+                style="border:0; display:block;"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                aria-label="Mapa de ubicación del Centro Poblado de Ivochote"
+              ></iframe>
+            </div>
+            <a
+              href="https://maps.google.com/maps?q=Centro+Poblado+de+Ivochote,+Echarati,+La+Convenci%C3%B3n,+Cusco,+Per%C3%BA"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-2 inline-flex items-center gap-1.5 text-xs text-primary-400 hover:text-primary-300 transition-colors duration-200"
+            >
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              Ver en Google Maps
+            </a>
+          </li>
         </ul>
       </div>
 
