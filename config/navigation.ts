@@ -37,8 +37,14 @@ export const MAIN_NAVIGATION: NavItem[] = [
       { href: "/autoridades", label: "Todas las Autoridades" },
       { href: "/autoridades/gary-leo-huaman-rodriguez", label: "Alcalde" },
       { href: "/autoridades/peri-mentiani-yovemi", label: "Reg. de Identidad" },
-      { href: "/autoridades/samuel-espinoza-rubio", label: "Reg. de Fiscalización" },
-      { href: "/autoridades/flor-de-maria-gutierrez-conde", label: "Reg. de Programas Sociales" },
+      {
+        href: "/autoridades/samuel-espinoza-rubio",
+        label: "Reg. de Fiscalización",
+      },
+      {
+        href: "/autoridades/flor-de-maria-gutierrez-conde",
+        label: "Reg. de Programas Sociales",
+      },
       { href: "/autoridades/jessica-papel-puma", label: "Reg. de Educación" },
     ],
   },
@@ -78,6 +84,22 @@ export const MAIN_NAVIGATION: NavItem[] = [
       {
         href: "/turismo/comunidades-nativas-machiguenga",
         label: "Comunidades Nativas",
+      },
+      {
+        href: "/turismo/pongo-de-mainique",
+        label: "Pongo de Mainique",
+      },
+      {
+        href: "/turismo/aguas-termales-yotonike",
+        label: "Aguas Termales de Yotonike",
+      },
+      {
+        href: "/turismo/rio-yoyato",
+        label: "Río Yoyato",
+      },
+      {
+        href: "/turismo/petroglifos-fango-tinangaroni",
+        label: "Petroglifos de Fango",
       },
     ],
   },
