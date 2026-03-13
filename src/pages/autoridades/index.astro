@@ -100,9 +100,9 @@ const [alcalde, ...regidores] = sorted;
         <h2 id="concejo-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-4">
           Concejo Municipal
         </h2>
-        <ul class="grid gap-px bg-gray-200 sm:grid-cols-2 list-none border border-gray-200" role="list">
+        <ul class="grid gap-5 sm:grid-cols-2 list-none" role="list">
           {regidores.map((a: Authority) => (
-            <li class="bg-white">
+            <li>
               <AuthorityCard authority={a} />
             </li>
           ))}
