@@ -35,14 +35,11 @@ export const MAIN_NAVIGATION: NavItem[] = [
     label: "Autoridades",
     children: [
       { href: "/autoridades", label: "Todas las Autoridades" },
-      { href: "/autoridades/alcalde", label: "Alcalde" },
-      { href: "/autoridades/teniente-alcalde", label: "Teniente Alcalde" },
-      { href: "/autoridades/regidor-obras", label: "Regidor de Obras" },
-      { href: "/autoridades/regidor-educacion", label: "Regidor de Educación" },
-      {
-        href: "/autoridades/regidor-desarrollo-social",
-        label: "Regidor de Desarrollo Social",
-      },
+      { href: "/autoridades/gary-leo-huaman-rodriguez", label: "Alcalde" },
+      { href: "/autoridades/peri-mentiani-yovemi", label: "Reg. de Identidad" },
+      { href: "/autoridades/samuel-espinoza-rubio", label: "Reg. de Fiscalización" },
+      { href: "/autoridades/flor-de-maria-gutierrez-conde", label: "Reg. de Programas Sociales" },
+      { href: "/autoridades/jessica-papel-puma", label: "Reg. de Educación" },
     ],
   },
   {
