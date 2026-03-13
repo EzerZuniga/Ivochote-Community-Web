@@ -27,50 +27,50 @@ function PersonIcon({ className }: { className?: string }) {
 export default function AuthorityCard({ authority, featured = false }: Props) {
   const slug = authority.slug ?? authority.id;
 
-  // Card compartida: layout horizontal tipo directorio
-  const avatarBg = featured
-    ? "bg-gradient-to-br from-primary-800 to-primary-950"
-    : "bg-gradient-to-br from-primary-700 to-primary-900";
+  const headerBg = featured
+    ? "from-amber-500 to-primary-900"
+    : "from-primary-700 to-primary-950";
 
-  const accentColor = featured ? "bg-amber-400" : "bg-primary-600";
+  const tagLabel = featured ? "Alcalde" : authority.position;
+  const tagClass = featured
+    ? "bg-amber-400 text-amber-900"
+    : "bg-white/20 text-white border border-white/30";
 
   return (
-    <article className="group relative flex flex-row gap-0 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
-      {/* Borde izquierdo de acento */}
-      <div className={`absolute inset-y-0 left-0 w-1 ${accentColor}`} aria-hidden="true" />
+    <article className="group flex flex-col bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden h-full">
+      {/* Header rectangular con avatar centrado */}
+      <div className={`relative flex flex-col items-center justify-end bg-gradient-to-b ${headerBg} pt-8 pb-5`}>
+        {/* Tag de cargo */}
+        <span className={`absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 ${tagClass}`}>
+          {tagLabel}
+        </span>
 
-      {/* Avatar */}
-      <div className="flex-shrink-0 flex items-center justify-center pl-6 pr-4 py-6">
-        <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-xl ${avatarBg} flex items-center justify-center shadow-md`}>
-          <PersonIcon className="w-12 h-12 sm:w-14 sm:h-14 text-white/80" />
+        {/* Avatar cuadrado */}
+        <div className="w-20 h-20 bg-white/15 border border-white/25 flex items-center justify-center shadow-inner">
+          <PersonIcon className="w-12 h-12 text-white" />
         </div>
       </div>
 
-      {/* Contenido */}
-      <div className="flex flex-col flex-1 min-w-0 py-5 pr-5">
-        {/* Departamento como título */}
+      {/* Franja de acento */}
+      <div className={`h-1 w-full ${featured ? "bg-amber-400" : "bg-primary-600"}`} aria-hidden="true" />
+
+      {/* Cuerpo */}
+      <div className="flex flex-col flex-1 px-5 pt-4 pb-5">
         {authority.department && (
-          <h3 className="text-sm sm:text-base font-bold text-primary-700 leading-snug">
+          <p className="text-[11px] font-extrabold uppercase tracking-widest text-primary-600 mb-1">
             {authority.department}
-          </h3>
+          </p>
         )}
-
-        {/* Línea divisora de color */}
-        <div className={`mt-2 mb-3 h-0.5 w-12 rounded-full ${accentColor}`} aria-hidden="true" />
-
-        {/* Nombre */}
-        <p className="text-[15px] sm:text-base font-bold text-gray-900 leading-snug">
+        <h3 className="text-base font-bold text-gray-900 leading-snug">
           {authority.name}
-        </p>
-
-        {/* Cargo */}
-        <p className="mt-0.5 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-          {featured ? "Alcalde Municipal" : authority.position}
-        </p>
-
-        {/* Contacto */}
+        </h3>
+        {authority.bio && (
+          <p className="mt-2 text-sm text-gray-500 leading-relaxed line-clamp-3">
+            {authority.bio}
+          </p>
+        )}
         {(authority.email || authority.phone) && (
-          <div className="mt-3 space-y-1">
+          <div className="mt-3 space-y-1.5">
             {authority.email && (
               <div className="flex items-center gap-2 text-xs text-gray-500">
                 <svg className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -89,11 +89,9 @@ export default function AuthorityCard({ authority, featured = false }: Props) {
             )}
           </div>
         )}
-
-        {/* Ver perfil */}
         <a
           href={`/autoridades/${slug}`}
-          className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-primary-600 hover:text-primary-800 transition-colors"
+          className="mt-auto pt-4 inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary-700 hover:text-primary-500 transition-colors"
         >
           Ver perfil
           <svg

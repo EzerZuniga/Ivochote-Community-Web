@@ -84,23 +84,25 @@ const [alcalde, ...regidores] = sorted;
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
     <!-- Alcalde destacado -->
     {alcalde && (
-      <section class="mb-12" aria-labelledby="alcalde-heading">
-        <h2 id="alcalde-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-5">
+      <section class="mb-10" aria-labelledby="alcalde-heading">
+        <h2 id="alcalde-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-4">
           Alcalde
         </h2>
-        <AuthorityCard authority={alcalde} featured={true} />
+        <div class="max-w-sm">
+          <AuthorityCard authority={alcalde} featured={true} />
+        </div>
       </section>
     )}
 
     <!-- Concejo Municipal -->
     {regidores.length > 0 && (
       <section aria-labelledby="concejo-heading">
-        <h2 id="concejo-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-5">
+        <h2 id="concejo-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-4">
           Concejo Municipal
         </h2>
-        <ul class="grid gap-4 list-none" role="list">
+        <ul class="grid gap-px bg-gray-200 sm:grid-cols-2 list-none border border-gray-200" role="list">
           {regidores.map((a: Authority) => (
-            <li>
+            <li class="bg-white">
               <AuthorityCard authority={a} />
             </li>
           ))}
