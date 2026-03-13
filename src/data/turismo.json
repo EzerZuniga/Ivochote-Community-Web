@@ -1,64 +1,90 @@
 [
   {
     "id": "t-001",
-    "name": "Río Urubamba - Sector Ivochote",
+    "name": "Río Urubamba – Sector Ivochote",
     "slug": "rio-urubamba-ivochote",
-    "description": "El majestuoso río Urubamba atraviesa el centro poblado de Ivochote, ofreciendo paisajes espectaculares de la selva alta cusqueña y oportunidades para la observación de flora y fauna amazónica.",
-    "fullDescription": "El río Urubamba en el sector de Ivochote es uno de los atractivos naturales más importantes de la zona. Sus aguas cristalinas discurren entre exuberante vegetación tropical, creando un escenario ideal para el ecoturismo. La zona es hábitat de diversas especies de aves, mariposas y peces, lo que la convierte en un destino perfecto para los amantes de la naturaleza.",
-    "location": "Centro Poblado de Ivochote, Echarati",
+    "description": "El majestuoso río Urubamba atraviesa el centro poblado de Ivochote ofreciendo paisajes únicos de la selva alta y oportunidades de ecoturismo, pesca y observación de fauna amazónica.",
+    "fullDescription": "El río Urubamba en el sector de Ivochote es uno de los atractivos naturales más importantes de la provincia de La Convención. Sus aguas rápidas y cristalinas discurren entre exuberante vegetación tropical, formando playas de arena fina aptas para el descanso y el baño. La zona es hábitat de garzas, martines pescadores, nutrias de río y decenas de especies de peces nativos. Desde sus orillas se aprecian magníficos amaneceres con niebla matinal sobre el cañón del Urubamba.",
+    "location": "Centro Poblado de Ivochote, Echarati, La Convención, Cusco",
     "coordinates": { "lat": -12.6833, "lng": -72.6167 },
     "category": "naturaleza",
+    "icon": "river",
+    "difficulty": "baja",
+    "duration": "Medio día a día completo",
+    "bestSeason": ["mayo", "junio", "julio", "agosto", "septiembre"],
+    "tips": "Lleva protector solar y repelente. Mejor visitar en temporada seca (mayo–septiembre). El acceso es a pie desde el centro del poblado.",
     "images": ["/assets/images/turismo/rio-urubamba.jpg"],
     "featured": true,
-    "tags": ["río", "naturaleza", "selva", "ecoturismo"]
+    "order": 1,
+    "tags": ["río", "naturaleza", "selva", "ecoturismo", "pesca"],
+    "contact": {
+      "phone": "+51 984 000 000"
+    }
   },
   {
     "id": "t-002",
     "name": "Bosques Tropicales de La Convención",
     "slug": "bosques-tropicales-convencion",
-    "description": "Los bosques tropicales que rodean Ivochote albergan una biodiversidad extraordinaria, con especies endémicas de flora y fauna de la ceja de selva cusqueña.",
-    "fullDescription": "La zona de Ivochote se ubica en la ceja de selva del departamento de Cusco, una región de transición entre los Andes y la Amazonía. Los bosques tropicales circundantes son hogar de orquídeas, helechos gigantes, monos, tucanes y una infinidad de especies de mariposas. Se pueden realizar caminatas guiadas por senderos naturales.",
+    "description": "Bosques de transición entre los Andes y la Amazonía, hogar de orquídeas, helechos gigantes, monos y tucanes. Senderos guiados para todas las edades.",
+    "fullDescription": "La zona de Ivochote se ubica en la ceja de selva del departamento de Cusco, una región ecológica de alta biodiversidad situada entre los 800 y 2 000 m s. n. m. Los bosques tropicales circundantes son hogar de más de 300 especies de orquídeas, helechos arborescentes, bromelias y epífitas. La fauna incluye monos tocón, tucanes de montaña, ranas de cristal y mariposas morfó. Los senderos interpretativos reconocen la flora medicinal que utilizan las comunidades nativas del entorno.",
     "location": "Alrededores de Ivochote, Echarati",
     "coordinates": { "lat": -12.69, "lng": -72.62 },
     "category": "naturaleza",
+    "icon": "forest",
     "difficulty": "media",
-    "duration": "3-5 horas",
+    "duration": "3–5 horas",
     "bestSeason": ["mayo", "junio", "julio", "agosto", "septiembre"],
+    "tips": "Se recomienda contratar un guía local. Llevar botas de trekking, impermeable y agua. Salida recomendada: 7:00 am.",
     "images": ["/assets/images/turismo/bosques-tropicales.jpg"],
     "featured": true,
-    "tags": ["bosque", "biodiversidad", "trekking", "naturaleza"]
+    "order": 2,
+    "tags": ["bosque", "biodiversidad", "trekking", "orquídeas"],
+    "contact": {
+      "phone": "+51 984 000 000"
+    }
   },
   {
     "id": "t-003",
     "name": "Plantaciones de Café y Cacao",
     "slug": "plantaciones-cafe-cacao",
-    "description": "Ivochote es una zona productora de café y cacao de alta calidad. Visita las chacras locales y conoce el proceso artesanal de producción.",
-    "fullDescription": "La provincia de La Convención es reconocida internacionalmente por la calidad de su café y cacao. En Ivochote, los agricultores locales mantienen tradiciones de cultivo orgánico que se pueden conocer de primera mano. Los visitantes pueden recorrer las plantaciones, participar en la cosecha y degustar café y chocolate artesanal directamente en las fincas.",
+    "description": "Visita las chacras locales y vive el proceso completo del café y cacao orgánico: siembra, cosecha, fermentación y degustación artesanal en La Convención.",
+    "fullDescription": "La provincia de La Convención es reconocida internacionalmente por la calidad excepcional de su café de especialidad y cacao fino de aroma. En Ivochote, los agricultores locales mantienen métodos de cultivo orgánico bajo sombra que preservan el ecosistema. Los visitantes pueden recorrer las plantaciones, aprender sobre el beneficio del café (despulpado, fermentado, secado) y participar en catas de café recién tostado y elaboración de chocolate artesanal. Una experiencia sensorial y cultural única.",
     "location": "Chacras de Ivochote, Echarati",
     "coordinates": { "lat": -12.68, "lng": -72.61 },
     "category": "gastronomia",
+    "icon": "coffee",
     "difficulty": "baja",
-    "duration": "2-3 horas",
+    "duration": "2–3 horas",
+    "bestSeason": ["abril", "mayo", "junio", "julio"],
+    "tips": "La cosecha del café es de abril a junio. Se recomienda reservar con anticipación para visitas grupales. Incluye degustación gratuita.",
     "images": ["/assets/images/turismo/cafe-cacao.jpg"],
     "featured": true,
-    "tags": ["café", "cacao", "agroturismo", "gastronomía"]
+    "order": 3,
+    "tags": ["café", "cacao", "agroturismo", "gastronomía", "orgánico"],
+    "contact": {
+      "phone": "+51 984 000 000"
+    }
   },
   {
     "id": "t-004",
-    "name": "Comunidades Nativas Machiguenga",
+    "name": "Comunidades Nativas Matsigenka",
     "slug": "comunidades-nativas-machiguenga",
-    "description": "Conoce la cultura viva del pueblo Machiguenga (Matsigenka), comunidades originarias que habitan ancestralmente el valle del Urubamba.",
-    "fullDescription": "En las cercanías de Ivochote se encuentran comunidades nativas del pueblo Machiguenga (Matsigenka), quienes conservan sus tradiciones culturales, artesanía textil, gastronomía tradicional y conocimientos ancestrales sobre la selva. El turismo vivencial permite a los visitantes compartir experiencias con las familias comuneras de manera respetuosa y sostenible.",
-    "location": "Comunidades aledañas a Ivochote",
+    "description": "Conoce la cultura viva del pueblo Matsigenka (Machiguenga), comunidades originarias que conservan su lengua, artesanías y saberes ancestrales del Urubamba.",
+    "fullDescription": "En las cercanías de Ivochote se encuentran comunidades nativas del pueblo Matsigenka, quienes conservan su idioma, vestimenta tradicional, artesanía textil de algodón nativo, gastronomía basada en productos del bosque y conocimientos medicinales milenarios. El turismo vivencial permite compartir actividades cotidianas como la elaboración de masato, la pesca con trampas tradicionales y la confección de tejidos. Un encuentro respetuoso y enriquecedor con una de las culturas más antiguas del Perú.",
+    "location": "Comunidades aledañas a Ivochote, Echarati",
     "coordinates": { "lat": -12.7, "lng": -72.63 },
     "category": "cultura",
+    "icon": "community",
     "difficulty": "baja",
+    "duration": "Día completo",
+    "bestSeason": ["todo el año"],
+    "tips": "Visita coordinada previamente con representantes de la comunidad. Llevar regalos simbólicos como útiles escolares o semillas. Fotografiar con permiso.",
     "images": ["/assets/images/turismo/comunidades-nativas.jpg"],
-    "tags": [
-      "cultura",
-      "comunidades nativas",
-      "machiguenga",
-      "turismo vivencial"
-    ]
+    "featured": false,
+    "order": 4,
+    "tags": ["cultura", "comunidades nativas", "matsigenka", "turismo vivencial"],
+    "contact": {
+      "phone": "+51 984 000 000"
+    }
   }
 ]

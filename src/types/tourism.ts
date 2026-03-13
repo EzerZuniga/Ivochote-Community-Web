@@ -21,11 +21,14 @@ export interface TourismPlace {
   location?: string;
   coordinates: Coordinates;
   category: TourismCategory;
+  icon?: string;
   difficulty?: Difficulty;
   duration?: string;
   bestSeason?: string[];
+  tips?: string;
   images?: string[];
   featured?: boolean;
+  order?: number;
   rating?: number;
   tags?: string[];
   contact?: ContactInfo;
