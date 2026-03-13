@@ -17,7 +17,7 @@ const [alcalde, ...regidores] = sorted;
 >
   <!-- Hero -->
   <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white overflow-hidden">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-14 sm:pb-16">
       <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
         <a href="/" class="hover:text-white transition-colors">Inicio</a>
         <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -26,9 +26,9 @@ const [alcalde, ...regidores] = sorted;
         <span aria-current="page" class="text-white/80 font-medium">Autoridades</span>
       </nav>
 
-      <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-stretch">
         <!-- Texto -->
-        <div class="flex-1 min-w-0">
+        <div class="flex flex-col justify-center">
           <div class="flex items-center gap-3 mb-5">
             <div class="flex-shrink-0 bg-white/10 rounded-xl p-3" aria-hidden="true">
               <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,46 +41,40 @@ const [alcalde, ...regidores] = sorted;
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
             Autoridades<br class="hidden sm:block"/> Municipales
           </h1>
-          <p class="mt-4 text-white/60 text-sm sm:text-base leading-relaxed max-w-md">
+          <p class="mt-4 text-white/60 text-sm sm:text-base leading-relaxed">
             Representantes electos del Centro Poblado de Ivochote, Echarati, La Convención, Cusco. Comprometidos con el desarrollo y bienestar de la comunidad.
           </p>
 
-          <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm border-t border-white/10 pt-6">
+          <div class="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
             <div>
-              <p class="text-white/40 text-[11px] uppercase tracking-wider font-semibold">Período</p>
-              <p class="text-white font-bold">2023 – 2026</p>
+              <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Período</p>
+              <p class="text-white font-bold text-sm">2023 – 2026</p>
             </div>
-            <div class="hidden sm:block w-px h-8 bg-white/15" aria-hidden="true"></div>
             <div>
-              <p class="text-white/40 text-[11px] uppercase tracking-wider font-semibold">Autoridades electas</p>
-              <p class="text-white font-bold">{sorted.length} representantes</p>
+              <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Electos</p>
+              <p class="text-white font-bold text-sm">{sorted.length} repr.</p>
             </div>
-            <div class="hidden sm:block w-px h-8 bg-white/15" aria-hidden="true"></div>
             <div>
-              <p class="text-white/40 text-[11px] uppercase tracking-wider font-semibold">Distrito</p>
-              <p class="text-white font-bold">Echarati, Cusco</p>
+              <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Distrito</p>
+              <p class="text-white font-bold text-sm">Echarati</p>
             </div>
           </div>
         </div>
 
         <!-- Imagen -->
-        <div class="flex-shrink-0 w-full max-w-xs lg:max-w-sm xl:max-w-md">
-          <div class="relative">
-            <!-- Marco decorativo desplazado -->
-            <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl bg-white/5 border border-white/10" aria-hidden="true"></div>
-            <img
-              src="/assets/images/autoridades/autoridad.png"
-              alt="Autoridades del Centro Poblado de Ivochote"
-              class="relative w-full rounded-2xl shadow-2xl object-cover aspect-[4/3] border border-white/20"
-              loading="eager"
-              decoding="async"
-              width="480"
-              height="360"
-            />
-            <!-- Badge flotante -->
-            <div class="absolute -bottom-4 left-4 bg-amber-400 text-amber-900 text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">
-              Concejo 2023–2026
-            </div>
+        <div class="relative mt-2 lg:mt-0">
+          <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl bg-white/5 border border-white/10" aria-hidden="true"></div>
+          <img
+            src="/assets/images/autoridades/autoridad.png"
+            alt="Autoridades electas del Centro Poblado de Ivochote — Concejo Municipal 2023-2026"
+            class="relative w-full h-full object-cover rounded-2xl shadow-2xl border border-white/20 min-h-[220px] max-h-[420px] lg:max-h-none"
+            loading="eager"
+            decoding="async"
+            width="560"
+            height="420"
+          />
+          <div class="absolute -bottom-4 left-4 bg-amber-400 text-amber-900 text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg select-none">
+            Concejo 2023–2026
           </div>
         </div>
       </div>
