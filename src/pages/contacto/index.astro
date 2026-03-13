@@ -61,16 +61,27 @@ import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
 
       <section>
         <h2 class="text-xl font-semibold mb-4">Envíanos un mensaje</h2>
-        <form class="bg-white p-6 rounded-lg shadow-sm border border-primary-100" method="post" action={`mailto:${SITE_CONFIG.email}`} enctype="text/plain">
+        <form
+          class="bg-white p-6 rounded-lg shadow-sm border border-primary-100"
+          name="contacto"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          action="/contacto/?enviado=true"
+        >
+          <input type="hidden" name="form-name" value="contacto" />
+          <p class="hidden" aria-hidden="true">
+            <label>No completar: <input name="bot-field" /></label>
+          </p>
           <div class="grid grid-cols-1 gap-4">
             <label class="flex flex-col">
               <span class="text-sm font-medium">Nombre completo</span>
-              <input name="nombre" type="text" required class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
+              <input name="nombre" type="text" required autocomplete="name" class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
             </label>
 
             <label class="flex flex-col">
               <span class="text-sm font-medium">Correo electrónico</span>
-              <input name="correo" type="email" required class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
+              <input name="correo" type="email" required autocomplete="email" class="mt-1 block w-full rounded border border-primary-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-300" />
             </label>
 
             <label class="flex flex-col">
@@ -84,8 +95,8 @@ import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
             </label>
 
             <div class="flex items-center justify-end gap-3">
-              <button type="reset" class="px-4 py-2 rounded bg-primary-100 text-primary-900 hover:bg-primary-200">Limpiar</button>
-              <button type="submit" class="px-4 py-2 rounded bg-primary-900 text-white hover:bg-primary-800">Enviar mensaje</button>
+              <button type="reset" class="px-4 py-2 rounded bg-primary-100 text-primary-900 hover:bg-primary-200 transition-colors">Limpiar</button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary-900 text-white hover:bg-primary-800 transition-colors">Enviar mensaje</button>
             </div>
           </div>
         </form>

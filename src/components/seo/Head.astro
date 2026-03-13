@@ -62,14 +62,14 @@ const ogImage = image
   : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
 }
 
-<!-- DNS Prefetch para recursos externos -->
+<!-- DNS Prefetch / Preconnect para recursos externos -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
 <!-- Google Fonts: Inter (tipografía institucional) -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
 <!-- Favicon -->
 <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -132,13 +132,3 @@ const ogImage = image
 
 <!-- Web Manifest -->
 <link rel="manifest" href="/manifest.json" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-  media="print"
-  onload="this.media='all'"
-/>
-<noscript>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
-</noscript>

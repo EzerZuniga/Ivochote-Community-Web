@@ -145,16 +145,20 @@ const webPageLd = {
   '@type': pageType,
   '@id': `${canonicalUrl}#webpage`,
   url: canonicalUrl,
-  name: SITE_CONFIG.title,
+  name: breadcrumbs && breadcrumbs.length > 0
+    ? breadcrumbs[breadcrumbs.length - 1].name
+    : SITE_CONFIG.title,
   isPartOf: { '@id': `${SITE_CONFIG.baseUrl}/#website` },
   about: { '@id': `${SITE_CONFIG.baseUrl}/#organization` },
   inLanguage: 'es-PE',
+  breadcrumb: breadcrumbs && breadcrumbs.length > 0 ? { '@id': `${canonicalUrl}#breadcrumb` } : undefined,
 };
 
 const breadcrumbLd = breadcrumbs && breadcrumbs.length > 0
   ? {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
+      '@id': `${canonicalUrl}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE_CONFIG.baseUrl },
         ...breadcrumbs.map((b, i) => ({

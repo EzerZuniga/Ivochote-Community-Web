@@ -12,6 +12,7 @@ export default defineConfig({
       i18n: { defaultLocale: "es", locales: { es: "es-PE" } },
       changefreq: "weekly",
       priority: 0.7,
+      lastmod: new Date(),
       filter: (page) => !page.includes("/404"),
       serialize: (item) => {
         // Prioridades específicas por sección

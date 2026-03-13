@@ -9,12 +9,12 @@ import eventos from '../../data/events.json';
 const navItems = MAIN_NAVIGATION;
 const siteTitle = SITE_CONFIG.title ?? 'Ivochote';
 
-type SearchItem = { title: string; description: string; href: string; category: string; };
+interface SearchItem { title: string; description: string; href: string; category: string; }
 const searchIndex: SearchItem[] = [
-  ...(noticias as any[]).map((n) => ({ title: n.title, description: n.excerpt ?? '', href: `/noticias/${n.slug}`, category: 'Noticias' })),
-  ...(servicios as any[]).map((s) => ({ title: s.title, description: s.description ?? '', href: `/servicios/${s.slug}`, category: 'Servicios' })),
-  ...(turismo as any[]).map((t) => ({ title: t.name, description: t.description ?? '', href: `/turismo/${t.slug}`, category: 'Turismo' })),
-  ...(eventos as any[]).map((e) => ({ title: e.title, description: e.description ?? '', href: `/eventos/${e.slug}`, category: 'Eventos' })),
+  ...(noticias as { title: string; excerpt?: string; slug: string }[]).map((n) => ({ title: n.title, description: n.excerpt ?? '', href: `/noticias/${n.slug}`, category: 'Noticias' })),
+  ...(servicios as { title: string; description?: string; slug: string; id: string }[]).map((s) => ({ title: s.title, description: s.description ?? '', href: `/servicios/${s.slug ?? s.id}`, category: 'Servicios' })),
+  ...(turismo as { name: string; description?: string; slug: string }[]).map((t) => ({ title: t.name, description: t.description ?? '', href: `/turismo/${t.slug}`, category: 'Turismo' })),
+  ...(eventos as { title: string; description?: string; slug?: string; id: string }[]).map((e) => ({ title: e.title, description: e.description ?? '', href: `/eventos/${e.slug ?? e.id}`, category: 'Eventos' })),
 ];
 ---
 
