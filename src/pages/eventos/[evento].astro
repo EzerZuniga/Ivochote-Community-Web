@@ -39,6 +39,16 @@ const statusColors: Record<string, string> = {
     { name: 'Eventos', href: '/eventos' },
     { name: item.title, href: `/eventos/${evento}` },
   ]}
+  event={{
+    name: item.title,
+    description: item.description,
+    startDate: item.date,
+    endDate: item.endDate,
+    image: item.image,
+    locationName: typeof item.location === 'string' ? item.location : item.location?.name,
+    locationAddress: typeof item.location !== 'string' ? item.location?.address : undefined,
+    status: item.status,
+  }}
 >
   <div class="max-w-4xl mx-auto px-4 py-10">
     <nav class="text-sm text-primary-900/50 mb-6" aria-label="Breadcrumb">

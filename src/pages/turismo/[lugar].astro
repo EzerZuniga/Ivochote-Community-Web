@@ -22,6 +22,15 @@ if (!item) {
     { name: 'Turismo', href: '/turismo' },
     { name: item.name, href: `/turismo/${lugar}` },
   ]}
+  place={{
+    name: item.name,
+    description: item.fullDescription ?? item.description,
+    image: item.images?.[0],
+    latitude: item.coordinates?.lat,
+    longitude: item.coordinates?.lng,
+    location: item.location,
+    category: item.category,
+  }}
 >
   <div class="max-w-4xl mx-auto px-4 py-10">
     <nav class="text-sm text-primary-900/50 mb-6" aria-label="Breadcrumb">

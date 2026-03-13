@@ -1,7 +1,8 @@
 ---
 /**
  * Genera JSON-LD de Schema.org para SEO estructurado.
- * Inyecta GovernmentOrganization + WebSite + WebPage + BreadcrumbList + NewsArticle.
+ * Inyecta GovernmentOrganization + WebSite + WebPage + BreadcrumbList
+ * + NewsArticle | Event | TouristAttraction | GovernmentService | Person
  */
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config';
 
@@ -12,6 +13,8 @@ interface BreadcrumbItem {
 
 interface Props {
   breadcrumbs?: BreadcrumbItem[];
+  /** Tipo de página para WebPage schema */
+  pageType?: 'WebPage' | 'ContactPage' | 'AboutPage' | 'CollectionPage';
   /** Para páginas de artículo/noticia */
   article?: {
     title: string;
@@ -21,11 +24,46 @@ interface Props {
     dateModified?: string;
     author?: string;
   };
-  /** Tipo de página para WebPage schema */
-  pageType?: 'WebPage' | 'ContactPage' | 'AboutPage' | 'CollectionPage';
+  /** Para páginas de evento */
+  event?: {
+    name: string;
+    description?: string;
+    startDate?: string;
+    endDate?: string;
+    image?: string;
+    locationName?: string;
+    locationAddress?: string;
+    status?: 'upcoming' | 'ongoing' | 'past' | 'cancelled';
+  };
+  /** Para páginas de lugar turístico */
+  place?: {
+    name: string;
+    description?: string;
+    image?: string;
+    latitude?: number;
+    longitude?: number;
+    location?: string;
+    category?: string;
+  };
+  /** Para páginas de servicio municipal */
+  service?: {
+    name: string;
+    description?: string;
+    category?: string;
+    phone?: string;
+    email?: string;
+  };
+  /** Para páginas de autoridad/persona */
+  person?: {
+    name: string;
+    jobTitle?: string;
+    image?: string;
+    email?: string;
+    phone?: string;
+  };
 }
 
-const { breadcrumbs, article, pageType = 'WebPage' } = Astro.props;
+const { breadcrumbs, article, event, place, service, person, pageType = 'WebPage' } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, SITE_CONFIG.baseUrl).toString();
 
@@ -153,6 +191,144 @@ const articleLd = article
       },
     }
   : null;
+
+// Mapeo de estado de evento a Schema.org EventStatusType
+const eventStatusMap: Record<string, string> = {
+  upcoming: 'EventScheduled',
+  ongoing: 'EventScheduled',
+  past: 'EventScheduled',
+  cancelled: 'EventCancelled',
+};
+
+const eventLd = event
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: event.name,
+      description: event.description,
+      startDate: event.startDate,
+      endDate: event.endDate ?? event.startDate,
+      eventStatus: event.status ? `https://schema.org/${eventStatusMap[event.status] ?? 'EventScheduled'}` : 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: event.locationName ?? 'Centro Poblado de Ivochote',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: event.locationAddress ?? event.locationName ?? 'Plaza Principal s/n',
+          addressLocality: 'Ivochote, Echarati',
+          addressRegion: 'Cusco',
+          addressCountry: 'PE',
+        },
+      },
+      image: event.image
+        ? (event.image.startsWith('http') ? event.image : `${SITE_CONFIG.baseUrl}${event.image}`)
+        : `${SITE_CONFIG.baseUrl}${SITE_CONFIG.ogImage}`,
+      organizer: {
+        '@type': 'GovernmentOrganization',
+        name: SITE_CONFIG.title,
+        url: SITE_CONFIG.baseUrl,
+      },
+      url: canonicalUrl,
+      inLanguage: 'es-PE',
+    }
+  : null;
+
+const placeLd = place
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'TouristAttraction',
+      name: place.name,
+      description: place.description,
+      image: place.image
+        ? (place.image.startsWith('http') ? place.image : `${SITE_CONFIG.baseUrl}${place.image}`)
+        : undefined,
+      url: canonicalUrl,
+      inLanguage: 'es-PE',
+      geo: place.latitude && place.longitude
+        ? {
+            '@type': 'GeoCoordinates',
+            latitude: place.latitude,
+            longitude: place.longitude,
+          }
+        : {
+            '@type': 'GeoCoordinates',
+            latitude: SITE_CONFIG.coordinates.lat,
+            longitude: SITE_CONFIG.coordinates.lng,
+          },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: place.location ?? 'Centro Poblado de Ivochote',
+        addressLocality: 'Echarati',
+        addressRegion: 'Cusco',
+        addressCountry: 'PE',
+      },
+      touristType: place.category ?? 'naturaleza',
+      isAccessibleForFree: true,
+      publicAccess: true,
+      containedInPlace: {
+        '@type': 'AdministrativeArea',
+        name: 'Centro Poblado de Ivochote, Echarati, La Convención, Cusco, Perú',
+      },
+    }
+  : null;
+
+const serviceLd = service
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'GovernmentService',
+      name: service.name,
+      description: service.description,
+      serviceType: service.category ?? 'Servicio Municipal',
+      url: canonicalUrl,
+      provider: {
+        '@type': 'GovernmentOrganization',
+        name: SITE_CONFIG.title,
+        url: SITE_CONFIG.baseUrl,
+      },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: 'Centro Poblado de Ivochote, Echarati, La Convención, Cusco, Perú',
+      },
+      availableChannel: {
+        '@type': 'ServiceChannel',
+        serviceLocation: {
+          '@type': 'GovernmentOffice',
+          name: SITE_CONFIG.shortTitle,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Plaza Principal s/n',
+            addressLocality: 'Ivochote, Echarati',
+            addressRegion: 'Cusco',
+            addressCountry: 'PE',
+          },
+          telephone: service.phone ?? SITE_CONFIG.phone,
+          email: service.email ?? SITE_CONFIG.email,
+        },
+      },
+      inLanguage: 'es-PE',
+    }
+  : null;
+
+const personLd = person
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: person.name,
+      jobTitle: person.jobTitle,
+      image: person.image
+        ? (person.image.startsWith('http') ? person.image : `${SITE_CONFIG.baseUrl}${person.image}`)
+        : undefined,
+      email: person.email,
+      telephone: person.phone,
+      url: canonicalUrl,
+      worksFor: {
+        '@type': 'GovernmentOrganization',
+        name: SITE_CONFIG.title,
+        url: SITE_CONFIG.baseUrl,
+      },
+    }
+  : null;
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
@@ -160,3 +336,7 @@ const articleLd = article
 <script type="application/ld+json" set:html={JSON.stringify(webPageLd)} />
 {breadcrumbLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />}
 {articleLd && <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />}
+{eventLd && <script type="application/ld+json" set:html={JSON.stringify(eventLd)} />}
+{placeLd && <script type="application/ld+json" set:html={JSON.stringify(placeLd)} />}
+{serviceLd && <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />}
+{personLd && <script type="application/ld+json" set:html={JSON.stringify(personLd)} />}

@@ -22,6 +22,13 @@ if (!item) {
     { name: 'Servicios', href: '/servicios' },
     { name: item.title, href: `/servicios/${servicio}` },
   ]}
+  service={{
+    name: item.title,
+    description: item.description,
+    category: item.category,
+    phone: item.contact?.phone,
+    email: item.contact?.email,
+  }}
 >
   <div class="max-w-4xl mx-auto px-4 py-10">
     <nav class="text-sm text-primary-900/50 mb-6" aria-label="Breadcrumb">

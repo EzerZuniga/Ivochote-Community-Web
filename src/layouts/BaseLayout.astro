@@ -31,6 +31,39 @@ interface Props {
     author?: string;
   };
   pageType?: 'WebPage' | 'ContactPage' | 'AboutPage' | 'CollectionPage';
+  event?: {
+    name: string;
+    description?: string;
+    startDate?: string;
+    endDate?: string;
+    image?: string;
+    locationName?: string;
+    locationAddress?: string;
+    status?: 'upcoming' | 'ongoing' | 'past' | 'cancelled';
+  };
+  place?: {
+    name: string;
+    description?: string;
+    image?: string;
+    latitude?: number;
+    longitude?: number;
+    location?: string;
+    category?: string;
+  };
+  service?: {
+    name: string;
+    description?: string;
+    category?: string;
+    phone?: string;
+    email?: string;
+  };
+  person?: {
+    name: string;
+    jobTitle?: string;
+    image?: string;
+    email?: string;
+    phone?: string;
+  };
 }
 
 const {
@@ -46,6 +79,10 @@ const {
   breadcrumbs,
   article,
   pageType,
+  event,
+  place,
+  service,
+  person,
 } = Astro.props as Props;
 ---
 
@@ -62,7 +99,15 @@ const {
       publishedTime={publishedTime}
       author={author}
     />
-    <JsonLd breadcrumbs={breadcrumbs} article={article} pageType={pageType} />
+    <JsonLd
+      breadcrumbs={breadcrumbs}
+      article={article}
+      pageType={pageType}
+      event={event}
+      place={place}
+      service={service}
+      person={person}
+    />
   </head>
 
   <body class="min-h-screen flex flex-col bg-white text-primary-900">
