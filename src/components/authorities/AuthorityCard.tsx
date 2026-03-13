@@ -55,17 +55,23 @@ export default function AuthorityCard({ authority, featured = false }: Props) {
         </div>
         {/* Info */}
         <div className="flex-1 min-w-0 pt-2 sm:pt-0">
-          <span className={`inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-2 ${badgeClass}`}>
+          <span
+            className={`inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-2 ${badgeClass}`}
+          >
             {authority.position}
           </span>
           <h3 className="text-2xl sm:text-3xl font-extrabold text-primary-900 leading-tight">
             {authority.name}
           </h3>
           {authority.department && (
-            <p className="mt-1 text-sm font-medium text-primary-900/50">{authority.department}</p>
+            <p className="mt-1 text-sm font-medium text-primary-900/50">
+              {authority.department}
+            </p>
           )}
           {authority.bio && (
-            <p className="mt-3 text-sm sm:text-base text-primary-900/70 leading-relaxed">{authority.bio}</p>
+            <p className="mt-3 text-sm sm:text-base text-primary-900/70 leading-relaxed">
+              {authority.bio}
+            </p>
           )}
           <a
             href={`/autoridades/${slug}`}
@@ -78,7 +84,12 @@ export default function AuthorityCard({ authority, featured = false }: Props) {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2.5"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
             </svg>
           </a>
         </div>
@@ -87,26 +98,37 @@ export default function AuthorityCard({ authority, featured = false }: Props) {
   }
 
   return (
-    <article className="group flex flex-col bg-white rounded-xl border border-primary-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden h-full">
-      {/* Avatar header */}
-      <div className="flex justify-center items-end pt-7 pb-3 bg-gradient-to-b from-primary-50 to-white">
-        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center shadow-sm">
-          <PersonIcon className="w-12 h-12 text-primary-600" />
-        </div>
-      </div>
-      {/* Content */}
-      <div className="flex flex-col flex-1 px-5 pb-6">
-        <span className={`self-center text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-2.5 ${badgeClass}`}>
+    <article className="group flex flex-col bg-white rounded-2xl border border-primary-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full">
+      {/* Header con gradiente oscuro */}
+      <div className="relative flex flex-col items-center pt-8 pb-6 bg-gradient-to-br from-primary-800 to-primary-950">
+        {/* Badge cargo */}
+        <span className={`absolute top-3 right-3 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full ${
+          authority.position === 'Regidora'
+            ? 'bg-amber-400 text-amber-900'
+            : 'bg-white/20 text-white border border-white/30'
+        }`}>
           {authority.position}
         </span>
-        <h3 className="text-center text-[15px] font-bold text-primary-900 leading-snug">
+        {/* Avatar */}
+        <div className="w-20 h-20 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center shadow-md backdrop-blur-sm">
+          <PersonIcon className="w-12 h-12 text-white" />
+        </div>
+      </div>
+
+      {/* Cuerpo */}
+      <div className="flex flex-col flex-1 px-5 pt-4 pb-5">
+        <h3 className="text-[15px] font-extrabold text-primary-900 leading-snug">
           {authority.name}
         </h3>
         {authority.department && (
-          <p className="mt-1 text-center text-xs font-medium text-primary-900/50">{authority.department}</p>
+          <p className="mt-1 text-xs font-semibold text-primary-600">
+            {authority.department}
+          </p>
         )}
         {authority.bio && (
-          <p className="mt-3 text-sm text-primary-900/65 leading-relaxed line-clamp-3">{authority.bio}</p>
+          <p className="mt-3 text-sm text-primary-900/70 leading-relaxed line-clamp-3">
+            {authority.bio}
+          </p>
         )}
         <a
           href={`/autoridades/${slug}`}
@@ -119,7 +141,12 @@ export default function AuthorityCard({ authority, featured = false }: Props) {
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2.5"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
           </svg>
         </a>
       </div>
