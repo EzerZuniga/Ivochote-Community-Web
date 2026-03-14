@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { fetchEvents, fetchEventBySlug } from '../../services/eventsService';
-import { formatDate } from '../../utils/formatters';
 import type { EventItem } from '../../types/events';
 
 export async function getStaticPaths() {
@@ -15,20 +14,45 @@ if (!item) {
   throw new Error('Evento no encontrado');
 }
 
-const locationText = typeof item.location === 'string' ? item.location : item.location?.name ?? '';
-const eventDate = item.date ? formatDate(item.date) : undefined;
-const statusLabels: Record<string, string> = {
-  upcoming: 'Próximamente',
-  ongoing: 'En curso',
-  past: 'Finalizado',
-  cancelled: 'Cancelado',
+const locationText = typeof item.location === 'string'
+  ? item.location
+  : (item.location?.name ?? item.location?.address ?? '');
+
+const MONTHS_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MONTHS_SHORT = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+
+const eventDate    = item.date    ? new Date(item.date    + 'T12:00:00') : null;
+const eventEndDate = item.endDate ? new Date(item.endDate + 'T12:00:00') : null;
+
+const formatLong = (d: Date) =>
+  `${d.getDate()} de ${MONTHS_ES[d.getMonth()]} de ${d.getFullYear()}`;
+
+const HERO_GRADIENT: Record<string, string> = {
+  institucional: 'from-primary-800 to-primary-950',
+  'econ\u00f3mico':  'from-amber-800 to-primary-950',
+  cultural:      'from-rose-800 to-primary-950',
+  ambiental:     'from-emerald-800 to-primary-950',
+  deportivo:     'from-blue-800 to-primary-950',
 };
-const statusColors: Record<string, string> = {
-  upcoming: 'bg-blue-100 text-blue-800',
-  ongoing: 'bg-green-100 text-green-800',
-  past: 'bg-gray-100 text-gray-600',
-  cancelled: 'bg-red-100 text-red-800',
+
+const CATEGORY_ACCENT: Record<string, string> = {
+  institucional: 'bg-primary-600',
+  'econ\u00f3mico':  'bg-amber-500',
+  cultural:      'bg-rose-500',
+  ambiental:     'bg-emerald-600',
+  deportivo:     'bg-blue-600',
 };
+
+const STATUS_STYLE: Record<string, { label: string; cls: string }> = {
+  upcoming:  { label: 'Pr\u00f3ximamente', cls: 'bg-blue-100 text-blue-800'    },
+  ongoing:   { label: 'En curso',      cls: 'bg-emerald-100 text-emerald-800' },
+  past:      { label: 'Finalizado',   cls: 'bg-gray-100 text-gray-500'    },
+  cancelled: { label: 'Cancelado',    cls: 'bg-red-100 text-red-700'      },
+};
+
+const heroGradient = HERO_GRADIENT[item.category ?? ''] ?? HERO_GRADIENT.institucional;
+const accentClass  = CATEGORY_ACCENT[item.category ?? ''] ?? CATEGORY_ACCENT.institucional;
+const status       = STATUS_STYLE[item.status ?? ''];
 ---
 
 <BaseLayout
@@ -50,89 +74,157 @@ const statusColors: Record<string, string> = {
     status: item.status,
   }}
 >
-  <div class="max-w-4xl mx-auto px-4 py-10">
-    <nav class="text-sm text-primary-900/50 mb-6" aria-label="Breadcrumb">
-      <ol class="flex items-center gap-2">
-        <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
-        <li aria-hidden="true">/</li>
-        <li><a href="/eventos" class="hover:text-primary-700 transition-colors">Eventos</a></li>
-        <li aria-hidden="true">/</li>
-        <li class="text-primary-900 font-medium truncate" aria-current="page">{item.title}</li>
-      </ol>
-    </nav>
+  <!-- Hero -->
+  <div class={`bg-gradient-to-br ${heroGradient} text-white`}>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <a href="/eventos" class="hover:text-white transition-colors">Eventos</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span aria-current="page" class="text-white/80 font-medium line-clamp-1">{item.title}</span>
+      </nav>
 
-    {item.image && (
-      <img
-        src={item.image}
-        alt={item.title}
-        class="w-full h-64 sm:h-72 object-cover rounded-xl mb-6 shadow-md"
-        loading="eager"
-        decoding="async"
-      />
-    )}
-
-    <h1 class="text-3xl font-bold text-primary-900 mb-3">{item.title}</h1>
-
-    <div class="flex flex-wrap gap-2 mb-6">
-      {item.category && (
-        <span class="text-xs bg-primary-100 text-primary-900 px-2.5 py-1 rounded-full capitalize font-semibold">
-          {item.category}
-        </span>
-      )}
-      {item.status && (
-        <span class={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[item.status] ?? 'bg-gray-100 text-gray-600'}`}>
-          {statusLabels[item.status] ?? item.status}
-        </span>
-      )}
-      {item.featured && (
-        <span class="text-xs bg-yellow-100 text-yellow-800 px-2.5 py-1 rounded-full font-medium">
-          ⭐ Destacado
-        </span>
-      )}
-    </div>
-
-    <div class="grid gap-4 sm:grid-cols-2 mb-8">
-      {eventDate && (
-        <div class="flex items-start gap-3 p-4 bg-primary-50 rounded-lg">
-          <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          <div>
-            <p class="text-xs font-semibold text-primary-900/50 uppercase tracking-wide">Fecha</p>
-            <p class="text-sm text-primary-900 font-medium">{eventDate}</p>
+      <div class="flex flex-col sm:flex-row items-start gap-6">
+        {/* Bloque de fecha */}
+        {eventDate && (
+          <div class={`flex-shrink-0 w-20 flex flex-col items-center justify-center ${accentClass} text-white shadow-md self-start`}>
+            <span class="text-3xl font-extrabold leading-none pt-3">{eventDate.getDate()}</span>
+            <span class="text-[11px] font-bold uppercase tracking-widest pb-1">{MONTHS_SHORT[eventDate.getMonth()]}</span>
+            <div class="w-full text-center bg-black/20 text-[10px] font-semibold py-1">{eventDate.getFullYear()}</div>
           </div>
-        </div>
-      )}
-      {locationText && (
-        <div class="flex items-start gap-3 p-4 bg-primary-50 rounded-lg">
-          <svg class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
-          <div>
-            <p class="text-xs font-semibold text-primary-900/50 uppercase tracking-wide">Ubicación</p>
-            <p class="text-sm text-primary-900 font-medium">{locationText}</p>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
 
-    {item.description && (
-      <div class="prose max-w-none">
-        <p class="text-primary-900/70 leading-relaxed text-base">{item.description}</p>
+        <div>
+          {item.category && (
+            <span class="inline-block text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 bg-white/15 border border-white/20 text-white/90 mb-3">
+              {item.category}
+            </span>
+          )}
+          <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">{item.title}</h1>
+          {status && (
+            <span class={`inline-block mt-3 text-xs font-bold px-3 py-1 ${status.cls}`}>
+              {status.label}
+            </span>
+          )}
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-5">
+
+    <!-- Ficha rápida -->
+    <section class="bg-white border border-gray-200 shadow-sm" aria-labelledby="info-heading">
+      <h2 id="info-heading" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 px-6 pt-5 mb-4">Información del evento</h2>
+      <div class="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+        {eventDate && (
+          <div class="flex items-start gap-4 px-6 pb-5">
+            <div class={`w-9 h-9 ${accentClass} flex items-center justify-center flex-shrink-0`} aria-hidden="true">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">Fecha</p>
+              <p class="text-sm font-semibold text-gray-800">{formatLong(eventDate)}</p>
+              {eventEndDate && <p class="text-xs text-gray-500 mt-0.5">Hasta: {formatLong(eventEndDate)}</p>}
+            </div>
+          </div>
+        )}
+        {item.time && (
+          <div class="flex items-start gap-4 px-6 pb-5">
+            <div class={`w-9 h-9 ${accentClass} flex items-center justify-center flex-shrink-0`} aria-hidden="true">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">Hora de inicio</p>
+              <p class="text-sm font-semibold text-gray-800">{item.time}</p>
+            </div>
+          </div>
+        )}
+        {locationText && (
+          <div class="flex items-start gap-4 px-6 pb-5">
+            <div class={`w-9 h-9 ${accentClass} flex items-center justify-center flex-shrink-0`} aria-hidden="true">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">Lugar</p>
+              <p class="text-sm font-semibold text-gray-800">{locationText}</p>
+            </div>
+          </div>
+        )}
+        {item.organizer && (
+          <div class="flex items-start gap-4 px-6 pb-5">
+            <div class={`w-9 h-9 ${accentClass} flex items-center justify-center flex-shrink-0`} aria-hidden="true">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">Organiza</p>
+              <p class="text-sm font-semibold text-gray-800">{item.organizer}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Descripción -->
+    {(item.fullDescription ?? item.description) && (
+      <section class="bg-white border border-gray-200 shadow-sm p-6 sm:p-8">
+        <h2 class="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-3">Sobre este evento</h2>
+        <p class="text-gray-700 leading-relaxed">{item.fullDescription ?? item.description}</p>
+      </section>
     )}
 
+    <!-- Programa -->
+    {item.program && item.program.length > 0 && (
+      <section class="bg-white border border-gray-200 shadow-sm p-6 sm:p-8" aria-labelledby="programa-heading">
+        <h2 id="programa-heading" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-5">Programa del evento</h2>
+        <ol class="relative border-l-2 border-gray-100 space-y-5 list-none ml-2">
+          {item.program.map((step, i) => (
+            <li class="relative pl-6">
+              <div class={`absolute -left-[11px] top-0 w-5 h-5 ${accentClass} flex items-center justify-center`}>
+                <span class="text-white text-[9px] font-extrabold">{i + 1}</span>
+              </div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">{step.time}</p>
+              <p class="text-sm font-semibold text-gray-800">{step.activity}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    <!-- Tags -->
     {item.tags && item.tags.length > 0 && (
-      <div class="mt-8 flex flex-wrap gap-2">
-        {item.tags.map((tag) => (
-          <span class="bg-primary-50 text-primary-700 text-xs px-2.5 py-1 rounded-full">
-            #{tag}
-          </span>
-        ))}
-      </div>
+      <section class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-4">Etiquetas</h2>
+        <div class="flex flex-wrap gap-2">
+          {item.tags.map((tag: string) => (
+            <span class="text-xs font-semibold px-2.5 py-1 border border-gray-200 text-gray-600 capitalize">#{tag}</span>
+          ))}
+        </div>
+      </section>
     )}
 
-    <div class="mt-10 text-center">
-      <a href="/eventos" class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 hover:text-primary-500 transition-colors">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    <div class="pt-2">
+      <a href="/eventos" class="inline-flex items-center gap-2 text-sm font-bold text-primary-700 hover:text-primary-500 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
         Volver a Eventos
       </a>
     </div>
+
   </div>
 </BaseLayout>

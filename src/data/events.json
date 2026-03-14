@@ -4,46 +4,96 @@
     "title": "Aniversario del Centro Poblado de Ivochote",
     "slug": "aniversario-ivochote",
     "date": "2026-07-15",
-    "description": "Celebración del aniversario de creación del Centro Poblado de Ivochote con actividades culturales, deportivas y sociales para toda la comunidad.",
+    "time": "9:00 am",
+    "description": "Celebraci\u00f3n del aniversario de creaci\u00f3n del Centro Poblado de Ivochote con actividades culturales, deportivas y sociales para toda la comunidad.",
+    "fullDescription": "El aniversario del Centro Poblado de Ivochote es la festividad c\u00edvica m\u00e1s importante del calendario institucional. Durante todo el d\u00eda se desarrollan actividades que unen a familias, autoridades y visitantes: desfile escolar y de instituciones, presentaciones art\u00edsticas de grupos locales, campeonatos deportivos, exposiciones productivas y un gran show art\u00edstico nocturno con artistas de la regi\u00f3n. La municipalidad organiza tambi\u00e9n un reconocimiento a personalidades destacadas de la comunidad en un acto protocolario solemne.",
     "location": "Plaza Principal de Ivochote",
     "category": "institucional",
+    "icon": "flag",
+    "organizer": "Municipalidad del Centro Poblado de Ivochote",
+    "program": [
+      { "time": "9:00 am",  "activity": "Izamiento del Pabell\u00f3n Nacional y acto c\u00edvico" },
+      { "time": "10:00 am", "activity": "Gran Desfile Escolar e Institucional" },
+      { "time": "12:30 pm", "activity": "Almuerzo comunitario popular" },
+      { "time": "3:00 pm",  "activity": "Campeonato deportivo y actividades recreativas" },
+      { "time": "7:00 pm",  "activity": "Show art\u00edstico y presentaciones culturales" }
+    ],
     "featured": true,
+    "order": 1,
     "status": "upcoming",
-    "tags": ["aniversario", "celebración", "comunidad"]
+    "tags": ["aniversario", "c\u00edvico", "cultura", "comunidad"]
   },
   {
     "id": "e-002",
-    "title": "Feria del Café y Cacao de La Convención",
+    "title": "Feria del Caf\u00e9 y Cacao de La Convenci\u00f3n",
     "slug": "feria-cafe-cacao",
     "date": "2026-06-20",
-    "description": "Feria anual que reúne a productores locales de café y cacao para exhibir y comercializar sus productos de alta calidad.",
+    "endDate": "2026-06-22",
+    "time": "8:00 am",
+    "description": "Feria anual que re\u00fane a productores locales de caf\u00e9 y cacao para exhibir y comercializar sus productos org\u00e1nicos de alta calidad ante compradores nacionales e internacionales.",
+    "fullDescription": "La Feria del Caf\u00e9 y Cacao de La Convenci\u00f3n es el evento econ\u00f3mico m\u00e1s importante de la zona, que congrega a agricultores, exportadores, baristas y aficionados al buen caf\u00e9. Durante tres d\u00edas se realizan catas de caf\u00e9 de especialidad, concursos de barismo, talleres de beneficio y post-cosecha, ruedas de negocios con compradores internacionales y degustaciones abiertas al p\u00fablico. Los mejores productores de Ivochote, Quillabamba y toda La Convenci\u00f3n exhiben sus lotes de caf\u00e9 y cacao fino de aroma. Ingreso libre para el p\u00fablico general.",
     "location": "Centro Poblado de Ivochote",
-    "category": "cultural",
+    "category": "econ\u00f3mico",
+    "icon": "star",
+    "organizer": "Municipalidad de Ivochote y DEVIDA",
+    "program": [
+      { "time": "8:00 am",  "activity": "Apertura y exposici\u00f3n de stands de productores" },
+      { "time": "10:00 am", "activity": "Concurso de caf\u00e9 de especialidad \u2013 ronda clasificatoria" },
+      { "time": "1:00 pm",  "activity": "Talleres de beneficio y post-cosecha" },
+      { "time": "3:00 pm",  "activity": "Rueda de negocios con compradores internacionales" },
+      { "time": "6:00 pm",  "activity": "Premiaci\u00f3n y cierre del primer d\u00eda" }
+    ],
     "featured": true,
+    "order": 2,
     "status": "upcoming",
-    "tags": ["feria", "café", "cacao", "agricultura"]
+    "tags": ["feria", "caf\u00e9", "cacao", "agroturismo", "negocios"]
   },
   {
     "id": "e-003",
-    "title": "Campaña de Limpieza del Río Urubamba",
+    "title": "Campa\u00f1a de Limpieza del R\u00edo Urubamba",
     "slug": "limpieza-rio-urubamba",
     "date": "2026-04-22",
-    "description": "Jornada comunitaria de limpieza y conservación de las riberas del río Urubamba en conmemoración del Día de la Tierra.",
-    "location": "Riberas del Río Urubamba - Sector Ivochote",
+    "time": "7:00 am",
+    "description": "Jornada comunitaria de limpieza y conservaci\u00f3n de las riberas del r\u00edo Urubamba en conmemoraci\u00f3n del D\u00eda de la Tierra. Participaci\u00f3n abierta a toda la comuni dad.",
+    "fullDescription": "En el marco del D\u00eda Mundial de la Tierra, la Municipalidad del Centro Poblado de Ivochote organiza esta jornada ambiental que convoca a escolares, familias, instituciones y voluntarios para recuperar las riberas del r\u00edo Urubamba. Se recogen residuos s\u00f3lidos, se realizan actividades de concienciaci\u00f3n ambiental y se plantan especies nativas en zonas degradadas de la orilla. Al t\u00e9rmino de la jornada se ofrece un almuerzo comunitario para todos los participantes. El evento busca fortalecer la cultura del cuidado del medio ambiente en las nuevas generaciones.",
+    "location": "Riberas del R\u00edo Urubamba, Sector Ivochote",
     "category": "ambiental",
+    "icon": "leaf",
+    "organizer": "Municipalidad de Ivochote y Defensa Civil",
+    "program": [
+      { "time": "7:00 am",  "activity": "Concentraci\u00f3n y distribuci\u00f3n de materiales" },
+      { "time": "7:30 am",  "activity": "Jornada de limpieza de riberas" },
+      { "time": "10:00 am", "activity": "Siembra de plantas nativas" },
+      { "time": "11:00 am", "activity": "Charla de educaci\u00f3n ambiental" },
+      { "time": "12:00 pm", "activity": "Almuerzo comunitario para participantes" }
+    ],
+    "featured": false,
+    "order": 3,
     "status": "upcoming",
-    "tags": ["medio ambiente", "limpieza", "río", "comunidad"]
+    "tags": ["medio ambiente", "r\u00edo", "voluntariado", "d\u00eda de la tierra"]
   },
   {
     "id": "e-004",
     "title": "Festividad de la Virgen del Carmen",
     "slug": "virgen-del-carmen",
     "date": "2026-07-16",
-    "description": "Festividad religiosa y cultural en honor a la Virgen del Carmen, patrona de la región, con procesiones y danzas típicas.",
+    "time": "6:00 am",
+    "description": "Festividad religiosa y cultural en honor a la Virgen del Carmen, patrona de la regi\u00f3n, con misas, procesiones, danzas t\u00edpicas y feria gastron\u00f3mica por tres d\u00edas.",
+    "fullDescription": "La Festividad de la Virgen del Carmen es la celebraci\u00f3n religiosa y cultural m\u00e1s sentida del Centro Poblado de Ivochote. Durante tres d\u00edas la comunidad se vuelca a la calle: misas solemnes al amanecer, la tradicional procesi\u00f3n de la Virgen por las calles del poblado acompa\u00f1ada por bandas de m\u00fasica y conjuntos de danzas t\u00edpicas como la madrugada y el huayno cusque\u00f1o, feria gastron\u00f3mica con platos t\u00edpicos de la selva alta, quema de fuegos artificiales y alborada. Es una fecha de enorme carga identitaria para las familias ivochotinas, que regresan desde distintas partes del pa\u00eds para celebrar a su patrona.",
     "location": "Iglesia y Plaza Principal de Ivochote",
     "category": "cultural",
+    "icon": "star",
+    "organizer": "Comit\u00e9 de Festividad y Municipalidad de Ivochote",
+    "program": [
+      { "time": "6:00 am",  "activity": "Misa de alborada y quema de castillo" },
+      { "time": "9:00 am",  "activity": "Misa solemne en la iglesia parroquial" },
+      { "time": "11:00 am", "activity": "Procesi\u00f3n de la Virgen del Carmen" },
+      { "time": "1:00 pm",  "activity": "Feria gastron\u00f3mica y presentaciones de danzas" },
+      { "time": "8:00 pm",  "activity": "Gran funci\u00f3n de fuegos artificiales" }
+    ],
     "featured": true,
+    "order": 4,
     "status": "upcoming",
-    "tags": ["religión", "cultura", "tradición", "danzas"]
+    "tags": ["religi\u00f3n", "cultura", "tradici\u00f3n", "danzas", "procesi\u00f3n"]
   }
 ]

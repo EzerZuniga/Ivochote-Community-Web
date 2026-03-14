@@ -5,40 +5,119 @@ import { fetchEvents } from '../../services/eventsService';
 import type { EventItem } from '../../types/events';
 
 const events = (await fetchEvents()) as EventItem[];
-const sorted = events.slice().sort((a, b) => {
-  const da = new Date(a.date ?? '').getTime() || 0;
-  const db = new Date(b.date ?? '').getTime() || 0;
-  return db - da;
+const sorted = events.slice().sort((a: EventItem, b: EventItem) => {
+  const da = a.date ? new Date(a.date).getTime() : 0;
+  const db = b.date ? new Date(b.date).getTime() : 0;
+  return da - db;
 });
+const featured = sorted.filter((e: EventItem) => e.featured);
 ---
 
 <BaseLayout
   title="Eventos y Actividades"
-  description="Agenda de eventos, fiestas patronales, actividades culturales y eventos institucionales del Centro Poblado de Ivochote. Calendario municipal de Echarati, La Convención, Cusco."
+  description="Agenda de eventos, fiestas patronales, actividades culturales e institucionales del Centro Poblado de Ivochote. Calendario municipal de Echarati, La Convención, Cusco."
   breadcrumbs={[{ name: 'Eventos', href: '/eventos' }]}
   pageType="CollectionPage"
 >
-  <div class="max-w-6xl mx-auto px-4 py-10">
-    <header class="mb-8">
-      <nav class="text-sm text-primary-900/50 mb-4" aria-label="Breadcrumb">
-        <ol class="flex items-center gap-2">
-          <li><a href="/" class="hover:text-primary-700 transition-colors">Inicio</a></li>
-          <li aria-hidden="true">/</li>
-          <li class="text-primary-900 font-medium" aria-current="page">Eventos</li>
-        </ol>
+  <!-- Hero -->
+  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span aria-current="page" class="text-white/80 font-medium">Eventos</span>
       </nav>
-      <h1 class="text-3xl font-bold text-primary-900">Eventos</h1>
-      <p class="mt-2 text-primary-900/60">Calendario de actividades culturales, sociales e institucionales del Centro Poblado de Ivochote.</p>
-    </header>
 
-    {sorted.length > 0 ? (
-      <div class="grid gap-6 sm:grid-cols-2">
-        {sorted.map((e: EventItem) => (
-          <EventCard event={e} />
-        ))}
+      <div class="flex items-start gap-4 mb-8">
+        <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
+          <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">Agenda Municipal 2026</span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+            Eventos y<br class="hidden sm:block"/> Actividades
+          </h1>
+          <p class="mt-3 text-white/60 text-sm sm:text-base leading-relaxed max-w-lg">
+            Festividades, ferias, jornadas cívicas y actividades culturales del Centro Poblado de Ivochote durante el año.
+          </p>
+        </div>
       </div>
-    ) : (
-      <div class="p-6 bg-primary-50 rounded-md text-primary-900/60">No hay eventos programados en este momento.</div>
+
+      <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+        <div>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Eventos 2026</p>
+          <p class="text-white font-bold">{sorted.length} programados</p>
+        </div>
+        <div>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Destacados</p>
+          <p class="text-white font-bold">{featured.length} eventos</p>
+        </div>
+        <div>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Entrada</p>
+          <p class="text-white font-bold">Libre y gratuita</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-14">
+
+    <!-- Eventos Destacados -->
+    {featured.length > 0 && (
+      <section aria-labelledby="destacados-heading">
+        <div class="flex items-center gap-4 mb-6">
+          <h2 id="destacados-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 whitespace-nowrap">
+            Eventos Destacados
+          </h2>
+          <div class="h-px flex-1 bg-gray-100" aria-hidden="true"></div>
+        </div>
+        <ul class="grid gap-5 sm:grid-cols-2 list-none" role="list">
+          {featured.map((e: EventItem) => (
+            <li>
+              <EventCard event={e} href={`/eventos/${e.slug ?? e.id}`} />
+            </li>
+          ))}
+        </ul>
+      </section>
     )}
+
+    <!-- Todos los Eventos -->
+    <section aria-labelledby="todos-heading">
+      <div class="flex items-center gap-4 mb-6">
+        <h2 id="todos-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 whitespace-nowrap">
+          Agenda Completa
+        </h2>
+        <div class="h-px flex-1 bg-gray-100" aria-hidden="true"></div>
+      </div>
+      <ul class="grid gap-5 sm:grid-cols-2 list-none" role="list">
+        {sorted.map((e: EventItem) => (
+          <li>
+            <EventCard event={e} href={`/eventos/${e.slug ?? e.id}`} />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-primary-950 text-white p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between" aria-labelledby="cta-eventos-heading">
+      <div>
+        <h2 id="cta-eventos-heading" class="text-lg sm:text-xl font-extrabold mb-1">¿Deseas participar en un evento?</h2>
+        <p class="text-white/60 text-sm max-w-md">Contáctanos para inscribirte, obtener más información o proponer una actividad para la comunidad.</p>
+      </div>
+      <a
+        href="/contacto"
+        class="flex-shrink-0 inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-amber-900 font-bold text-sm px-6 py-3 transition-colors duration-200"
+      >
+        Contáctanos
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </a>
+    </section>
+
   </div>
 </BaseLayout>
