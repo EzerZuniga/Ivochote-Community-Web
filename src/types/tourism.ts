@@ -1,10 +1,17 @@
 export type Coordinates = { lat: number; lng: number };
 
-export type TourismCategory = 'naturaleza' | 'cultura' | 'aventura' | 'gastronomia';
+export type TourismCategory =
+  | "naturaleza"
+  | "cultura"
+  | "aventura"
+  | "gastronomia";
 
-export type Difficulty = 'baja' | 'media' | 'alta';
+export type Difficulty = "baja" | "media" | "alta";
 
-export type OpeningHours = Record<string, { open: string; close: string } | { closed: true }>;
+export type OpeningHours = Record<
+  string,
+  { open: string; close: string } | { closed: true }
+>;
 
 export interface ContactInfo {
   phone?: string;

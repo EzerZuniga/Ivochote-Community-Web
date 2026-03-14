@@ -1,4 +1,4 @@
-export type EventStatus = 'upcoming' | 'ongoing' | 'past' | 'cancelled';
+export type EventStatus = "upcoming" | "ongoing" | "past" | "cancelled";
 
 export interface EventLocation {
   name?: string;

@@ -109,7 +109,14 @@
     "images": ["/assets/images/turismo/pongo-mainique.jpg"],
     "featured": true,
     "order": 5,
-    "tags": ["pongo", "cañón", "río", "cataratas", "aventura", "cultura matsigenka"],
+    "tags": [
+      "pongo",
+      "cañón",
+      "río",
+      "cataratas",
+      "aventura",
+      "cultura matsigenka"
+    ],
     "contact": {
       "phone": "+51 984 000 000"
     }
@@ -121,7 +128,7 @@
     "description": "Pozas termales naturales ubicadas en la comunidad nativa de Timpía, a 4 horas en bote desde Ivochote. Su nombre en matsigenka significa 'por donde pasa el Tucán'.",
     "fullDescription": "Las Aguas Termales de Yotonike son un recurso turístico recientemente impulsado por la comunidad nativa de Timpía, una de las comunidades matsigenka más accesibles del bajo Urubamba. Situadas en medio de la selva virgen, estas pozas naturales de aguas minerales cálidas ofrecen una experiencia de relajación completamente inmersiva en la naturaleza amazónica. El topónimo 'Yotonike' proviene de la lengua matsigenka y significa 'el lugar por donde pasa el Tucán', un guiño a la extraordinaria diversidad de aves que habita el entorno. El recorrido en bote hasta Timpía es, en sí mismo, una aventura: se navegan tramos del Urubamba con rápidos moderados, se avistan caimanes, garzas y delfines de río. Las visitas al balneario contribuyen directamente a la economía de la comunidad, que administra el recurso de manera autónoma.",
     "location": "Comunidad Nativa de Timpía, Echarati (4 h en bote desde Ivochote)",
-    "coordinates": { "lat": -11.8500, "lng": -73.0500 },
+    "coordinates": { "lat": -11.85, "lng": -73.05 },
     "category": "naturaleza",
     "icon": "thermal",
     "difficulty": "baja",
@@ -131,7 +138,13 @@
     "images": ["/assets/images/turismo/aguas-termales-yotonike.jpg"],
     "featured": false,
     "order": 6,
-    "tags": ["aguas termales", "timpía", "matsigenka", "ecoturismo", "selva virgen"],
+    "tags": [
+      "aguas termales",
+      "timpía",
+      "matsigenka",
+      "ecoturismo",
+      "selva virgen"
+    ],
     "contact": {
       "phone": "+51 984 000 000"
     }
@@ -143,7 +156,7 @@
     "description": "Afluente del Urubamba de aguas turquesas cristalinas, parada obligada para nadar y contemplar la selva virgen en la ruta hacia el Pongo de Mainique.",
     "fullDescription": "El río Yoyato es uno de los afluentes más pintorescos del Urubamba en el tramo de Ivochote hacia el Pongo de Mainique. Sus aguas turquesas —producidas por la mineralización del lecho rocoso— contrastan de manera espectacular con el verde intenso de la selva que lo rodea. Es un punto de descanso y baño habitual en las expediciones fluviales hacia el Pongo, y los guías locales lo conocen como uno de los lugares más fotogénicos de toda la ruta. La ribera cuenta con pequeñas playas de arena blanca aptas para picnic, y la transparencia del agua permite ver el fondo a varios metros de profundidad. La corriente es moderada y el acceso desde el bote es sencillo, lo que lo hace apto para visitantes de todas las edades.",
     "location": "Ruta fluvial Ivochote – Pongo de Mainique, Echarati",
-    "coordinates": { "lat": -12.0000, "lng": -72.8500 },
+    "coordinates": { "lat": -12.0, "lng": -72.85 },
     "category": "naturaleza",
     "icon": "river",
     "difficulty": "baja",
@@ -165,7 +178,7 @@
     "description": "Grabados rupestres matsigenka en la ruta fluvial que, según leyendas locales, guardan la clave de ciudades perdidas. Cerca se alza Tinangaroni, el 'rostro de Haya de la Torre' en piedra.",
     "fullDescription": "A lo largo de la ruta fluvial hacia el Pongo de Mainique se encuentran los Petroglifos de Fango, un conjunto de grabados en roca de origen matsigenka cuya antigüedad y significado exacto aún son objeto de estudio. Los símbolos tallados en la piedra son interpretados por los pobladores locales como un mapa o código que, según la tradición oral, señala la ubicación de ciudades perdidas en la selva del Urubamba —ciudades que antecedían incluso al Imperio Inca. A pocos metros de los petroglifos se eleva la formación rocosa conocida como Tinangaroni, cuyo perfil lateral simula con notable precisión el rostro del político peruano Víctor Raúl Haya de la Torre, lo que le ha dado el apodo del 'Rostro de Haya de la Torre'. Ambos atractivos se visitan generalmente como parte de la expedición fluvial al Pongo y añaden una dimensión arqueológica y cultural extraordinaria al recorrido.",
     "location": "Ruta fluvial Ivochote – Pongo de Mainique, Echarati",
-    "coordinates": { "lat": -11.9700, "lng": -72.9200 },
+    "coordinates": { "lat": -11.97, "lng": -72.92 },
     "category": "cultura",
     "icon": "community",
     "difficulty": "baja",
@@ -175,7 +188,13 @@
     "images": ["/assets/images/turismo/petroglifos-fango.jpg"],
     "featured": false,
     "order": 8,
-    "tags": ["petroglifos", "arqueología", "matsigenka", "cultura", "tinangaroni"],
+    "tags": [
+      "petroglifos",
+      "arqueología",
+      "matsigenka",
+      "cultura",
+      "tinangaroni"
+    ],
     "contact": {
       "phone": "+51 984 000 000"
     }

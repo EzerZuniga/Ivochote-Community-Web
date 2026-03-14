@@ -4,7 +4,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /_astro/
 Disallow: /404
 
 # Crawl-delay para bots agresivos
@@ -14,7 +13,7 @@ Crawl-delay: 10
 User-agent: SemrushBot
 Crawl-delay: 10
 
-# Bots de IA que no queremos indexen
+# Bots de IA que no queremos que indexen
 User-agent: GPTBot
 Disallow: /
 

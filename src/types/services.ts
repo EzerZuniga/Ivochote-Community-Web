@@ -1,4 +1,10 @@
-export type ServiceCategory = 'administrativo' | 'salud' | 'educacion' | 'transporte' | 'cultura' | 'otros';
+export type ServiceCategory =
+  | "administrativo"
+  | "salud"
+  | "educacion"
+  | "transporte"
+  | "cultura"
+  | "otros";
 
 export interface ServiceContact {
   phone?: string;

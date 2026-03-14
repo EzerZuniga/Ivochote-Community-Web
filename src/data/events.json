@@ -12,11 +12,23 @@
     "icon": "flag",
     "organizer": "Municipalidad del Centro Poblado de Ivochote",
     "program": [
-      { "time": "9:00 am",  "activity": "Izamiento del Pabell\u00f3n Nacional y acto c\u00edvico" },
-      { "time": "10:00 am", "activity": "Gran Desfile Escolar e Institucional" },
+      {
+        "time": "9:00 am",
+        "activity": "Izamiento del Pabell\u00f3n Nacional y acto c\u00edvico"
+      },
+      {
+        "time": "10:00 am",
+        "activity": "Gran Desfile Escolar e Institucional"
+      },
       { "time": "12:30 pm", "activity": "Almuerzo comunitario popular" },
-      { "time": "3:00 pm",  "activity": "Campeonato deportivo y actividades recreativas" },
-      { "time": "7:00 pm",  "activity": "Show art\u00edstico y presentaciones culturales" }
+      {
+        "time": "3:00 pm",
+        "activity": "Campeonato deportivo y actividades recreativas"
+      },
+      {
+        "time": "7:00 pm",
+        "activity": "Show art\u00edstico y presentaciones culturales"
+      }
     ],
     "featured": true,
     "order": 1,
@@ -37,11 +49,23 @@
     "icon": "star",
     "organizer": "Municipalidad de Ivochote y DEVIDA",
     "program": [
-      { "time": "8:00 am",  "activity": "Apertura y exposici\u00f3n de stands de productores" },
-      { "time": "10:00 am", "activity": "Concurso de caf\u00e9 de especialidad \u2013 ronda clasificatoria" },
-      { "time": "1:00 pm",  "activity": "Talleres de beneficio y post-cosecha" },
-      { "time": "3:00 pm",  "activity": "Rueda de negocios con compradores internacionales" },
-      { "time": "6:00 pm",  "activity": "Premiaci\u00f3n y cierre del primer d\u00eda" }
+      {
+        "time": "8:00 am",
+        "activity": "Apertura y exposici\u00f3n de stands de productores"
+      },
+      {
+        "time": "10:00 am",
+        "activity": "Concurso de caf\u00e9 de especialidad \u2013 ronda clasificatoria"
+      },
+      { "time": "1:00 pm", "activity": "Talleres de beneficio y post-cosecha" },
+      {
+        "time": "3:00 pm",
+        "activity": "Rueda de negocios con compradores internacionales"
+      },
+      {
+        "time": "6:00 pm",
+        "activity": "Premiaci\u00f3n y cierre del primer d\u00eda"
+      }
     ],
     "featured": true,
     "order": 2,
@@ -61,16 +85,27 @@
     "icon": "leaf",
     "organizer": "Municipalidad de Ivochote y Defensa Civil",
     "program": [
-      { "time": "7:00 am",  "activity": "Concentraci\u00f3n y distribuci\u00f3n de materiales" },
-      { "time": "7:30 am",  "activity": "Jornada de limpieza de riberas" },
+      {
+        "time": "7:00 am",
+        "activity": "Concentraci\u00f3n y distribuci\u00f3n de materiales"
+      },
+      { "time": "7:30 am", "activity": "Jornada de limpieza de riberas" },
       { "time": "10:00 am", "activity": "Siembra de plantas nativas" },
       { "time": "11:00 am", "activity": "Charla de educaci\u00f3n ambiental" },
-      { "time": "12:00 pm", "activity": "Almuerzo comunitario para participantes" }
+      {
+        "time": "12:00 pm",
+        "activity": "Almuerzo comunitario para participantes"
+      }
     ],
     "featured": false,
     "order": 3,
     "status": "upcoming",
-    "tags": ["medio ambiente", "r\u00edo", "voluntariado", "d\u00eda de la tierra"]
+    "tags": [
+      "medio ambiente",
+      "r\u00edo",
+      "voluntariado",
+      "d\u00eda de la tierra"
+    ]
   },
   {
     "id": "e-004",
@@ -85,15 +120,33 @@
     "icon": "star",
     "organizer": "Comit\u00e9 de Festividad y Municipalidad de Ivochote",
     "program": [
-      { "time": "6:00 am",  "activity": "Misa de alborada y quema de castillo" },
-      { "time": "9:00 am",  "activity": "Misa solemne en la iglesia parroquial" },
-      { "time": "11:00 am", "activity": "Procesi\u00f3n de la Virgen del Carmen" },
-      { "time": "1:00 pm",  "activity": "Feria gastron\u00f3mica y presentaciones de danzas" },
-      { "time": "8:00 pm",  "activity": "Gran funci\u00f3n de fuegos artificiales" }
+      { "time": "6:00 am", "activity": "Misa de alborada y quema de castillo" },
+      {
+        "time": "9:00 am",
+        "activity": "Misa solemne en la iglesia parroquial"
+      },
+      {
+        "time": "11:00 am",
+        "activity": "Procesi\u00f3n de la Virgen del Carmen"
+      },
+      {
+        "time": "1:00 pm",
+        "activity": "Feria gastron\u00f3mica y presentaciones de danzas"
+      },
+      {
+        "time": "8:00 pm",
+        "activity": "Gran funci\u00f3n de fuegos artificiales"
+      }
     ],
     "featured": true,
     "order": 4,
     "status": "upcoming",
-    "tags": ["religi\u00f3n", "cultura", "tradici\u00f3n", "danzas", "procesi\u00f3n"]
+    "tags": [
+      "religi\u00f3n",
+      "cultura",
+      "tradici\u00f3n",
+      "danzas",
+      "procesi\u00f3n"
+    ]
   }
 ]
