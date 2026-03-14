@@ -4,14 +4,12 @@ import { fetchNews } from '../services/newsService';
 import { getFeaturedPlaces } from '../services/tourismService';
 import { fetchServices } from '../services/servicesService';
 import { fetchEvents } from '../services/eventsService';
-import { fetchAuthorities } from '../services/authoritiesService';
 import { formatDate } from '../utils/formatters';
 
 const news = await fetchNews();
 const places = await getFeaturedPlaces();
 const services = await fetchServices();
 const events = await fetchEvents();
-const authorities = await fetchAuthorities();
 ---
 
 <HomeLayout
@@ -142,9 +140,9 @@ const authorities = await fetchAuthorities();
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
       {[
         {
-          value: authorities.length, label: 'Autoridades', href: '/autoridades',
+          value: 3, label: 'Niveles Ed.', href: '/contacto',
           svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
           </svg>`,
         },
         {
@@ -316,72 +314,90 @@ const authorities = await fetchAuthorities();
     </div>
   </div>
 
-  <!-- ===== AUTORIDADES ===== -->
+  <!-- ===== INSTITUCIÓN EDUCATIVA ===== -->
   <div slot="authorities">
-    {authorities.length > 0 ? (() => {
-      const avatarColors = [
-        'from-emerald-600 to-primary-800',
-        'from-primary-700 to-emerald-800',
-        'from-teal-600 to-primary-700',
-        'from-green-700 to-teal-800',
-        'from-primary-600 to-green-800',
-      ];
-      return (
-        <div class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {authorities.slice(0, 5).map((a, i) => {
-            const initials = a.name
-              .split(' ')
-              .filter((w: string) => w.length > 2)
-              .slice(0, 2)
-              .map((w: string) => w[0].toUpperCase())
-              .join('');
-            const gradient = avatarColors[i % avatarColors.length];
-            return (
-              <article class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <!-- Cabecera con gradiente + iniciales -->
-                <div class={`relative bg-gradient-to-br ${gradient} h-28 flex items-center justify-center`}>
-                  <!-- Círculo decorativo de fondo -->
-                  <div class="absolute right-0 bottom-0 w-20 h-20 rounded-full bg-white/5 translate-x-4 translate-y-4"></div>
-                  <div class="absolute left-2 top-2 w-10 h-10 rounded-full bg-white/5"></div>
-                  <!-- Iniciales -->
-                  <span class="relative z-10 text-3xl font-black text-white tracking-tight drop-shadow-sm select-none">
-                    {initials}
-                  </span>
-                </div>
-                <!-- Cuerpo -->
-                <div class="p-4">
-                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider bg-primary-50 text-primary-600 rounded-full px-2.5 py-0.5 mb-2">
-                    {a.department}
-                  </span>
-                  <h3 class="font-bold text-primary-900 text-sm leading-snug group-hover:text-primary-700 transition-colors">
-                    {a.name}
-                  </h3>
-                  <p class="text-xs text-primary-900/50 mt-0.5 font-medium">{a.position}</p>
-                  {a.bio && (
-                    <p class="text-xs text-primary-900/40 mt-2 leading-relaxed line-clamp-2">{a.bio}</p>
-                  )}
-                </div>
-                <!-- Footer -->
-                <div class="px-4 pb-4">
-                  <a
-                    href={`/autoridades`}
-                    class="inline-flex items-center gap-1 text-xs font-semibold text-primary-700 hover:text-primary-500 transition-colors"
-                  >
-                    Ver perfil
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                  </a>
-                </div>
-              </article>
-            );
-          })}
+    <!-- Cabecera de la institución -->
+    <div class="flex flex-col sm:flex-row sm:items-start gap-5 mb-8 p-6 bg-gradient-to-r from-primary-50 to-amber-50 border border-amber-100 rounded-2xl">
+      <div class="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-primary-700 flex items-center justify-center shadow-md">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <div class="flex flex-wrap items-center gap-2 mb-1.5">
+          <span class="inline-block text-[10px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 rounded-full px-3 py-0.5">N.° 501108</span>
+          <span class="inline-block text-[10px] font-bold uppercase tracking-widest bg-primary-100 text-primary-700 rounded-full px-3 py-0.5">3 Niveles</span>
+          <span class="inline-block text-[10px] font-bold uppercase tracking-widest bg-emerald-100 text-emerald-700 rounded-full px-3 py-0.5">Pública</span>
         </div>
-      );
-    })() : (
-      <p class="text-sm text-primary-900/50">Autoridades próximamente.</p>
-    )}
-    <div class="text-center mt-8 sm:hidden">
-      <a href="/autoridades" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
-        Ver todas las autoridades
+        <h3 class="text-lg sm:text-xl font-extrabold text-primary-900 leading-tight">Institución Educativa 501108</h3>
+        <p class="text-base font-bold text-amber-600">Medio Urubamba de Ivochote</p>
+        <p class="mt-2 text-sm text-primary-900/60 leading-relaxed max-w-xl">
+          La institución educativa pública del Centro Poblado de Ivochote, formando a las generaciones futuras con educación de calidad en sus tres niveles.
+        </p>
+      </div>
+    </div>
+
+    <!-- Tarjetas de niveles educativos -->
+    <div class="grid gap-5 grid-cols-1 sm:grid-cols-3">
+      {[
+        {
+          nivel: 'Inicial',
+          gradClass: 'from-amber-400 to-orange-500',
+          badgeClass: 'bg-amber-50 text-amber-700',
+          meta: '3 a 5 años',
+          desc: 'El primer paso hacia el aprendizaje. Formación integral mediante el juego, la afectividad y el desarrollo de habilidades cognitivas y sociales en la etapa más importante de la vida.',
+          icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>`,
+        },
+        {
+          nivel: 'Primaria',
+          gradClass: 'from-emerald-500 to-teal-600',
+          badgeClass: 'bg-emerald-50 text-emerald-700',
+          meta: '6 grados (1.° al 6.°)',
+          desc: 'Seis años de formación académica que desarrollan competencias en comunicación, matemática, ciencias naturales y valores cívicos para el crecimiento integral del estudiante.',
+          icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>`,
+        },
+        {
+          nivel: 'Secundaria',
+          gradClass: 'from-primary-600 to-primary-900',
+          badgeClass: 'bg-primary-50 text-primary-700',
+          meta: '5 años (1.° al 5.°)',
+          desc: 'Educación secundaria completa que prepara a los jóvenes de Ivochote con sólidas bases académicas para acceder a la educación superior y la vida profesional.',
+          icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>`,
+        },
+      ].map(level => (
+        <article class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <!-- Barra de acento superior -->
+          <div class={`h-1.5 bg-gradient-to-r ${level.gradClass}`}></div>
+          <!-- Cabecera con icono y título -->
+          <div class="p-5 pb-0 flex items-start gap-3">
+            <div class={`flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br ${level.gradClass} flex items-center justify-center shadow-sm`}>
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Fragment set:html={level.icon}/>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0 pt-0.5">
+              <span class={`inline-block text-[10px] font-bold uppercase tracking-widest ${level.badgeClass} rounded-full px-2.5 py-0.5`}>Nivel</span>
+              <h3 class="text-base font-extrabold text-primary-900 mt-0.5 leading-tight group-hover:text-primary-700 transition-colors">{level.nivel}</h3>
+            </div>
+          </div>
+          <!-- Cuerpo -->
+          <div class="p-5 pt-3">
+            <p class="text-xs font-semibold text-primary-900/50 mb-2.5 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              {level.meta}
+            </p>
+            <p class="text-sm text-primary-900/60 leading-relaxed">{level.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Enlace móvil -->
+    <div class="mt-6 sm:hidden text-center">
+      <a href="/contacto" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
+        Más información
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </a>
     </div>
