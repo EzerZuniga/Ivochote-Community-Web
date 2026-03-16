@@ -458,33 +458,33 @@ const tourismCategoryColor: Record<string, string> = {
 
   <!-- ===== CTA BANNER ===== -->
   <div slot="cta">
-    <section class="bg-gray-50 border-t border-primary-100 py-20">
+    <section class="bg-primary-950 py-16 sm:py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          <!-- Columna izquierda: texto + botones -->
+          <!-- Columna izquierda -->
           <div>
-            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary-600 mb-4">
-              <span class="block w-7 h-px bg-primary-500"></span>
+            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary-400 mb-5">
+              <span class="block w-6 h-px bg-primary-500"></span>
               Portal ciudadano
             </span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-primary-900 leading-tight">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
               Tu voz importa en<br class="hidden sm:block" /> nuestra comunidad
             </h2>
-            <p class="mt-4 text-base text-primary-900/60 leading-relaxed max-w-md">
+            <p class="mt-5 text-base text-white/55 leading-relaxed max-w-sm">
               Accede a información oficial, consulta documentos y acuerdos municipales. Tu participación activa fortalece Ivochote.
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
               <a
                 href="/contacto"
-                class="inline-flex items-center gap-2 px-6 py-3 bg-primary-700 hover:bg-primary-600 text-white font-semibold transition-colors duration-200 shadow-sm"
+                class="inline-flex items-center gap-2 px-6 py-3.5 bg-white text-primary-950 font-bold text-sm uppercase tracking-wider hover:bg-primary-100 transition-colors duration-200"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 Contáctanos
               </a>
               <a
                 href="/servicios"
-                class="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary-700 text-primary-700 hover:bg-primary-700 hover:text-white font-semibold transition-colors duration-200"
+                class="inline-flex items-center gap-2 px-6 py-3.5 border border-white/25 text-white font-bold text-sm uppercase tracking-wider hover:border-white/60 hover:bg-white/8 transition-colors duration-200"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                 Ver servicios
@@ -492,23 +492,23 @@ const tourismCategoryColor: Record<string, string> = {
             </div>
           </div>
 
-          <!-- Columna derecha: 3 tarjetas de acceso rápido -->
-          <div class="grid gap-4">
+          <!-- Columna derecha: accesos rápidos -->
+          <div class="flex flex-col gap-3">
             {[
               {
-                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
+                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
                 title: 'Documentos oficiales',
                 desc: 'Acuerdos, ordenanzas y resoluciones municipales publicadas.',
                 href: '/servicios',
               },
               {
-                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>',
+                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>',
                 title: 'Presupuesto participativo',
                 desc: 'Consulta la ejecución presupuestal y el gasto municipal.',
                 href: '/servicios',
               },
               {
-                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>',
+                icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>',
                 title: 'Mesa de partes virtual',
                 desc: 'Envía documentos y realiza trámites sin salir de casa.',
                 href: '/contacto',
@@ -516,18 +516,18 @@ const tourismCategoryColor: Record<string, string> = {
             ].map(card => (
               <a
                 href={card.href}
-                class="group flex items-start gap-4 bg-white border border-primary-100 hover:border-primary-400 rounded-xl p-5 transition-all duration-200 hover:shadow-md"
+                class="group flex items-center gap-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/25 px-5 py-4 transition-all duration-200"
               >
-                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-100 group-hover:bg-primary-700 flex items-center justify-center transition-colors duration-200">
-                  <svg class="w-5 h-5 text-primary-700 group-hover:text-white transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex-shrink-0 w-10 h-10 bg-primary-800 group-hover:bg-primary-600 flex items-center justify-center transition-colors duration-200">
+                  <svg class="w-5 h-5 text-primary-300 group-hover:text-white transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <Fragment set:html={card.icon} />
                   </svg>
                 </div>
-                <div>
-                  <h3 class="font-semibold text-primary-900 group-hover:text-primary-700 transition-colors text-sm">{card.title}</h3>
-                  <p class="text-xs text-primary-900/50 mt-0.5 leading-relaxed">{card.desc}</p>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-bold text-white text-sm leading-snug">{card.title}</h3>
+                  <p class="text-xs text-white/45 mt-0.5 leading-relaxed truncate">{card.desc}</p>
                 </div>
-                <svg class="ml-auto flex-shrink-0 w-4 h-4 text-primary-300 group-hover:text-primary-600 mt-0.5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                <svg class="flex-shrink-0 w-4 h-4 text-white/25 group-hover:text-white/70 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
               </a>
             ))}
           </div>
