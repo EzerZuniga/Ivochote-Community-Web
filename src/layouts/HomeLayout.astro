@@ -263,20 +263,25 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
   </section>
 
   <!-- Institución Educativa -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" aria-labelledby="home-ie">
-    <div class="flex items-center justify-between mb-7">
-      <div class="flex items-center gap-3">
-        <span class="w-1 h-7 bg-amber-500 rounded-full"></span>
-        <h2 id="home-ie" class="text-2xl font-bold text-primary-900">Institución Educativa</h2>
+  <section class="py-16 sm:py-20 bg-gray-50 border-t border-gray-100" aria-labelledby="home-ie">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 sm:mb-14">
+        <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-600 mb-3">
+          <span class="block w-6 h-px bg-amber-400"></span>
+          Institución Educativa
+          <span class="block w-6 h-px bg-amber-400"></span>
+        </span>
+        <h2 id="home-ie" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-900 leading-tight">
+          I.E. 501108 Medio Urubamba
+        </h2>
+        <p class="mt-3 text-sm sm:text-base text-primary-900/50 max-w-xl mx-auto">
+          La institución educativa pública del Centro Poblado de Ivochote, con tres niveles de formación para niños y jóvenes de la comunidad.
+        </p>
       </div>
-      <a href="/contacto" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
-        Más información
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-      </a>
+      <slot name="authorities">
+        <p class="text-sm text-primary-900/50 text-center">Información próximamente.</p>
+      </slot>
     </div>
-    <slot name="authorities">
-      <p class="text-sm text-primary-900/50">Información próximamente.</p>
-    </slot>
   </section>
 
   <!-- CTA Banner -->
