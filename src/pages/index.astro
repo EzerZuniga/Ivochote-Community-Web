@@ -36,49 +36,45 @@ const events = await fetchEvents();
 >
   <div slot="news">
     {news.length > 0 ? (
-      <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {news.slice(0, 3).map(n => (
           <a
             href={`/noticias/${n.slug}`}
-            class="group relative flex gap-4 bg-white shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden no-underline hover:-translate-y-0.5"
+            class="group bg-white border border-gray-200 overflow-hidden flex flex-col no-underline transition-shadow duration-200 hover:shadow-md"
           >
-            {n.image && (
-              <div class="flex-shrink-0 w-24 sm:w-28 overflow-hidden bg-primary-50">
+            {n.image ? (
+              <div class="overflow-hidden bg-primary-50" style="aspect-ratio:16/9">
                 <img
                   src={n.image}
                   alt=""
                   aria-hidden="true"
-                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                   loading="lazy"
-                  width="112"
-                  height="88"
+                  decoding="async"
                 />
               </div>
+            ) : (
+              <div class="bg-primary-100 flex items-center justify-center" style="aspect-ratio:16/9">
+                <svg class="w-8 h-8 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                </svg>
+              </div>
             )}
-            <div class="flex-1 min-w-0 py-3 pr-3">
+            <div class="p-5 flex flex-col flex-1">
               {n.category && (
-                <span class="text-[10px] font-bold uppercase tracking-wider text-primary-600">{n.category}</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-primary-600 mb-2">{n.category}</span>
               )}
-              <p class="text-sm font-semibold text-primary-900 leading-snug line-clamp-2 group-hover:text-primary-700 transition-colors mt-0.5">
+              <h3 class="font-extrabold text-primary-900 text-sm sm:text-base leading-snug group-hover:text-primary-700 transition-colors line-clamp-2 flex-1">
                 {n.title}
-              </p>
-              <time class="text-xs text-primary-900/40 mt-1 block" datetime={n.date}>{formatDate(n.date)}</time>
+              </h3>
+              <time class="text-xs text-primary-900/40 mt-3 block font-medium" datetime={n.date}>{formatDate(n.date)}</time>
             </div>
-            <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary-600 transition-all duration-400 group-hover:w-full" aria-hidden="true"></div>
+            <div class="h-[3px] bg-primary-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" aria-hidden="true"></div>
           </a>
         ))}
-        <a
-          href="/noticias"
-          class="inline-flex items-center gap-2 text-sm font-bold text-primary-700 hover:text-primary-500 transition-colors mt-1 uppercase tracking-wide"
-        >
-          Ver todas las noticias
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-          </svg>
-        </a>
       </div>
     ) : (
-      <p class="text-sm text-primary-900/50">No hay noticias disponibles.</p>
+      <p class="text-sm text-primary-900/50 text-center">No hay noticias disponibles.</p>
     )}
   </div>
 
@@ -388,7 +384,7 @@ const events = await fetchEvents();
 
     <!-- CTA centrado -->
     <div class="mt-10 text-center">
-      <a href="/contacto" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-700 hover:bg-primary-600 text-white font-semibold text-sm uppercase tracking-wider transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+      <a href="/contacto" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-900 hover:bg-primary-700 text-white font-semibold text-sm uppercase tracking-wider transition-colors duration-200">
         Contáctanos para más información
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </a>

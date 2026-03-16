@@ -199,7 +199,7 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
         <p class="text-sm text-primary-900/50 text-center">Servicios próximamente.</p>
       </slot>
       <div class="text-center mt-10">
-        <a href="/servicios" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-700 hover:bg-primary-600 text-white font-semibold text-sm uppercase tracking-wider transition-all duration-200 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <a href="/servicios" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-900 hover:bg-primary-700 text-white font-semibold text-sm uppercase tracking-wider transition-colors duration-200">
           Ver todos los servicios
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
@@ -207,27 +207,30 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" aria-labelledby="home-news">
-    <div class="grid gap-10 lg:grid-cols-3">
-      <div class="lg:col-span-2">
-        <div class="flex items-center gap-3 mb-7">
-          <span class="w-1 h-7 bg-primary-600 rounded-full"></span>
-          <h2 id="home-news" class="text-2xl font-bold text-primary-900">Últimas noticias</h2>
-        </div>
-        <slot name="news">
-          <p class="text-sm text-primary-900/50">No hay noticias disponibles.</p>
-        </slot>
+  <section class="py-16 sm:py-20 bg-gray-50 border-t border-gray-100" aria-labelledby="home-news">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 sm:mb-14">
+        <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary-600 mb-3">
+          <span class="block w-6 h-px bg-primary-500"></span>
+          Portal de noticias
+          <span class="block w-6 h-px bg-primary-500"></span>
+        </span>
+        <h2 id="home-news" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-900 leading-tight">
+          Últimas Noticias
+        </h2>
+        <p class="mt-3 text-sm sm:text-base text-primary-900/50 max-w-xl mx-auto">
+          Mantente informado sobre los avances, acuerdos y eventos de la Municipalidad de Ivochote.
+        </p>
       </div>
-
-      <aside aria-labelledby="home-services" class="bg-primary-50 rounded-xl p-6">
-        <div class="flex items-center gap-3 mb-5">
-          <span class="w-1 h-6 bg-primary-500 rounded-full"></span>
-          <h3 id="home-services" class="text-lg font-bold text-primary-900">Servicios rápidos</h3>
-        </div>
-        <slot name="services">
-          <p class="text-sm text-primary-900/50">Enlaces a trámites y servicios municipales.</p>
-        </slot>
-      </aside>
+      <slot name="news">
+        <p class="text-sm text-primary-900/50 text-center">No hay noticias disponibles.</p>
+      </slot>
+      <div class="text-center mt-10">
+        <a href="/noticias" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-900 hover:bg-primary-700 text-white font-semibold text-sm uppercase tracking-wider transition-colors duration-200">
+          Ver todas las noticias
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -244,21 +247,30 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
   </section>
 
   <!-- Turismo -->
-  <section class="bg-primary-50/70 py-14" aria-labelledby="home-tourism">
+  <section class="py-16 sm:py-20 bg-white border-t border-gray-100" aria-labelledby="home-tourism">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between mb-7">
-        <div class="flex items-center gap-3">
-          <span class="w-1 h-7 bg-primary-600 rounded-full"></span>
-          <h2 id="home-tourism" class="text-2xl font-bold text-primary-900">Turismo destacado</h2>
-        </div>
-        <a href="/turismo" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-500 transition-colors">
-          Ver todo
+      <div class="text-center mb-10 sm:mb-14">
+        <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary-600 mb-3">
+          <span class="block w-6 h-px bg-primary-500"></span>
+          Descubre Ivochote
+          <span class="block w-6 h-px bg-primary-500"></span>
+        </span>
+        <h2 id="home-tourism" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-900 leading-tight">
+          Turismo Destacado
+        </h2>
+        <p class="mt-3 text-sm sm:text-base text-primary-900/50 max-w-xl mx-auto">
+          Explora la riqueza natural y cultural de Ivochote: ríos, bosques, comunidades nativas y mucho más.
+        </p>
+      </div>
+      <slot name="tourism">
+        <p class="text-sm text-primary-900/50 text-center">Destinos próximamente.</p>
+      </slot>
+      <div class="text-center mt-10">
+        <a href="/turismo" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-900 hover:bg-primary-700 text-white font-semibold text-sm uppercase tracking-wider transition-colors duration-200">
+          Ver todos los destinos
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
       </div>
-      <slot name="tourism">
-        <p class="text-sm text-primary-900/50">Coloca aquí las atracciones o rutas turísticas.</p>
-      </slot>
     </div>
   </section>
 
