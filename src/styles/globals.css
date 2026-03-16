@@ -17,10 +17,10 @@
   /* Base background — gradient animado */
   background: linear-gradient(
     135deg,
-    #042e22 0%,
-    #084734 35%,
-    #0a5c3f 65%,
-    #084734 100%
+    #052e16 0%,
+    #14532d 35%,
+    #166534 65%,
+    #14532d 100%
   );
   background-size: 300% 300%;
   animation: bgShift 8s ease infinite;
@@ -46,7 +46,7 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(206, 241, 123, 0.35) 0%,
+    rgba(74, 222, 128, 0.35) 0%,
     transparent 70%
   );
   animation: particleFloat var(--d, 6s) ease-in-out infinite alternate;
