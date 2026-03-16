@@ -10,6 +10,19 @@ const news = await fetchNews();
 const places = await getFeaturedPlaces();
 const services = await fetchServices();
 const events = await fetchEvents();
+
+const tourismCategoryLabel: Record<string, string> = {
+  naturaleza: 'Naturaleza',
+  cultura: 'Cultura',
+  aventura: 'Aventura',
+  gastronomia: 'Gastronomía',
+};
+const tourismCategoryColor: Record<string, string> = {
+  naturaleza: 'bg-emerald-600',
+  cultura: 'bg-amber-500',
+  aventura: 'bg-primary-700',
+  gastronomia: 'bg-orange-500',
+};
 ---
 
 <HomeLayout
@@ -101,33 +114,85 @@ const events = await fetchEvents();
 
   <div slot="tourism">
     {places.length > 0 ? (
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {places.map(p => (
-          <article class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200">
-            {p.images?.[0] && (
-              <img
-                src={p.images[0]}
-                alt={p.name}
-                class="w-full h-44 object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                loading="lazy"
-                decoding="async"
-                width="400"
-                height="176"
-              />
-            )}
-            <div class="p-4">
-              <h3 class="font-semibold text-primary-900 group-hover:text-primary-700 transition-colors">{p.name}</h3>
-              {p.description && <p class="text-sm text-primary-900/60 mt-1 line-clamp-2">{p.description}</p>}
-              <a href={`/turismo/${p.slug}`} class="inline-flex items-center gap-1 text-sm text-primary-900 font-medium hover:text-primary-700 mt-3 transition-colors">
-                Conocer más
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {places.map(p => {
+          const badge = tourismCategoryLabel[p.category] ?? p.category;
+          const badgeBg = tourismCategoryColor[p.category] ?? 'bg-primary-700';
+          return (
+            <article class="group bg-white border border-gray-200 overflow-hidden flex flex-col transition-shadow duration-200 hover:shadow-xl">
+              {/* Imagen */}
+              <a href={`/turismo/${p.slug}`} class="relative block overflow-hidden" style="aspect-ratio:4/3">
+                {p.images?.[0] ? (
+                  <img
+                    src={p.images[0]}
+                    alt={p.name}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="w-full h-full bg-primary-100 flex items-center justify-center">
+                    <svg class="w-10 h-10 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    </svg>
+                  </div>
+                )}
+                {/* Gradiente inferior */}
+                <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" aria-hidden="true"></div>
               </a>
-            </div>
-          </article>
-        ))}
+
+              {/* Badge de categoría — en el borde imagen/contenido */}
+              <div class="px-5 -mt-4 relative z-10">
+                <span class={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-white px-3 py-1 ${badgeBg}`}>
+                  <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  {badge}
+                </span>
+              </div>
+
+              {/* Contenido */}
+              <div class="px-5 pt-3 pb-4 flex flex-col flex-1">
+                <a href={`/turismo/${p.slug}`} class="no-underline">
+                  <h3 class="text-lg font-extrabold text-primary-950 leading-snug group-hover:text-primary-700 transition-colors">
+                    {p.name}
+                  </h3>
+                </a>
+
+                {(p.location || p.duration) && (
+                  <p class="text-xs text-primary-900/45 mt-1.5 font-medium">
+                    {p.location && <span>{p.location}</span>}
+                    {p.location && p.duration && <span class="mx-1.5 opacity-50">·</span>}
+                    {p.duration && <span>{p.duration}</span>}
+                  </p>
+                )}
+
+                {p.description && (
+                  <p class="text-sm text-primary-900/60 mt-2 leading-relaxed line-clamp-3 flex-1">
+                    {p.description}
+                  </p>
+                )}
+
+                <a
+                  href={`/turismo/${p.slug}`}
+                  class="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary-700 hover:text-primary-500 transition-colors"
+                >
+                  Conocer más
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                  </svg>
+                </a>
+              </div>
+
+              {/* Línea de acento inferior */}
+              <div class={`h-[3px] ${badgeBg} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300`} aria-hidden="true"></div>
+            </article>
+          );
+        })}
       </div>
     ) : (
-      <p class="text-sm text-primary-900/50">Atractivos turísticos próximamente.</p>
+      <p class="text-sm text-primary-900/50 text-center">Atractivos turísticos próximamente.</p>
     )}
   </div>
 
