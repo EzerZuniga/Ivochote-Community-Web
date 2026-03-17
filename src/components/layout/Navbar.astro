@@ -264,20 +264,42 @@ const searchIndex: SearchItem[] = [
         var lines = document.querySelectorAll<HTMLElement>('.hamburger-line');
         var hasHero = !!document.getElementById('hero-carousel');
         var mobileOpen = false;
+        var topBarVisible = true;
 
         function setSolid() { if (header) header.classList.add('is-solid'); }
         function setTransparent() { if (header) header.classList.remove('is-solid'); }
-        function hideTopBar() { if (topBar) topBar.classList.add('top-bar-hidden'); }
-        function showTopBar() { if (topBar) topBar.classList.remove('top-bar-hidden'); }
+
+        function applyContentPadding() {
+          var c = document.getElementById('content');
+          if (!c || hasHero) return;
+          var sm = window.innerWidth >= 640;
+          var lg = window.innerWidth >= 1024;
+          c.style.paddingTop = ((lg ? 76 : 68) + (topBarVisible && sm ? 36 : 0)) + 'px';
+        }
+
+        function hideTopBar() {
+          if (topBar) topBar.classList.add('top-bar-hidden');
+          topBarVisible = false;
+          applyContentPadding();
+        }
+        function showTopBar() {
+          if (topBar) topBar.classList.remove('top-bar-hidden');
+          topBarVisible = true;
+          applyContentPadding();
+        }
 
         function updateNavState() {
           if (mobileOpen) { setSolid(); return; }
-          if (!hasHero) { setSolid(); return; }
+          if (!hasHero) {
+            setSolid();
+            if (window.scrollY > 80) { hideTopBar(); } else { showTopBar(); }
+            return;
+          }
           if (window.scrollY > 80) { setSolid(); hideTopBar(); } else { setTransparent(); showTopBar(); }
         }
 
         if (hasHero && window.scrollY <= 80) { setTransparent(); }
-        if (hasHero) { window.addEventListener('scroll', updateNavState, { passive: true }); }
+        window.addEventListener('scroll', updateNavState, { passive: true });
 
         if (toggle && mobile) {
           var _toggle = toggle;
@@ -524,16 +546,10 @@ const searchIndex: SearchItem[] = [
           }
         });
 
-        /* Spacer for non-hero pages — topbar is hidden so only main nav height matters */
+        /* Spacer for non-hero pages — top bar visible on load, hidden on scroll */
         if (!hasHero) {
-          hideTopBar();
-          var c = document.getElementById('content');
-          if (c) {
-            var lgMq = window.matchMedia('(min-width: 1024px)');
-            function applyNavPadding() { if (c) c.style.paddingTop = lgMq.matches ? '4.75rem' : '4.25rem'; }
-            applyNavPadding();
-            lgMq.addEventListener('change', applyNavPadding);
-          }
+          applyContentPadding();
+          window.addEventListener('resize', applyContentPadding, { passive: true });
         }
       } catch (e) { console.error(e); }
     })();
