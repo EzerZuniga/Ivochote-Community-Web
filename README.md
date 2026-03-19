@@ -1,229 +1,193 @@
 # Ivochote Community Web
 
-![Astro](https://img.shields.io/badge/Astro-%20-blue) ![Node](https://img.shields.io/badge/Node-%3E=_18-brightgreen) ![Tailwind](https://img.shields.io/badge/Tailwind-3.x-blue)
+> Portal web oficial de la Municipalidad del Centro Poblado de Ivochote — Echarati, La Convención, Cusco, Perú.
 
-Sitio institucional para el Centro Poblado de Ivochote. Este repositorio contiene la web estática construida con Astro, componentes React/TS para funcionalidades interactivas y TailwindCSS para estilos.
-
-Resumen rápido:
-
-- Páginas públicas: noticias, eventos, turismo, servicios, autoridades.
-- Datos de ejemplo en `src/data/*.json` para desarrollo sin backend.
-- Estructura modular: `services/`, `types/`, `components/`, `layouts/`.
-
----
-
-## Tecnologías
-
-- Astro (SSG / Islands)
-- React (componentes interactivos)
-- TypeScript
-- TailwindCSS
-- Vite / PostCSS
+![Astro](https://img.shields.io/badge/Astro-5.x-BC52EE?logo=astro&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?logo=tailwindcss&logoColor=white)
+![Node](https://img.shields.io/badge/Node.js-%3E=18-339933?logo=node.js&logoColor=white)
+![Netlify](https://img.shields.io/badge/Deploy-Netlify-00C7B7?logo=netlify&logoColor=white)
 
 ---
 
-## Estado del proyecto
-
-Proyecto en desarrollo. Muchas páginas y componentes han sido refactorizados para mejorar accesibilidad, tipado y consistencia. Faltan tareas de validación final (typecheck, tests y ejecución local).
-
----
-
-## Estructura principal del repositorio
-
-> Nota: la sección siguiente contiene una vista consolidada y detallada de la estructura del proyecto.
-
----
-
-## Scripts útiles
-
-Usa PowerShell en Windows (ejemplos):
-
-```powershell
-npm install
-npm run dev      # Ejecuta el servidor de desarrollo (Vite)
-npm run build    # Genera la versión de producción
-npm run typecheck # Ejecuta TypeScript (tsc --noEmit)
-npm test         # Ejecuta tests (Vitest)
-```
-
----
-
-## Desarrollo local
-
-1.  Clona el repositorio y entra en la carpeta:
-
-```powershell
-git clone <repo-url>
-cd "Ivochote-Community-Web"
-```
-
-2.  Instala dependencias y levanta el entorno:
-
-```powershell
-npm install
-npm run dev
-```
-
-3.  Para comprobar tipos y errores estáticos:
-
-```powershell
-npm run typecheck
-```
-
-4.  Para construir la versión de producción:
-
-# WEB DESCRIPCION
-
-Sitio institucional del Centro Poblado de Ivochote. Proyecto construido con Astro, componentes React + TypeScript para las porciones interactivas y Tailwind CSS para el sistema de estilos.
-
-## Índice
+## Tabla de contenidos
 
 - [Descripción](#descripción)
-- [Características](#características)
-- [Requisitos](#requisitos)
-- [Instalación](#instalación)
-- [Desarrollo](#desarrollo)
-- [Construcción y despliegue](#construcción-y-despliegue)
+- [Stack tecnológico](#stack-tecnológico)
 - [Estructura del proyecto](#estructura-del-proyecto)
-- [Internals importantes](#internals-importantes)
+- [Inicio rápido](#inicio-rápido)
+- [Scripts disponibles](#scripts-disponibles)
+- [Despliegue](#despliegue)
+- [Contribuir](#contribuir)
+- [Licencia](#licencia)
+
+---
 
 ## Descripción
 
-Esta aplicación es el sitio web oficial del Centro Poblado de Ivochote. Provee páginas públicas para noticias, eventos, turismo, servicios y autoridades. Los datos de ejemplo están incluidos para facilitar el desarrollo local sin necesidad de backend.
-
-## Características
-
-- Sitio estático preconstruido con Astro.
-- Componentes interactivos con React y TypeScript.
-- Estilado con Tailwind CSS.
-- Localización básica (`locales/` con `en.json` y `es.json`).
-- Datos de ejemplo en `src/data/*.json` para desarrollo offline.
-
-## Requisitos
-
-- Node.js >= 18 (recomendado).
-- npm (v9+ recomendado) o Yarn/PNPM si prefieres.
-
-## Instalación
-
-Desde PowerShell en Windows:
-
-```powershell
-git clone <REPO_URL>
-cd "Ivochote-Community-Web"
-npm install
-```
-
-Reemplaza `<REPO_URL>` por la URL del repositorio.
-
-## Desarrollo
-
-Levantamiento en modo desarrollo (Hot Reload):
-
-```powershell
-npm run dev
-```
-
-Comprobar tipos TypeScript:
-
-```powershell
-npm run typecheck
-```
-
-Pruebas: no hay tests configuradas en `package.json`. Si deseas añadir tests, agrega un script `test`.
-
-## Construcción y despliegue
-
-Generar artefacto de producción:
-
-```powershell
-npm run build
-```
-
-Servidor de previsualización de la build:
-
-```powershell
-npm run preview
-```
-
-Consejo: para desplegar en plataformas estáticas (Netlify, Vercel, Cloudflare Pages, etc.) usa la carpeta de salida que genere `astro build`.
-
-## Estructura del proyecto (detallada)
-
-A continuación encontrarás un árbol simplificado del repositorio con descripciones breves de las carpetas y archivos más relevantes. Usa esto como guía rápida para ubicar código y activos.
-
-```
-.
-├─ astro.config.mjs        # Configuración de Astro
-├─ package.json            # Scripts y dependencias (dev, build, preview, typecheck)
-├─ postcss.config.cjs      # Configuración PostCSS / Tailwind
-├─ tailwind.config.mjs     # Configuración Tailwind CSS
-├─ tsconfig.json           # Configuración TypeScript
-├─ README.md               # Documentación (este archivo)
-├─ LICENSE                 # Licencia del proyecto
-├─ public/                 # Archivos estáticos servidos (imágenes, fonts)
-│  ├─ assets/
-│  └─ images/
-├─ src/
-│  ├─ pages/               # Rutas y páginas (Astro files => URL routes)
-│  │  ├─ index.astro
-│  │  ├─ noticias/
-│  │  └─ ...
-│  ├─ components/          # Componentes React/TSX y Astro reutilizables
-│  │  ├─ news/             # NewsCard, NewsSkeleton, etc.
-│  │  └─ ui/
-│  ├─ layouts/             # Layouts globales (BaseLayout, HomeLayout, ArticleLayout)
-│  ├─ data/                # JSON con datos de ejemplo (mock data)
-│  ├─ services/            # Lógica para consumir/transformar datos (authoritiesService, newsService...)
-│  ├─ types/               # Tipos TypeScript para las entidades del dominio (News, Event, Service...)
-│  ├─ styles/              # CSS global y Tailwind entrypoint
-│  └─ utils/               # Helpers y formateadores
-└─ config/
-  ├─ navigation.ts        # Menú y rutas para la Navbar
-  └─ site.config.ts
-
-```
-
-Descripción de carpetas y archivos clave:
-
-- **`astro.config.mjs`**: archivo de configuración de Astro (integraciones y adaptadores).
-- **`package.json`**: contiene los scripts principales: `dev`, `build`, `preview`, `typecheck`.
-- **`src/pages/`**: cada archivo `.astro` o carpeta aquí representa una ruta pública. Ejemplos: `src/pages/noticias/index.astro`, `src/pages/eventos/[slug].astro`.
-- **`src/components/`**: componentes visuales y widgets; separados por dominio (news, events, ui, etc.) para facilitar la navegación.
-- **`src/layouts/`**: layouts que envuelven páginas; aquí están `BaseLayout.astro`, `HomeLayout.astro`, `ArticleLayout.astro`.
-- **`src/data/`**: JSON con contenido de ejemplo usado por los servicios en `src/services/`; útil para desarrollo sin backend.
-- **`src/services/`**: funciones que encapsulan la lectura y transformación de datos (simulan API); p. ej. `newsService.ts`, `eventsService.ts`.
-- **`src/types/`**: definiciones TypeScript para las entidades del dominio (noticias, eventos, servicios, turismo, autoridades).
-- **`public/`**: recursos estáticos accesibles directamente desde la web (optimiza imágenes y favicons aquí).
-- **`config/navigation.ts`**: punto central para la definición del menú; actualízalo si añades nuevas rutas que deben mostrarse en la navbar.
-
-## Internals importantes
-
-- Navegación: `config/navigation.ts` (añade entradas para que aparezcan en la `Navbar`).
-- Localización: archivos en `locales/`.
-- Servicios de datos: `src/services/*Service.ts` (consumen `src/data/*.json`).
-
-## Cómo contribuir
-
-1.  Fork del repositorio.
-2.  Crea una rama descriptiva: `git checkout -b feature/mi-cambio`.
-3.  Implementa y añade tests cuando aplique.
-4.  Ejecuta `npm run typecheck` antes de subir cambios.
-5.  Abre un Pull Request describiendo el cambio y su motivación.
-
-Buenas prácticas:
-
-- Mantén commits pequeños y descriptivos.
-- Añade documentación para cambios visibles en UI o en la API interna.
-
-## Licencia
-
-Proyecto bajo la licencia indicada en `LICENSE` (archivo en la raíz del repositorio).
-
-## Contacto
-
-Para dudas, reportes o coordinación del proyecto, abre un issue en GitHub o contacta al mantenedor del repositorio.
+Sitio institucional estático generado con **Astro** (SSG + Islands Architecture). Incluye secciones de noticias, eventos, turismo, servicios y autoridades. Los datos de contenido viven en `src/data/*.json`, lo que permite desarrollo completamente offline sin necesidad de un backend.
 
 ---
 
-_Mantenido por EzerZuniga_.
+## Stack tecnológico
+
+| Herramienta                                                                        | Rol                                |
+| ---------------------------------------------------------------------------------- | ---------------------------------- |
+| [Astro 5](https://astro.build)                                                     | Framework SSG / Islands            |
+| [React 18](https://react.dev)                                                      | Componentes interactivos (Islands) |
+| [TypeScript 5](https://www.typescriptlang.org)                                     | Tipado estático                    |
+| [Tailwind CSS 3](https://tailwindcss.com)                                          | Sistema de estilos utilitario      |
+| [PostCSS](https://postcss.org)                                                     | Transformaciones CSS               |
+| [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/) | Generación de sitemap.xml          |
+| [Netlify](https://netlify.com)                                                     | Plataforma de despliegue           |
+
+---
+
+## Estructura del proyecto
+
+```
+.
+├── astro.config.mjs          # Integraciones: React, Tailwind, Sitemap
+├── tailwind.config.mjs       # Configuración de Tailwind CSS
+├── postcss.config.cjs        # PostCSS (autoprefixer, etc.)
+├── tsconfig.json             # Configuración TypeScript
+├── netlify.toml              # Build y headers de seguridad para Netlify
+│
+├── config/
+│   ├── navigation.ts         # Definición de menú y rutas del sitio
+│   └── site.config.ts        # Metadatos globales (nombre, URL, SEO)
+│
+├── public/
+│   ├── manifest.json         # Web App Manifest
+│   ├── robots.txt
+│   └── assets/images/        # Imágenes estáticas (brand, carrusel, servicios…)
+│
+└── src/
+    ├── pages/                # Rutas del sitio (archivo = URL)
+    │   ├── index.astro
+    │   ├── noticias/         # /noticias  /noticias/[slug]
+    │   ├── eventos/          # /eventos   /eventos/[evento]
+    │   ├── turismo/          # /turismo   /turismo/[lugar]
+    │   ├── servicios/        # /servicios /servicios/[servicio]
+    │   ├── autoridades/      # /autoridades /autoridades/[autoridad]
+    │   ├── contacto/
+    │   └── 404.astro
+    │
+    ├── layouts/
+    │   ├── BaseLayout.astro    # Layout raíz (Head, Navbar, Footer)
+    │   ├── HomeLayout.astro    # Layout para la página de inicio
+    │   └── ArticleLayout.astro # Layout para páginas de detalle
+    │
+    ├── components/
+    │   ├── authorities/        # AuthorityCard
+    │   ├── events/             # EventCard
+    │   ├── news/               # NewsCard, NewsSearch
+    │   ├── services/           # ServiceCard
+    │   ├── tourism/            # PlaceCard
+    │   ├── layout/             # Navbar, Footer
+    │   ├── seo/                # Head, JsonLd
+    │   └── ui/                 # Button y primitivos reutilizables
+    │
+    ├── services/               # Capa de acceso a datos (consume src/data/)
+    │   ├── apiClient.ts
+    │   ├── newsService.ts
+    │   ├── eventsService.ts
+    │   ├── authoritiesService.ts
+    │   ├── servicesService.ts
+    │   └── tourismService.ts
+    │
+    ├── types/                  # Interfaces y tipos de dominio
+    │   ├── news.ts
+    │   ├── events.ts
+    │   ├── authorities.ts
+    │   ├── services.ts
+    │   └── tourism.ts
+    │
+    ├── data/                   # Mock data JSON (desarrollo sin backend)
+    │   ├── noticias.json
+    │   ├── events.json
+    │   ├── authorities.json
+    │   ├── services.json
+    │   └── turismo.json
+    │
+    ├── styles/
+    │   ├── globals.css         # Variables CSS y reset global
+    │   └── tailwind.css        # Entrypoint de Tailwind (@tailwind directives)
+    │
+    └── utils/
+        ├── formatters.ts       # Formateo de fechas, moneda y texto
+        ├── helpers.ts          # Funciones de soporte general
+        └── validators.ts       # Validaciones de datos
+```
+
+---
+
+## Inicio rápido
+
+**Requisitos previos:** Node.js >= 18 y npm >= 9.
+
+```powershell
+# 1. Clonar el repositorio
+git clone https://github.com/EzerZuniga/Ivochote-Community-Web.git
+cd Ivochote-Community-Web
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Levantar servidor de desarrollo en http://localhost:4321
+npm run dev
+```
+
+---
+
+## Scripts disponibles
+
+| Comando             | Descripción                                           |
+| ------------------- | ----------------------------------------------------- |
+| `npm run dev`       | Servidor de desarrollo con HMR en `localhost:4321`    |
+| `npm run build`     | Genera la build de producción en `dist/`              |
+| `npm run preview`   | Previsualiza la build de producción localmente        |
+| `npm run typecheck` | Verifica tipos con `tsc --noEmit` sin emitir archivos |
+
+---
+
+## Despliegue
+
+El proyecto está configurado para desplegarse en **Netlify** vía [netlify.toml](netlify.toml):
+
+- Comando de build: `npm run build`
+- Directorio publicado: `dist/`
+- Node.js: 18
+- Incluye headers de seguridad (CSP, X-Frame-Options, etc.) y redirección 404 personalizada.
+
+URL de producción: **https://municipalidad-de-ivochote.netlify.app**
+
+Para otras plataformas (Vercel, Cloudflare Pages), apunta el directorio de salida a `dist/`.
+
+---
+
+## Contribuir
+
+1. Haz un fork y crea una rama desde `main`:
+   ```powershell
+   git checkout -b feature/nombre-del-cambio
+   ```
+2. Implementa el cambio con commits pequeños y descriptivos.
+3. Verifica que no haya errores de tipos:
+   ```powershell
+   npm run typecheck
+   ```
+4. Abre un **Pull Request** describiendo el problema que resuelve y la solución aplicada.
+
+> Para agregar una nueva sección: crea la página en `src/pages/`, el tipo en `src/types/`, el servicio en `src/services/`, los datos mock en `src/data/` y registra la ruta en `config/navigation.ts`.
+
+---
+
+## Licencia
+
+Distribuido bajo los términos del archivo [LICENSE](LICENSE).
+
+---
+
+_Mantenido por [@EzerZuniga](https://github.com/EzerZuniga)._
