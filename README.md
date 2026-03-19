@@ -1,6 +1,6 @@
 # Ivochote Community Web
 
-> Portal web oficial de la Municipalidad del Centro Poblado de Ivochote — Echarati, La Convención, Cusco, Perú.
+> Portal web de la Municipalidad del Centro Poblado de Ivochote — Echarati, La Convención, Cusco, Perú.
 
 ![Astro](https://img.shields.io/badge/Astro-5.x-BC52EE?logo=astro&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
