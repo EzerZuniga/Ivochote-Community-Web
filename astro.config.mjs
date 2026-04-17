@@ -3,8 +3,12 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
+const SITE_URL =
+  process.env.PUBLIC_SITE_URL ??
+  "https://municipalidad-de-ivochote.netlify.app";
+
 export default defineConfig({
-  site: "https://municipalidad-de-ivochote.netlify.app",
+  site: SITE_URL,
   integrations: [
     react(),
     tailwind(),
@@ -12,11 +16,10 @@ export default defineConfig({
       i18n: { defaultLocale: "es", locales: { es: "es-PE" } },
       changefreq: "weekly",
       priority: 0.7,
-      lastmod: new Date(),
       filter: (page) => !page.includes("/404"),
       serialize: (item) => {
         // Prioridades específicas por sección
-        if (item.url === "https://municipalidad-de-ivochote.netlify.app/") {
+        if (item.url === `${SITE_URL}/`) {
           item.priority = 1.0;
           item.changefreq = "daily";
         } else if (item.url.includes("/noticias")) {

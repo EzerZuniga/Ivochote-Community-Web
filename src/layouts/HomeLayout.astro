@@ -25,6 +25,9 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
 <BaseLayout title={title} description={pageDescription} showPreloader={true}>
   <!-- ===== HERO CARRUSEL ===== -->
   <header id="hero-carousel" class="relative w-full h-screen min-h-[500px] flex items-center overflow-hidden">
+    <h1 class="sr-only">
+      {title ?? 'Municipalidad del Centro Poblado de Ivochote'}
+    </h1>
 
     <!-- Slides -->
     {slides.length > 0 ? (
@@ -39,7 +42,7 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
           {/* Imagen */}
           <img
             src={slide.image}
-            alt=""
+            alt={slide.title}
             class="absolute inset-0 w-full h-full object-cover"
             loading={i === 0 ? "eager" : "lazy"}
             decoding="async"
@@ -105,7 +108,7 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
           id="hero-prev"
           type="button"
           aria-label="Imagen anterior"
-          class="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 hidden sm:flex items-center justify-center text-white/70 hover:text-white transition-all duration-200 focus:outline-none"
+          class="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 hidden sm:flex items-center justify-center text-white bg-primary-900/80 border border-white/45 rounded-sm shadow-md shadow-black/25 hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
         >
           <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </button>
@@ -113,7 +116,7 @@ const slides = heroSlides && heroSlides.length > 0 ? heroSlides : [];
           id="hero-next"
           type="button"
           aria-label="Imagen siguiente"
-          class="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 hidden sm:flex items-center justify-center text-white/70 hover:text-white transition-all duration-200 focus:outline-none"
+          class="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 hidden sm:flex items-center justify-center text-white bg-primary-900/80 border border-white/45 rounded-sm shadow-md shadow-black/25 hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
         >
           <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>

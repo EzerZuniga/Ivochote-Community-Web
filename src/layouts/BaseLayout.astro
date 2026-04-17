@@ -159,6 +159,86 @@ const {
         </div>
       </div>
     )}
+    {showPreloader && (
+      <aside
+        id="site-disclaimer"
+        class="site-disclaimer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="site-disclaimer-title"
+        aria-describedby="site-disclaimer-text"
+        hidden
+      >
+        <div class="site-disclaimer-inner">
+          <div class="site-disclaimer-header">
+            <div class="site-disclaimer-brand">
+              <img
+                src="/assets/images/brand/logoivo.png"
+                alt="Logo de la Municipalidad del Centro Poblado de Ivochote"
+                class="site-disclaimer-logo"
+                width="140"
+                height="140"
+                loading="eager"
+                decoding="async"
+              />
+              <p class="site-disclaimer-entity">Municipalidad del Centro Poblado de Ivochote</p>
+              <p class="site-disclaimer-entity-sub">Distrito de Echarati · Provincia La Convención · Cusco</p>
+            </div>
+            <h2 id="site-disclaimer-title" class="site-disclaimer-title">Comunicado</h2>
+            <p id="site-disclaimer-text" class="site-disclaimer-lead">
+              Este sitio web ha sido desarrollado con fines educativos, académicos y demostrativos, como parte de un
+              proyecto personal orientado al fortalecimiento de competencias en la carrera de Ingeniería Informática y
+              de Sistemas, específicamente en el curso de Desarrollo de Aplicaciones Web.
+            </p>
+          </div>
+          <div class="site-disclaimer-body">
+            <p class="site-disclaimer-text">
+              <strong class="site-disclaimer-label">Finalidad:</strong>
+              La presente plataforma constituye una propuesta digital institucional, cuyo objetivo es simular y mejorar
+              la experiencia de acceso a información municipal mediante herramientas tecnológicas modernas.
+            </p>
+            <p class="site-disclaimer-text">
+              <strong class="site-disclaimer-label">Importante:</strong>
+              Este sitio no corresponde a un portal oficial de la Municipalidad del Centro Poblado de Ivochote. Su
+              contenido es referencial y ha sido diseñado exclusivamente con fines de aprendizaje y práctica
+              profesional.
+            </p>
+            <p class="site-disclaimer-text">
+              <strong class="site-disclaimer-label">Autorización:</strong>
+              Este proyecto ha sido desarrollado previa autorización del alcalde de la Municipalidad del Centro Poblado
+              de Ivochote, con el propósito de explorar soluciones digitales que puedan aportar valor a la comunidad.
+            </p>
+            <p class="site-disclaimer-text">
+              <strong class="site-disclaimer-label">Responsable:</strong>
+              El desarrollo, diseño e implementación de esta plataforma han sido realizados por Ezer Zúñiga Chura, como
+              parte de su formación académica y crecimiento profesional en el área de desarrollo de software.
+            </p>
+            <p class="site-disclaimer-text">
+              <strong class="site-disclaimer-label">Alcance:</strong>
+              La información publicada, así como los documentos y enlaces disponibles, tienen carácter ilustrativo y no
+              sustituyen los canales oficiales de atención municipal.
+            </p>
+            <p class="site-disclaimer-text">
+              Agradecemos su comprensión y valoración de este trabajo académico como parte del proceso de formación
+              profesional.
+            </p>
+          </div>
+          <div class="site-disclaimer-actions">
+            <a
+              href="/downloads/OFICOP.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="site-disclaimer-link"
+            >
+              Ver permiso
+            </a>
+            <button id="site-disclaimer-ack" type="button" class="site-disclaimer-secondary-btn">
+              Entendido
+            </button>
+          </div>
+        </div>
+      </aside>
+    )}
 
     <a class="sr-only focus:not-sr-only focus:absolute top-4 left-4 bg-primary-900 text-white px-3 py-2 rounded z-[100]" href="#content">Saltar al contenido</a>
 
@@ -177,18 +257,59 @@ const {
 
         let dismissed = false;
         const el = preloader;
+        const closeBtn = document.getElementById('preloader-close');
+        const disclaimer = document.getElementById('site-disclaimer');
+        const disclaimerAcknowledge = document.getElementById('site-disclaimer-ack');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const alreadySeen = sessionStorage.getItem('preloaderSeen') === '1';
+        const disclaimerSeen = sessionStorage.getItem('siteDisclaimerSeen') === '1';
+
+        function showDisclaimer() {
+          if (!disclaimer || disclaimerSeen) return;
+          disclaimer.removeAttribute('hidden');
+          requestAnimationFrame(() => {
+            disclaimer.classList.add('is-visible');
+            (disclaimerAcknowledge as HTMLElement | null)?.focus();
+          });
+        }
+
+        function closeDisclaimer() {
+          if (!disclaimer) return;
+          disclaimer.classList.remove('is-visible');
+          sessionStorage.setItem('siteDisclaimerSeen', '1');
+          setTimeout(() => {
+            disclaimer.setAttribute('hidden', '');
+          }, 220);
+        }
+
+        function removeImmediately() {
+          dismissed = true;
+          el.remove();
+        }
 
         function closePreloader() {
           if (dismissed) return;
           dismissed = true;
+          sessionStorage.setItem('preloaderSeen', '1');
           el.classList.add('preloader-exit');
           setTimeout(() => {
             el.remove();
+            showDisclaimer();
           }, 800);
         }
 
-        const closeBtn = document.getElementById('preloader-close');
+        if (reducedMotion || alreadySeen) {
+          removeImmediately();
+          return;
+        }
+
         if (closeBtn) closeBtn.addEventListener('click', closePreloader);
+        if (disclaimerAcknowledge) disclaimerAcknowledge.addEventListener('click', closeDisclaimer);
+        if (disclaimer) {
+          disclaimer.addEventListener('click', (e) => {
+            if (e.target === disclaimer) closeDisclaimer();
+          });
+        }
 
         el.addEventListener('click', (e) => {
           if (e.target === closeBtn || closeBtn?.contains(e.target as Node)) return;
@@ -196,11 +317,15 @@ const {
         });
 
         document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && disclaimer?.classList.contains('is-visible')) {
+            closeDisclaimer();
+            return;
+          }
           if (e.key === 'Escape' || e.key === 'Enter') closePreloader();
         });
 
-        // Auto-cerrar cuando la barra de progreso termina (~3.5s)
-        setTimeout(closePreloader, 3600);
+        // Auto-cierre corto para no bloquear la navegación principal.
+        setTimeout(closePreloader, 1800);
       })();
     </script>
   </body>

@@ -14,7 +14,6 @@ interface Props {
   noindex?: boolean;
   publishedTime?: string;
   author?: string;
-  keywords?: string;
 }
 
 const {
@@ -26,10 +25,7 @@ const {
   noindex = false,
   publishedTime,
   author,
-  keywords,
 } = Astro.props;
-
-const metaKeywords = keywords ?? SITE_CONFIG.keywords;
 
 const siteTitle = title
   ? `${title} | ${SITE_CONFIG.title}`
@@ -41,6 +37,8 @@ const canonicalUrl = canonical
 const ogImage = image
   ? (image.startsWith('http') ? image : new URL(image, SITE_CONFIG.baseUrl).toString())
   : new URL(SITE_CONFIG.ogImage, SITE_CONFIG.baseUrl).toString();
+
+const hreflangLocale = SITE_CONFIG.locale.replace('_', '-');
 ---
 
 <!-- Básicos -->
@@ -48,7 +46,6 @@ const ogImage = image
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>{siteTitle}</title>
 <meta name="description" content={description} />
-<meta name="keywords" content={metaKeywords} />
 <link rel="canonical" href={canonicalUrl} />
 
 <!-- Google Search Console verificación -->
@@ -116,19 +113,12 @@ const ogImage = image
 <meta name="ICBM" content={`${SITE_CONFIG.coordinates.lat}, ${SITE_CONFIG.coordinates.lng}`} />
 
 <!-- Idioma y autor -->
-<meta name="language" content={SITE_CONFIG.language} />
 <meta name="author" content={SITE_CONFIG.author} />
 <meta name="generator" content={Astro.generator} />
-<meta name="rating" content="general" />
-<meta name="distribution" content="global" />
-<meta name="revisit-after" content="3 days" />
 
 <!-- Alternativas de idioma (hreflang para Google) -->
-<link rel="alternate" hreflang="es-PE" href={canonicalUrl} />
+<link rel="alternate" hreflang={hreflangLocale} href={canonicalUrl} />
 <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
-
-<!-- Web Manifest -->
-<link rel="manifest" href="/manifest.json" />

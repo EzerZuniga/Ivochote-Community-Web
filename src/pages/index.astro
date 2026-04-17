@@ -53,14 +53,13 @@ const tourismCategoryColor: Record<string, string> = {
         {news.slice(0, 3).map(n => (
           <a
             href={`/noticias/${n.slug}`}
-            class="group bg-white border border-gray-200 overflow-hidden flex flex-col no-underline transition-shadow duration-200 hover:shadow-md"
+            class="news-home-card group bg-white border border-gray-200 overflow-hidden flex flex-col no-underline transition-all duration-300"
           >
             {n.image ? (
               <div class="overflow-hidden bg-primary-50" style="aspect-ratio:16/9">
                 <img
                   src={n.image}
-                  alt=""
-                  aria-hidden="true"
+                  alt={n.title}
                   class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                   loading="lazy"
                   decoding="async"
@@ -91,27 +90,6 @@ const tourismCategoryColor: Record<string, string> = {
     )}
   </div>
 
-  <div slot="services">
-    {services.length > 0 ? (
-      <ul class="space-y-2" role="list">
-        {services.slice(0, 5).map(s => (
-          <li>
-            <a href={`/servicios/${s.slug ?? s.id}`} class="flex items-center gap-2.5 text-sm text-primary-900/70 hover:text-primary-700 no-underline py-1 transition-colors group">
-              <span class="w-2 h-2 rounded-full bg-primary-300 flex-shrink-0 group-hover:bg-primary-500 transition-colors"></span>
-              {s.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p class="text-sm text-primary-900/50">Servicios próximamente.</p>
-    )}
-    <a href="/servicios" class="inline-flex items-center gap-1 text-sm text-primary-900 font-semibold hover:text-primary-700 mt-4 transition-colors">
-      Ver todos los servicios
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-    </a>
-  </div>
-
   <div slot="tourism">
     {places.length > 0 ? (
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -119,7 +97,7 @@ const tourismCategoryColor: Record<string, string> = {
           const badge = tourismCategoryLabel[p.category] ?? p.category;
           const badgeBg = tourismCategoryColor[p.category] ?? 'bg-primary-700';
           return (
-            <article class="group bg-white border border-gray-200 overflow-hidden flex flex-col transition-shadow duration-200 hover:shadow-xl">
+            <article class="group bg-white border border-gray-200 overflow-hidden flex flex-col shadow-md shadow-primary-950/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-primary-950/20">
               {/* Imagen */}
               <a href={`/turismo/${p.slug}`} class="relative block overflow-hidden" style="aspect-ratio:4/3">
                 {p.images?.[0] ? (

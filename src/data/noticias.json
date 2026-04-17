@@ -9,7 +9,7 @@
     "author": "Municipalidad de Ivochote",
     "category": "institucional",
     "tags": ["portal web", "modernización", "gobierno digital"],
-    "image": "/assets/images/brand/logo.png",
+    "image": "/assets/IvochoteP.jpeg",
     "featured": true
   },
   {
@@ -22,7 +22,7 @@
     "author": "Municipalidad de Ivochote",
     "category": "obras",
     "tags": ["infraestructura", "vías", "obras públicas"],
-    "image": "/assets/images/brand/logo.png"
+    "image": "/assets/carre-Ivo.jpeg"
   },
   {
     "id": "n-003",
@@ -34,6 +34,6 @@
     "author": "Municipalidad de Ivochote",
     "category": "salud",
     "tags": ["salud", "campaña", "comunidad"],
-    "image": "/assets/images/brand/logo.png"
+    "image": "/assets/Rio-Ivo.jpeg"
   }
 ]

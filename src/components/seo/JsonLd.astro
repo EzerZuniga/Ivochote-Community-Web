@@ -130,14 +130,6 @@ const websiteLd = {
   description: SITE_CONFIG.description,
   inLanguage: 'es-PE',
   publisher: { '@id': `${SITE_CONFIG.baseUrl}/#organization` },
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `${SITE_CONFIG.baseUrl}/noticias?q={search_term_string}`,
-    },
-    'query-input': 'required name=search_term_string',
-  },
 };
 
 const webPageLd = {
@@ -200,7 +192,7 @@ const articleLd = article
 const eventStatusMap: Record<string, string> = {
   upcoming: 'EventScheduled',
   ongoing: 'EventScheduled',
-  past: 'EventScheduled',
+  past: 'EventCompleted',
   cancelled: 'EventCancelled',
 };
 

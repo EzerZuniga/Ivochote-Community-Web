@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Portal de Transparencia"
+  description="Accede a documentos de transparencia, normativa y formularios de la Municipalidad del Centro Poblado de Ivochote."
+  breadcrumbs={[{ name: "Transparencia", href: "/transparencia" }]}
+  pageType="CollectionPage"
+>
+  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <nav class="flex items-center gap-2 text-sm text-white/50 mb-6" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        <span aria-current="page" class="text-white/80 font-medium">Transparencia</span>
+      </nav>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Portal de Transparencia Estándar</h1>
+      <p class="mt-3 text-white/65 max-w-3xl">
+        Publicamos información institucional para garantizar una gestión abierta, trazable y accesible para toda la ciudadanía.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Normativa y Reglamentos</h2>
+        <p class="text-sm text-primary-900/70 mb-5">
+          Consulta reglamentos vigentes, lineamientos y documentos de gestión institucional.
+        </p>
+        <a
+          href="/downloads/reglamentos.pdf"
+          class="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Descargar reglamentos
+        </a>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Formularios y Trámites</h2>
+        <p class="text-sm text-primary-900/70 mb-5">
+          Descarga formatos oficiales para trámites administrativos y atención ciudadana.
+        </p>
+        <a
+          href="/downloads/formularios.pdf"
+          class="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Descargar formularios
+        </a>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Oficios y Comunicados</h2>
+        <p class="text-sm text-primary-900/70 mb-5">
+          Revisa el documento de oficio institucional disponible para consulta ciudadana.
+        </p>
+        <a
+          href="/downloads/OFICOP.pdf"
+          class="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Descargar oficio
+        </a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

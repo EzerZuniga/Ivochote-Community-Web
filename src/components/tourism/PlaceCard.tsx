@@ -57,7 +57,7 @@ export default function PlaceCard({ place, href }: Props) {
   const iconPath = ICON_PATHS[place.icon ?? ""] ?? ICON_PATHS["forest"];
 
   return (
-    <article className="group flex flex-col bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 h-full">
+    <article className="group flex flex-col bg-white border border-gray-200 shadow-md shadow-primary-950/10 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary-950/20 transition-all duration-300 h-full">
       {/* Franja de acento */}
       <div className={`h-1 w-full ${style.accent}`} aria-hidden="true" />
 

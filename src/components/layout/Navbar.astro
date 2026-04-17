@@ -288,6 +288,8 @@ const searchIndex: SearchItem[] = [
           applyContentPadding();
         }
 
+        var solidThreshold = 1;
+
         function updateNavState() {
           if (mobileOpen) { setSolid(); return; }
           if (!hasHero) {
@@ -295,10 +297,11 @@ const searchIndex: SearchItem[] = [
             if (window.scrollY > 80) { hideTopBar(); } else { showTopBar(); }
             return;
           }
-          if (window.scrollY > 80) { setSolid(); hideTopBar(); } else { setTransparent(); showTopBar(); }
+          if (window.scrollY >= solidThreshold) { setSolid(); } else { setTransparent(); }
+          if (window.scrollY > 80) { hideTopBar(); } else { showTopBar(); }
         }
 
-        if (hasHero && window.scrollY <= 80) { setTransparent(); }
+        if (hasHero && window.scrollY < solidThreshold) { setTransparent(); }
         window.addEventListener('scroll', updateNavState, { passive: true });
 
         if (toggle && mobile) {
@@ -404,24 +407,58 @@ const searchIndex: SearchItem[] = [
           searchOverlay.style.pointerEvents = 'none';
           document.body.style.overflow = '';
           if (searchInput) searchInput.value = '';
-          if (searchResults) { searchResults.innerHTML = ''; searchResults.classList.add('hidden'); }
+          if (searchResults) {
+            searchResults.replaceChildren();
+            searchResults.classList.add('hidden');
+          }
+        }
+
+        function escapeHtml(text: string): string {
+          return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function sanitizePath(href: string): string {
+          if (!href.startsWith('/')) return '/';
+          return href.replace(/"/g, '%22');
         }
 
         function highlight(text: string, query: string): string {
-          if (!query) return text;
-          var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-          return text.replace(re, '<mark class="bg-primary-400/40 text-white rounded px-0.5">$1</mark>');
+          const safeText = escapeHtml(text);
+          if (!query) return safeText;
+          var escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          if (!escapedQuery) return safeText;
+          var re = new RegExp('(' + escapedQuery + ')', 'gi');
+          return safeText.replace(
+            re,
+            '<mark class="bg-primary-400/40 text-white rounded px-0.5">$1</mark>',
+          );
+        }
+
+        function attachSearchResultListeners() {
+          if (!searchResults) return;
+          searchResults.querySelectorAll<HTMLAnchorElement>('a[data-search-link]').forEach(function(anchor) {
+            anchor.addEventListener('click', closeSearch);
+          });
         }
 
         function renderResults(query: string) {
           if (!searchResults) return;
           var q = query.trim().toLowerCase();
-          if (q.length < 2) { searchResults.innerHTML = ''; searchResults.classList.add('hidden'); return; }
+          if (q.length < 2) {
+            searchResults.replaceChildren();
+            searchResults.classList.add('hidden');
+            return;
+          }
           var hits = INDEX.filter(function(item) {
             return item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
           }).slice(0, 12);
           if (hits.length === 0) {
-            searchResults.innerHTML = '<p class="text-white/50 text-sm text-center py-6">No se encontraron resultados para <strong class="text-white">"' + query + '"</strong></p>';
+            searchResults.innerHTML = '<p class="text-white/50 text-sm text-center py-6">No se encontraron resultados para <strong class="text-white">"' + escapeHtml(query) + '"</strong></p>';
             searchResults.classList.remove('hidden');
             return;
           }
@@ -434,9 +471,9 @@ const searchIndex: SearchItem[] = [
           var html = '';
           Object.keys(groups).forEach(function(cat) {
             html += '<div class="mb-4">';
-            html += '<div class="px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary-400 bg-white/5">' + cat + '</div>';
+            html += '<div class="px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary-400 bg-white/5">' + escapeHtml(cat) + '</div>';
             groups[cat].forEach(function(item) {
-              html += '<a href="' + item.href + '" class="flex items-start gap-3 px-4 py-3 hover:bg-white/10 transition-colors group" onclick="document.getElementById(\'search-overlay\').style.opacity=\'0\';document.getElementById(\'search-overlay\').style.pointerEvents=\'none\';document.body.style.overflow=\'\';">';
+              html += '<a href="' + sanitizePath(item.href) + '" data-search-link="true" class="flex items-start gap-3 px-4 py-3 hover:bg-white/10 transition-colors group">';
               html += '<svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-primary-400 group-hover:text-primary-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>';
               html += '<div class="min-w-0">';
               html += '<div class="text-white text-sm font-semibold leading-tight">' + highlight(item.title, query) + '</div>';
@@ -446,6 +483,7 @@ const searchIndex: SearchItem[] = [
             html += '</div>';
           });
           searchResults.innerHTML = html;
+          attachSearchResultListeners();
           searchResults.classList.remove('hidden');
         }
 
@@ -616,9 +654,7 @@ const searchIndex: SearchItem[] = [
 
   /* ===== Solid state (scrolled / non-hero) ===== */
   #site-header.is-solid #main-nav {
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #fff;
     box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
   }
   #site-header.is-solid .desktop-link { color: #155A29; }

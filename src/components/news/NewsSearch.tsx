@@ -191,8 +191,7 @@ export default function NewsSearch({ news, categories }: Props) {
             {featured.image ? (
               <img
                 src={featured.image}
-                alt=""
-                aria-hidden="true"
+                alt={featured.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="eager"
                 width={900}
@@ -292,8 +291,7 @@ export default function NewsSearch({ news, categories }: Props) {
                 {n.image ? (
                   <img
                     src={n.image}
-                    alt=""
-                    aria-hidden="true"
+                    alt={n.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     width={400}

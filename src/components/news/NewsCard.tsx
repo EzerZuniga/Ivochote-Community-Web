@@ -38,8 +38,7 @@ export default function NewsCard({ item, href, variant = "default" }: Props) {
           {item.image ? (
             <img
               src={item.image}
-              alt=""
-              aria-hidden="true"
+              alt={item.title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
               width={400}

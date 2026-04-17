@@ -11,25 +11,7 @@ export interface NavItem {
 
 export const MAIN_NAVIGATION: NavItem[] = [
   { href: "/", label: "Inicio" },
-  {
-    href: "/noticias",
-    label: "Noticias",
-    children: [
-      { href: "/noticias", label: "Todas las Noticias" },
-      {
-        href: "/noticias/inauguracion-portal-web-ivochote",
-        label: "Inauguración Portal Web",
-      },
-      {
-        href: "/noticias/mantenimiento-vias-acceso",
-        label: "Mantenimiento de Vías",
-      },
-      {
-        href: "/noticias/campana-salud-comunitaria",
-        label: "Campaña de Salud",
-      },
-    ],
-  },
+  { href: "/noticias", label: "Noticias" },
   {
     href: "/autoridades",
     label: "Autoridades",

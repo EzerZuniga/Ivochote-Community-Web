@@ -1,9 +1,13 @@
+const PUBLIC_SITE_URL =
+  import.meta.env.PUBLIC_SITE_URL ??
+  "https://municipalidad-de-ivochote.netlify.app";
+
 export const SITE_CONFIG = {
   title: "Municipalidad del Centro Poblado de Ivochote",
   shortTitle: "MCP Ivochote",
   description:
     "Portal web oficial de la Municipalidad del Centro Poblado de Ivochote. Gobierno local del distrito de Echarati, provincia de La Convención, Cusco, Perú. Servicios municipales, trámites, turismo, noticias y eventos.",
-  baseUrl: "https://municipalidad-de-ivochote.netlify.app",
+  baseUrl: PUBLIC_SITE_URL,
   language: "es",
   locale: "es_PE",
   author: "Ezer B. Zuniga Chura",
@@ -30,7 +34,9 @@ export const SITE_CONFIG = {
    * Ejemplo: si Google da <meta name="google-site-verification" content="ABC123" />
    * poner aquí solo "ABC123"
    */
-    googleSiteVerification: "n5T9bgviyHU5mpti7fzXziBLe-kuJCsNzKmwM5xGcxg",
+  googleSiteVerification:
+    import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION ??
+    "n5T9bgviyHU5mpti7fzXziBLe-kuJCsNzKmwM5xGcxg",
 };
 
 export const SOCIAL_LINKS = {

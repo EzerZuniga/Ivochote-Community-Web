@@ -105,7 +105,7 @@ const catColor = category ? (CAT_COLORS[category.toLowerCase()] ?? 'bg-primary-6
 
   <!-- Article body -->
   <article
-    class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 prose prose-primary dark:prose-invert"
+    class="article-content max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10"
     itemscope
     itemtype="https://schema.org/Article"
   >
@@ -113,7 +113,7 @@ const catColor = category ? (CAT_COLORS[category.toLowerCase()] ?? 'bg-primary-6
       <slot />
     </section>
 
-    <footer class="not-prose mt-12 border-t border-primary-100 pt-6 text-sm text-primary-900/50">
+    <footer class="mt-12 border-t border-primary-100 pt-6 text-sm text-primary-900/50">
       <p>Si te interesa este artículo, puedes compartirlo o contactar a <strong class="text-primary-900/70">{SITE_CONFIG.author}</strong>.</p>
     </footer>
   </article>
