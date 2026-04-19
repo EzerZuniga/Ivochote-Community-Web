@@ -1,0 +1,62 @@
+---
+import { HOME_CTA_QUICK_LINKS } from "../../../config/home.config";
+---
+
+<section class="py-16 sm:py-20 bg-primary-50 border-t border-primary-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <span class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary-600 mb-4">
+        <span class="block w-8 h-px bg-primary-600"></span>
+        Portal ciudadano
+        <span class="block w-8 h-px bg-primary-600"></span>
+      </span>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-900 leading-tight">
+        Tu voz importa en nuestra comunidad
+      </h2>
+      <p class="mt-4 text-base text-primary-900/50 max-w-xl mx-auto leading-relaxed">
+        Accede a información oficial, consulta documentos y acuerdos municipales. Tu participación activa fortalece Ivochote.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+      {HOME_CTA_QUICK_LINKS.map((card) => (
+        <a
+          href={card.href}
+          class="group relative flex flex-col gap-3 border border-primary-200 bg-primary-50 hover:border-primary-400 hover:bg-primary-100 px-6 py-6 transition-all duration-200 overflow-hidden"
+        >
+          <div class="w-10 h-10 bg-primary-600 group-hover:bg-primary-500 flex items-center justify-center transition-colors duration-200">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <Fragment set:html={card.icon} />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-primary-900 text-sm leading-snug">{card.title}</h3>
+            <p class="text-xs text-primary-900/50 mt-1 leading-relaxed">{card.description}</p>
+          </div>
+          <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        </a>
+      ))}
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-3">
+      <a
+        href="/contacto"
+        class="inline-flex items-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm uppercase tracking-wider transition-colors duration-200"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        Contáctanos
+      </a>
+      <a
+        href="/servicios"
+        class="inline-flex items-center gap-2 px-6 py-3.5 border border-primary-600 text-primary-700 font-bold text-sm uppercase tracking-wider hover:bg-primary-600 hover:text-white transition-colors duration-200"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+        Ver servicios
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="Libro de Reclamaciones"
+  description="Canal de atención para registrar reclamos y quejas de los ciudadanos de la Municipalidad del Centro Poblado de Ivochote."
+  breadcrumbs={[
+    { name: "Atención Ciudadana", href: "/atencion/libro-de-reclamaciones" },
+    { name: "Libro de Reclamaciones", href: "/atencion/libro-de-reclamaciones" },
+  ]}
+  pageType="WebPage"
+>
+  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/contacto", label: "Atención Ciudadana" },
+          { label: "Libro de Reclamaciones" },
+        ]}
+      />
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Libro de Reclamaciones</h1>
+      <p class="mt-3 text-white/65 max-w-3xl">
+        Registra de forma oficial tus reclamos o quejas para que sean atendidos dentro de los plazos establecidos.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Documentación necesaria</h2>
+        <ul class="space-y-2 text-sm text-primary-900/70 list-disc pl-4">
+          <li>Datos del titular (nombres, DNI y teléfono).</li>
+          <li>Detalle claro de los hechos o incidencia.</li>
+          <li>Evidencias de respaldo, si corresponde.</li>
+        </ul>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Canales de atención</h2>
+        <p class="text-sm text-primary-900/70 leading-relaxed">
+          Presencial: Oficina de Atención al Ciudadano, Municipalidad de Ivochote.
+        </p>
+        <p class="text-sm text-primary-900/70 leading-relaxed mt-2">
+          Correo: <a class="font-semibold text-primary-700 hover:text-primary-500" href="mailto:reclamos@ivochote.gob.pe">reclamos@ivochote.gob.pe</a>
+        </p>
+        <a href="/contacto" class="inline-flex mt-5 items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors">
+          Contactar ahora
+        </a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

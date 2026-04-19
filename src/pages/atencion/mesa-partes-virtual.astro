@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="Mesa de Partes Virtual"
+  description="Canal digital para registrar solicitudes, expedientes y comunicaciones dirigidas a la Municipalidad del Centro Poblado de Ivochote."
+  breadcrumbs={[
+    { name: "Atención Ciudadana", href: "/atencion/mesa-partes-virtual" },
+    { name: "Mesa de Partes Virtual", href: "/atencion/mesa-partes-virtual" },
+  ]}
+  pageType="WebPage"
+>
+  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/contacto", label: "Atención Ciudadana" },
+          { label: "Mesa de Partes Virtual" },
+        ]}
+      />
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Mesa de Partes Virtual</h1>
+      <p class="mt-3 text-white/65 max-w-3xl">
+        Registra tus solicitudes y comunicaciones oficiales de manera digital, sin necesidad de acudir presencialmente.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Cómo presentar un expediente</h2>
+        <ol class="space-y-2 text-sm text-primary-900/70 list-decimal pl-4">
+          <li>Completa tu solicitud con datos de contacto actualizados.</li>
+          <li>Adjunta documentos en formato PDF (legibles y firmados).</li>
+          <li>Envía la documentación al correo oficial de mesa de partes.</li>
+          <li>Conserva tu constancia de envío para seguimiento.</li>
+        </ol>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Canales de envío</h2>
+        <p class="text-sm text-primary-900/70 leading-relaxed">
+          Correo: <a class="font-semibold text-primary-700 hover:text-primary-500" href="mailto:mesadepartes@ivochote.gob.pe">mesadepartes@ivochote.gob.pe</a>
+        </p>
+        <p class="text-sm text-primary-900/70 leading-relaxed mt-2">
+          Horario de recepción: lunes a viernes, de 8:00 a.m. a 4:00 p.m.
+        </p>
+        <a href="/contacto" class="inline-flex mt-5 items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors">
+          Ir a contacto
+        </a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

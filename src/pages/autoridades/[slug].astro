@@ -1,17 +1,27 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchAuthorities, fetchAuthorityBySlug } from '../../services/authoritiesService';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import { MUNICIPAL_MANAGEMENT_PERIOD } from "../../../config/content.config";
+import { fetchAuthorities } from "../../services/authoritiesService";
+import type { Authority } from "../../types/authorities";
 
 export async function getStaticPaths() {
   const all = await fetchAuthorities();
-  return all.map((a) => ({ params: { autoridad: a.slug ?? a.id } }));
+  return all.map((authority) => {
+    const slug = authority.slug ?? authority.id;
+    return {
+      params: { slug },
+      props: { item: authority, slug },
+    };
+  });
 }
 
-const { autoridad } = Astro.params;
-const item = await fetchAuthorityBySlug(autoridad!);
-if (!item) {
-  throw new Error('Autoridad no encontrada');
+interface Props {
+  item: Authority;
+  slug: string;
 }
+
+const { item, slug } = Astro.props as Props;
 
 const isAlcalde = item.position === 'Alcalde';
 ---
@@ -20,8 +30,8 @@ const isAlcalde = item.position === 'Alcalde';
   title={item.name}
   description={item.bio ?? `Perfil de ${item.name} — ${item.position ?? 'Autoridad'} del Centro Poblado de Ivochote`}
   breadcrumbs={[
-    { name: 'Autoridades', href: '/autoridades' },
-    { name: item.name, href: `/autoridades/${autoridad}` },
+    { name: "Autoridades", href: "/autoridades" },
+    { name: item.name, href: `/autoridades/${slug}` },
   ]}
   person={{
     name: item.name,
@@ -33,17 +43,13 @@ const isAlcalde = item.position === 'Alcalde';
   <!-- Hero -->
   <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
-        <a href="/" class="hover:text-white transition-colors">Inicio</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <a href="/autoridades" class="hover:text-white transition-colors">Autoridades</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <span aria-current="page" class="text-white/80 font-medium line-clamp-1">{item.name}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/autoridades", label: "Autoridades" },
+          { label: item.name },
+        ]}
+      />
 
       <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8">
         <!-- Avatar SVG -->
@@ -96,7 +102,9 @@ const isAlcalde = item.position === 'Alcalde';
 
     <section class="bg-white rounded-2xl border border-primary-100 p-6 sm:p-8 shadow-sm">
       <h2 class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-3">Período de gestión</h2>
-      <p class="text-primary-900/75 text-base">2023 – 2026 &middot; Centro Poblado de Ivochote, Echarati, La Convención, Cusco</p>
+      <p class="text-primary-900/75 text-base">
+        {MUNICIPAL_MANAGEMENT_PERIOD.startYear} – {MUNICIPAL_MANAGEMENT_PERIOD.endYear} &middot; Centro Poblado de Ivochote, Echarati, La Convención, Cusco
+      </p>
     </section>
 
     {(item.email || item.phone) && (

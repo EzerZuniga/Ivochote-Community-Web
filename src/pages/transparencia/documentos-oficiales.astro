@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="Documentos Oficiales"
+  description="Consulta y descarga documentos oficiales de la Municipalidad del Centro Poblado de Ivochote."
+  breadcrumbs={[
+    { name: "Transparencia", href: "/transparencia" },
+    { name: "Documentos Oficiales", href: "/transparencia/documentos-oficiales" },
+  ]}
+  pageType="CollectionPage"
+>
+  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/transparencia", label: "Transparencia" },
+          { label: "Documentos Oficiales" },
+        ]}
+      />
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Documentos Oficiales</h1>
+      <p class="mt-3 text-white/65 max-w-3xl">
+        Repositorio de reglamentos, oficios institucionales y formatos administrativos para consulta pública.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Reglamentos</h2>
+        <p class="text-sm text-primary-900/70 mb-5">Normativa institucional y lineamientos vigentes.</p>
+        <a href="/downloads/reglamentos.pdf" class="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors" target="_blank" rel="noopener noreferrer">
+          Descargar
+        </a>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Formularios</h2>
+        <p class="text-sm text-primary-900/70 mb-5">Formatos administrativos para trámites ciudadanos.</p>
+        <a href="/downloads/formularios.pdf" class="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors" target="_blank" rel="noopener noreferrer">
+          Descargar
+        </a>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Oficios</h2>
+        <p class="text-sm text-primary-900/70 mb-5">Comunicados y oficios institucionales para consulta.</p>
+        <a href="/downloads/OFICOP.pdf" class="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors" target="_blank" rel="noopener noreferrer">
+          Descargar
+        </a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

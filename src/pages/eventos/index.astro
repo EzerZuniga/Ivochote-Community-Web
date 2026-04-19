@@ -1,8 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import EventCard from '../../components/events/EventCard';
-import { fetchEvents } from '../../services/eventsService';
-import type { EventItem } from '../../types/events';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import EventCard from "../../components/events/EventCard";
+import { EVENTS_PAGE_COPY } from "../../../config/content.config";
+import { fetchEvents } from "../../services/eventsService";
+import type { EventItem } from "../../types/events";
 
 const events = (await fetchEvents()) as EventItem[];
 const sorted = events.slice().sort((a: EventItem, b: EventItem) => {
@@ -16,19 +18,18 @@ const featured = sorted.filter((e: EventItem) => e.featured);
 <BaseLayout
   title="Eventos y Actividades"
   description="Agenda de eventos, fiestas patronales, actividades culturales e institucionales del Centro Poblado de Ivochote. Calendario municipal de Echarati, La Convención, Cusco."
-  breadcrumbs={[{ name: 'Eventos', href: '/eventos' }]}
+  breadcrumbs={[{ name: "Eventos", href: "/eventos" }]}
   pageType="CollectionPage"
 >
   <!-- Hero -->
   <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
-        <a href="/" class="hover:text-white transition-colors">Inicio</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <span aria-current="page" class="text-white/80 font-medium">Eventos</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { label: "Eventos" },
+        ]}
+      />
 
       <div class="flex items-start gap-4 mb-8">
         <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
@@ -37,7 +38,9 @@ const featured = sorted.filter((e: EventItem) => e.featured);
           </svg>
         </div>
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">Agenda Municipal 2026</span>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">
+            Agenda Municipal {EVENTS_PAGE_COPY.agendaYear}
+          </span>
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
             Eventos y<br class="hidden sm:block"/> Actividades
           </h1>
@@ -49,7 +52,7 @@ const featured = sorted.filter((e: EventItem) => e.featured);
 
       <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
         <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Eventos 2026</p>
+          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Eventos {EVENTS_PAGE_COPY.agendaYear}</p>
           <p class="text-white font-bold">{sorted.length} programados</p>
         </div>
         <div>
@@ -58,7 +61,7 @@ const featured = sorted.filter((e: EventItem) => e.featured);
         </div>
         <div>
           <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Entrada</p>
-          <p class="text-white font-bold">Libre y gratuita</p>
+          <p class="text-white font-bold">{EVENTS_PAGE_COPY.entryNote}</p>
         </div>
       </div>
     </div>

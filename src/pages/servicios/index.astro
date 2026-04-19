@@ -1,8 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ServiceCard from '../../components/services/ServiceCard';
-import { fetchServices } from '../../services/servicesService';
-import type { ServiceItem } from '../../types/services';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import ServiceCard from "../../components/services/ServiceCard";
+import { SERVICES_PAGE_COPY } from "../../../config/content.config";
+import { fetchServices } from "../../services/servicesService";
+import type { ServiceItem } from "../../types/services";
 
 const services = await fetchServices();
 const sorted = services.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
@@ -12,19 +14,18 @@ const featured = sorted.filter((s: ServiceItem) => s.featured);
 <BaseLayout
   title="Servicios Municipales"
   description="Servicios municipales del Centro Poblado de Ivochote: registro civil, licencias, programas sociales, defensa civil, limpieza pública y biblioteca en Echarati, La Convención, Cusco."
-  breadcrumbs={[{ name: 'Servicios', href: '/servicios' }]}
+  breadcrumbs={[{ name: "Servicios", href: "/servicios" }]}
   pageType="CollectionPage"
 >
   <!-- Hero -->
   <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
-        <a href="/" class="hover:text-white transition-colors">Inicio</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <span aria-current="page" class="text-white/80 font-medium">Servicios</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { label: "Servicios" },
+        ]}
+      />
 
       <div class="flex items-start gap-4 mb-8">
         <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
@@ -50,11 +51,11 @@ const featured = sorted.filter((s: ServiceItem) => s.featured);
         </div>
         <div>
           <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Horario</p>
-          <p class="text-white font-bold">L – V, 8am–5pm</p>
+          <p class="text-white font-bold">{SERVICES_PAGE_COPY.schedule}</p>
         </div>
         <div>
           <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Emergencias</p>
-          <p class="text-white font-bold">24 horas</p>
+          <p class="text-white font-bold">{SERVICES_PAGE_COPY.emergency}</p>
         </div>
       </div>
     </div>

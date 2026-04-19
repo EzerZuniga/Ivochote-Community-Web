@@ -1,17 +1,21 @@
 ---
-import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import { fetchNews, fetchNewsBySlug } from '../../services/newsService';
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { fetchNews } from "../../services/newsService";
+import type { News } from "../../types/news";
 
 export async function getStaticPaths() {
   const all = await fetchNews();
-  return all.map((n) => ({ params: { slug: n.slug } }));
+  return all.map((news) => ({
+    params: { slug: news.slug ?? news.id },
+    props: { item: news },
+  }));
 }
 
-const { slug } = Astro.params;
-const item = await fetchNewsBySlug(slug!);
-if (!item) {
-  throw new Error('Noticia no encontrada');
+interface Props {
+  item: News;
 }
+
+const { item } = Astro.props as Props;
 
 const authorName = typeof item.author === 'string' ? item.author : item.author?.name;
 const words = (item.content ?? '').split(/\s+/).filter(Boolean).length;

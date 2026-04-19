@@ -47,6 +47,14 @@ export const MAIN_NAVIGATION: NavItem[] = [
         href: "/servicios/biblioteca-municipal",
         label: "Biblioteca Municipal",
       },
+      {
+        href: "/atencion/mesa-partes-virtual",
+        label: "Mesa de Partes Virtual",
+      },
+      {
+        href: "/atencion/libro-de-reclamaciones",
+        label: "Libro de Reclamaciones",
+      },
     ],
   },
   {
@@ -109,6 +117,7 @@ export const FOOTER_NAVIGATION = {
   Gobierno: [
     { href: "/autoridades", label: "Autoridades" },
     { href: "/servicios", label: "Servicios Municipales" },
+    { href: "/transparencia", label: "Transparencia" },
   ],
   Comunidad: [
     { href: "/noticias", label: "Noticias" },

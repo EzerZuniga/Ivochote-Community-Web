@@ -1,0 +1,98 @@
+---
+import type { TourismPlace } from "../../types/tourism";
+
+interface Props {
+  places: TourismPlace[];
+}
+
+const { places } = Astro.props as Props;
+
+const tourismCategoryLabel: Record<string, string> = {
+  naturaleza: "Naturaleza",
+  cultura: "Cultura",
+  aventura: "Aventura",
+  gastronomia: "Gastronomía",
+};
+
+const tourismCategoryColor: Record<string, string> = {
+  naturaleza: "bg-emerald-600",
+  cultura: "bg-amber-500",
+  aventura: "bg-primary-700",
+  gastronomia: "bg-orange-500",
+};
+---
+
+{places.length > 0 ? (
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {places.map((place) => {
+      const badge = tourismCategoryLabel[place.category] ?? place.category;
+      const badgeBg = tourismCategoryColor[place.category] ?? "bg-primary-700";
+      return (
+        <article class="group bg-white border border-gray-200 overflow-hidden flex flex-col shadow-md shadow-primary-950/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-primary-950/20">
+          <a href={`/turismo/${place.slug}`} class="relative block overflow-hidden" style="aspect-ratio:4/3">
+            {place.images?.[0] ? (
+              <img
+                src={place.images[0]}
+                alt={place.name}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="w-full h-full bg-primary-100 flex items-center justify-center">
+                <svg class="w-10 h-10 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+            )}
+            <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" aria-hidden="true"></div>
+          </a>
+
+          <div class="px-5 -mt-4 relative z-10">
+            <span class={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-white px-3 py-1 ${badgeBg}`}>
+              <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {badge}
+            </span>
+          </div>
+
+          <div class="px-5 pt-3 pb-4 flex flex-col flex-1">
+            <a href={`/turismo/${place.slug}`} class="no-underline">
+              <h3 class="text-lg font-extrabold text-primary-950 leading-snug group-hover:text-primary-700 transition-colors">
+                {place.name}
+              </h3>
+            </a>
+
+            {(place.location || place.duration) && (
+              <p class="text-xs text-primary-900/45 mt-1.5 font-medium">
+                {place.location && <span>{place.location}</span>}
+                {place.location && place.duration && <span class="mx-1.5 opacity-50">·</span>}
+                {place.duration && <span>{place.duration}</span>}
+              </p>
+            )}
+
+            {place.description && (
+              <p class="text-sm text-primary-900/60 mt-2 leading-relaxed line-clamp-3 flex-1">{place.description}</p>
+            )}
+
+            <a
+              href={`/turismo/${place.slug}`}
+              class="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary-700 hover:text-primary-500 transition-colors"
+            >
+              Conocer más
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+
+          <div class={`h-[3px] ${badgeBg} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300`} aria-hidden="true"></div>
+        </article>
+      );
+    })}
+  </div>
+) : (
+  <p class="text-sm text-primary-900/50 text-center">Atractivos turísticos próximamente.</p>
+)}

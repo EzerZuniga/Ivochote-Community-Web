@@ -1,0 +1,45 @@
+---
+import { SITE_CONFIG } from "../../../config/site.config";
+import Breadcrumbs from "../common/Breadcrumbs.astro";
+---
+
+<div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <Breadcrumbs
+      items={[
+        { href: "/", label: "Inicio" },
+        { label: "Contacto" },
+      ]}
+    />
+
+    <div class="flex items-start gap-4 mb-8">
+      <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
+        <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">Atención Ciudadana</span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">Contáctanos</h1>
+        <p class="mt-3 text-white/60 text-sm sm:text-base leading-relaxed max-w-lg">
+          Escríbenos, llámanos o visítanos. Estamos para atender tus consultas, trámites y sugerencias.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+      <div>
+        <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Atención</p>
+        <p class="text-white font-bold text-sm">Lun – Vie · 8 – 16 h</p>
+      </div>
+      <div>
+        <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Teléfono</p>
+        <p class="text-white font-bold text-sm">{SITE_CONFIG.phone}</p>
+      </div>
+      <div>
+        <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Respuesta</p>
+        <p class="text-white font-bold text-sm">24 – 48 horas</p>
+      </div>
+    </div>
+  </div>
+</div>

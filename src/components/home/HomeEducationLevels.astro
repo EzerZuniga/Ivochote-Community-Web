@@ -1,0 +1,77 @@
+---
+const levels = [
+  {
+    num: "01",
+    nivel: "Inicial",
+    headerBg: "bg-amber-400",
+    chipBg: "bg-amber-50",
+    chipText: "text-amber-700",
+    chipBorder: "border-amber-200",
+    barBg: "bg-amber-400",
+    meta: "3 a 5 años",
+    desc: "Formación integral a través del juego, la afectividad y el desarrollo de habilidades cognitivas y sociales en la primera infancia.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>`,
+  },
+  {
+    num: "02",
+    nivel: "Primaria",
+    headerBg: "bg-emerald-500",
+    chipBg: "bg-emerald-50",
+    chipText: "text-emerald-700",
+    chipBorder: "border-emerald-200",
+    barBg: "bg-emerald-500",
+    meta: "6 grados · 1.° al 6.°",
+    desc: "Seis años de formación que desarrollan competencias en comunicación, matemática y ciencias para el crecimiento integral del estudiante.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>`,
+  },
+  {
+    num: "03",
+    nivel: "Secundaria",
+    headerBg: "bg-primary-800",
+    chipBg: "bg-primary-50",
+    chipText: "text-primary-700",
+    chipBorder: "border-primary-200",
+    barBg: "bg-primary-800",
+    meta: "5 años · 1.° al 5.°",
+    desc: "Educación secundaria completa que prepara a los jóvenes con sólidas bases académicas para la educación superior y la vida profesional.",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>`,
+  },
+];
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  {levels.map((level) => (
+    <article class="group bg-white border border-gray-200 overflow-hidden transition-shadow duration-200 hover:shadow-md">
+      <div class={`${level.headerBg} px-5 py-5 flex items-center gap-4`}>
+        <div class="w-11 h-11 bg-white/20 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Fragment set:html={level.icon} />
+          </svg>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold text-white/60 uppercase tracking-[0.1em]">Nivel {level.num}</span>
+          <h3 class="text-xl font-extrabold text-white leading-none mt-0.5">{level.nivel}</h3>
+        </div>
+      </div>
+      <div class="p-5 flex flex-col gap-3">
+        <span class={`self-start inline-flex items-center gap-1.5 text-xs font-semibold ${level.chipText} ${level.chipBg} border ${level.chipBorder} px-2.5 py-1`}>
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          {level.meta}
+        </span>
+        <p class="text-sm text-primary-900/65 leading-relaxed">{level.desc}</p>
+      </div>
+      <div class={`h-[3px] ${level.barBg} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300`} aria-hidden="true"></div>
+    </article>
+  ))}
+</div>
+
+<div class="mt-10 text-center">
+  <a href="/contacto" class="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm uppercase tracking-wider transition-colors duration-200">
+    Contáctanos para más información
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+    </svg>
+  </a>
+</div>

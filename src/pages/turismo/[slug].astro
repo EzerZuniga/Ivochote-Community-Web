@@ -1,17 +1,23 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchPlaces, fetchPlaceBySlug } from '../../services/tourismService';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import { fetchPlaces } from "../../services/tourismService";
+import type { TourismPlace } from "../../types/tourism";
 
 export async function getStaticPaths() {
   const all = await fetchPlaces();
-  return all.map((p) => ({ params: { lugar: p.slug } }));
+  return all.map((place) => ({
+    params: { slug: place.slug },
+    props: { item: place, slug: place.slug },
+  }));
 }
 
-const { lugar } = Astro.params;
-const item = await fetchPlaceBySlug(lugar!);
-if (!item) {
-  throw new Error('Lugar no encontrado');
+interface Props {
+  item: TourismPlace;
+  slug: string;
 }
+
+const { item, slug } = Astro.props as Props;
 
 const ICON_PATHS: Record<string, string> = {
   river:     "M3 12c3-4 6-4 9 0s6 4 9 0M3 6c3-4 6-4 9 0s6 4 9 0M3 18c3-4 6-4 9 0s6 4 9 0",
@@ -49,8 +55,8 @@ const accentClass = CATEGORY_ACCENT[item.category] ?? CATEGORY_ACCENT.naturaleza
   description={item.description}
   image={item.images?.[0]}
   breadcrumbs={[
-    { name: 'Turismo', href: '/turismo' },
-    { name: item.name, href: `/turismo/${lugar}` },
+    { name: "Turismo", href: "/turismo" },
+    { name: item.name, href: `/turismo/${slug}` },
   ]}
   place={{
     name: item.name,
@@ -65,17 +71,13 @@ const accentClass = CATEGORY_ACCENT[item.category] ?? CATEGORY_ACCENT.naturaleza
   <!-- Hero -->
   <div class={`bg-gradient-to-br ${heroGradient} text-white`}>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
-        <a href="/" class="hover:text-white transition-colors">Inicio</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <a href="/turismo" class="hover:text-white transition-colors">Turismo</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <span aria-current="page" class="text-white/80 font-medium line-clamp-1">{item.name}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/turismo", label: "Turismo" },
+          { label: item.name },
+        ]}
+      />
 
       <div class="flex flex-col sm:flex-row items-start gap-6">
         <div class="flex-shrink-0 w-16 h-16 bg-white/15 border border-white/20 flex items-center justify-center shadow-md">

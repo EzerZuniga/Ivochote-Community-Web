@@ -1,7 +1,8 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchNews, getCategories } from '../../services/newsService';
-import NewsSearch from '../../components/news/NewsSearch';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import { fetchNews, getCategories } from "../../services/newsService";
+import NewsSearch from "../../components/news/NewsSearch";
 
 const news = await fetchNews();
 const categories = await getCategories();
@@ -16,19 +17,19 @@ const sorted = news.slice().sort((a, b) => {
 <BaseLayout
   title="Noticias"
   description="Últimas noticias, comunicados oficiales y avisos de la Municipalidad del Centro Poblado de Ivochote. Entérate de la gestión municipal, obras y eventos en Echarati, La Convención, Cusco."
-  breadcrumbs={[{ name: 'Noticias', href: '/noticias' }]}
+  breadcrumbs={[{ name: "Noticias", href: "/noticias" }]}
   pageType="CollectionPage"
 >
   <!-- Hero -->
   <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <nav class="flex items-center gap-2 text-sm text-white/50 mb-6" aria-label="Migas de pan">
-        <a href="/" class="hover:text-white transition-colors">Inicio</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <span aria-current="page" class="text-white/80 font-medium">Noticias</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { label: "Noticias" },
+        ]}
+        className="mb-6"
+      />
       <div class="flex items-center gap-4">
         <div class="flex-shrink-0 bg-white/10 p-3.5">
           <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,0 +1,89 @@
+---
+import {
+  HOME_CITIZEN_EXTRA_SHORTCUTS,
+  HOME_CITIZEN_SERVICE_ICON_MAP,
+  HOME_CITIZEN_SERVICE_ORDER,
+} from "../../../config/home.config";
+import type { ServiceItem } from "../../types/services";
+
+interface CardConfig {
+  title: string;
+  href: string;
+  vb: string;
+  icon: string;
+}
+
+interface Props {
+  services: ServiceItem[];
+}
+
+const { services } = Astro.props as Props;
+
+const fallbackIcon = {
+  vb: "0 0 64 64",
+  icon: `<rect x="10" y="12" width="44" height="40" rx="4" fill="none"/><line x1="20" y1="22" x2="44" y2="22"/><line x1="20" y1="30" x2="44" y2="30"/><line x1="20" y1="38" x2="36" y2="38"/>`,
+};
+
+const normalized = services
+  .slice()
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+  .reduce<Map<string, ServiceItem>>((map, service) => {
+    const key = service.slug ?? service.id;
+    map.set(key, service);
+    return map;
+  }, new Map());
+
+const serviceCards: CardConfig[] = HOME_CITIZEN_SERVICE_ORDER
+  .map((slug) => normalized.get(slug))
+  .filter((service): service is ServiceItem => Boolean(service))
+  .map((service) => {
+    const key = service.slug ?? service.id;
+    const iconConfig = HOME_CITIZEN_SERVICE_ICON_MAP[key] ?? fallbackIcon;
+    return {
+      title: service.title,
+      href: `/servicios/${key}`,
+      vb: iconConfig.vb,
+      icon: iconConfig.icon,
+    };
+  });
+
+const cards: CardConfig[] = [
+  ...serviceCards,
+  ...HOME_CITIZEN_EXTRA_SHORTCUTS.map((shortcut) => ({
+    title: shortcut.title,
+    href: shortcut.href,
+    vb: shortcut.vb,
+    icon: shortcut.icon,
+  })),
+];
+---
+
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+  {cards.map((card, index) => (
+    <a
+      href={card.href}
+      class="citizen-card group relative flex flex-col items-center overflow-hidden bg-primary-100"
+      style={`--delay: ${index * 0.06}s`}
+    >
+      <div class="citizen-card-icon relative w-full flex items-center justify-center pt-10 pb-8 sm:pt-14 sm:pb-10">
+        <svg class="w-20 h-20 sm:w-24 sm:h-24 text-primary-950 transition-all duration-400 group-hover:scale-110 group-hover:text-white relative z-10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox={card.vb} stroke-linecap="round" stroke-linejoin="round">
+          <Fragment set:html={card.icon} />
+        </svg>
+        <div class="citizen-card-line absolute bottom-0 left-0 right-0 h-[3px] bg-amber-500" aria-hidden="true"></div>
+      </div>
+
+      <div class="citizen-card-text relative w-full text-center px-3 py-4 sm:px-4 sm:py-5">
+        <h3 class="font-bold text-sm sm:text-base text-primary-950 leading-snug transition-colors duration-400 group-hover:text-white relative z-10">
+          {card.title}
+        </h3>
+      </div>
+
+      <div class="citizen-card-overlay absolute inset-0 bg-primary-900" aria-hidden="true"></div>
+      <div class="citizen-card-corner absolute bottom-0 right-0" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 44 44" class="block">
+          <polygon points="44,0 44,44 0,44" fill="#C9A227" />
+        </svg>
+      </div>
+    </a>
+  ))}
+</div>

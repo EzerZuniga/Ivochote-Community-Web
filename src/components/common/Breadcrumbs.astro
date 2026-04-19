@@ -1,0 +1,37 @@
+---
+interface BreadcrumbItem {
+  href?: string;
+  label: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  className?: string;
+}
+
+const { items, className = "mb-8" } = Astro.props as Props;
+---
+
+<nav class={`flex items-center gap-2 text-sm text-white/50 ${className}`} aria-label="Migas de pan">
+  {items.map((item, index) => {
+    const isLast = index === items.length - 1;
+    return (
+      <>
+        {index > 0 && (
+          <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        )}
+        {isLast ? (
+          <span aria-current="page" class="text-white/80 font-medium line-clamp-1">
+            {item.label}
+          </span>
+        ) : (
+          <a href={item.href} class="hover:text-white transition-colors">
+            {item.label}
+          </a>
+        )}
+      </>
+    );
+  })}
+</nav>

@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="Presupuesto Participativo"
+  description="Información referencial sobre planificación, ejecución y participación ciudadana del presupuesto municipal de Ivochote."
+  breadcrumbs={[
+    { name: "Transparencia", href: "/transparencia" },
+    { name: "Presupuesto Participativo", href: "/transparencia/presupuesto-participativo" },
+  ]}
+  pageType="CollectionPage"
+>
+  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/transparencia", label: "Transparencia" },
+          { label: "Presupuesto Participativo" },
+        ]}
+      />
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Presupuesto Participativo</h1>
+      <p class="mt-3 text-white/65 max-w-3xl">
+        Espacio informativo para seguimiento de prioridades ciudadanas, proyectos y ejecución presupuestal municipal.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Etapas del proceso</h2>
+        <ol class="space-y-2 text-sm text-primary-900/70 list-decimal pl-4">
+          <li>Convocatoria a organizaciones y vecinos.</li>
+          <li>Priorización de necesidades y proyectos.</li>
+          <li>Validación técnica y financiera.</li>
+          <li>Seguimiento de ejecución y rendición de cuentas.</li>
+        </ol>
+      </article>
+
+      <article class="bg-white border border-gray-200 shadow-sm p-6">
+        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Participación ciudadana</h2>
+        <p class="text-sm text-primary-900/70 leading-relaxed">
+          Para participar en talleres de planificación y monitoreo presupuestal, comunícate con la municipalidad.
+        </p>
+        <a href="/contacto" class="inline-flex mt-5 items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors">
+          Solicitar información
+        </a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

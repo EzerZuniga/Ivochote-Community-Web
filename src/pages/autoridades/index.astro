@@ -1,8 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import AuthorityCard from '../../components/authorities/AuthorityCard';
-import { fetchAuthorities } from '../../services/authoritiesService';
-import type { Authority } from '../../types/authorities';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import AuthorityCard from "../../components/authorities/AuthorityCard";
+import { MUNICIPAL_MANAGEMENT_PERIOD } from "../../../config/content.config";
+import { fetchAuthorities } from "../../services/authoritiesService";
+import type { Authority } from "../../types/authorities";
 
 const authorities = (await fetchAuthorities()) as Authority[];
 const sorted = authorities.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
@@ -12,19 +14,18 @@ const [alcalde, ...regidores] = sorted;
 <BaseLayout
   title="Autoridades Municipales"
   description="Conoce a las autoridades electas del Centro Poblado de Ivochote: Alcalde Gary Leo Huamán Rodríguez y regidores del gobierno local de Echarati, La Convención, Cusco."
-  breadcrumbs={[{ name: 'Autoridades', href: '/autoridades' }]}
+  breadcrumbs={[{ name: "Autoridades", href: "/autoridades" }]}
   pageType="AboutPage"
 >
   <!-- Hero -->
   <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-14 sm:pb-16">
-      <nav class="flex items-center gap-2 text-sm text-white/50 mb-8" aria-label="Migas de pan">
-        <a href="/" class="hover:text-white transition-colors">Inicio</a>
-        <svg class="w-3 h-3 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-        <span aria-current="page" class="text-white/80 font-medium">Autoridades</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { label: "Autoridades" },
+        ]}
+      />
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-stretch">
         <!-- Texto -->
@@ -48,7 +49,7 @@ const [alcalde, ...regidores] = sorted;
           <div class="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
             <div>
               <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Período</p>
-              <p class="text-white font-bold text-sm">2023 – 2026</p>
+              <p class="text-white font-bold text-sm">{MUNICIPAL_MANAGEMENT_PERIOD.startYear} – {MUNICIPAL_MANAGEMENT_PERIOD.endYear}</p>
             </div>
             <div>
               <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Electos</p>
@@ -66,7 +67,7 @@ const [alcalde, ...regidores] = sorted;
           <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl bg-white/5 border border-white/10" aria-hidden="true"></div>
           <img
             src="/assets/images/autoridades/autoridad.png"
-            alt="Autoridades electas del Centro Poblado de Ivochote — Concejo Municipal 2023-2026"
+            alt={`Autoridades electas del Centro Poblado de Ivochote — Concejo Municipal ${MUNICIPAL_MANAGEMENT_PERIOD.startYear}-${MUNICIPAL_MANAGEMENT_PERIOD.endYear}`}
             class="relative w-full rounded-2xl shadow-2xl object-contain border border-white/20"
             loading="eager"
             decoding="async"
@@ -74,7 +75,7 @@ const [alcalde, ...regidores] = sorted;
             height="420"
           />
           <div class="absolute -bottom-4 left-4 bg-amber-400 text-amber-900 text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg select-none">
-            Concejo 2023–2026
+            Concejo {MUNICIPAL_MANAGEMENT_PERIOD.startYear}–{MUNICIPAL_MANAGEMENT_PERIOD.endYear}
           </div>
         </div>
       </div>
