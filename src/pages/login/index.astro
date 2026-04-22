@@ -1,0 +1,718 @@
+---
+import { SITE_CONFIG } from "../../../config/site.config";
+import "../../styles/globals.css";
+
+const pageTitle = `Acceso Ciudadano | ${SITE_CONFIG.shortTitle}`;
+const firebasePublicConfig = {
+  apiKey: (import.meta.env.PUBLIC_FIREBASE_API_KEY ?? "").trim(),
+  authDomain: (import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN ?? "").trim(),
+  projectId: (import.meta.env.PUBLIC_FIREBASE_PROJECT_ID ?? "").trim(),
+  storageBucket: (import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET ?? "").trim(),
+  messagingSenderId: (import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? "").trim(),
+  appId: (import.meta.env.PUBLIC_FIREBASE_APP_ID ?? "").trim(),
+  measurementId: (import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID ?? "").trim(),
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content="Inicia sesión o regístrate para acceder al portal ciudadano de Ivochote." />
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-panel auth-panel-left" aria-labelledby="auth-page-title">
+        <a href="/" class="auth-brand">
+          <img src="/assets/images/brand/logoivo.png" alt="Escudo de Ivochote" class="auth-brand-logo" width="34" height="34" />
+          <span class="auth-brand-text">Ivochote Digital</span>
+        </a>
+
+        <div class="auth-card">
+          <p class="auth-overline">Empieza tu acceso</p>
+          <h1 id="auth-page-title" class="auth-title">Cuenta Ciudadana</h1>
+          <p id="auth-status" class="auth-status">Crea tu cuenta o inicia sesión para continuar.</p>
+
+          <div class="auth-mode-switch" role="tablist" aria-label="Modo de autenticación">
+            <button id="auth-mode-register" type="button" class="auth-mode-btn is-active" role="tab" aria-selected="true">Registrarse</button>
+            <button id="auth-mode-login" type="button" class="auth-mode-btn" role="tab" aria-selected="false">Iniciar sesión</button>
+          </div>
+
+          <div id="auth-user" class="auth-user hidden">
+            <img id="auth-user-avatar" src="" alt="" class="auth-user-avatar" />
+            <div class="auth-user-data">
+              <p id="auth-user-name" class="auth-user-name"></p>
+              <p id="auth-user-email" class="auth-user-email"></p>
+            </div>
+          </div>
+
+          <form id="auth-form" class="auth-form" novalidate>
+            <div id="auth-name-wrap" class="auth-field-wrap">
+              <label for="auth-name" class="auth-label">Nombre completo</label>
+              <input id="auth-name" name="name" type="text" autocomplete="name" class="auth-input" placeholder="Ej. María Quispe" />
+            </div>
+
+            <div class="auth-field-wrap">
+              <label for="auth-email" class="auth-label">Correo electrónico</label>
+              <input id="auth-email" name="email" type="email" autocomplete="email" required class="auth-input" placeholder="correo@ejemplo.com" />
+            </div>
+
+            <div class="auth-field-wrap">
+              <label for="auth-password" class="auth-label">Contraseña</label>
+              <input id="auth-password" name="password" type="password" autocomplete="new-password" required minlength="8" class="auth-input" placeholder="Mínimo 8 caracteres" />
+            </div>
+
+            <div id="auth-confirm-wrap" class="auth-field-wrap">
+              <label for="auth-confirm-password" class="auth-label">Confirmar contraseña</label>
+              <input id="auth-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" class="auth-input" placeholder="Repite tu contraseña" />
+            </div>
+
+            <button id="auth-submit" type="submit" class="auth-primary-btn">Crear cuenta</button>
+          </form>
+
+          <div class="auth-divider" aria-hidden="true">
+            <span>o continúa con</span>
+          </div>
+
+          <button id="auth-google-btn" type="button" class="auth-google-btn">
+            <svg class="auth-google-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.9-5.5 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.9 1.5l2.7-2.6C16.9 3.3 14.7 2.4 12 2.4a9.6 9.6 0 0 0 0 19.2c5.5 0 9.1-3.9 9.1-9.3 0-.6-.1-1.1-.2-1.7H12z"/>
+            </svg>
+            <span>Google</span>
+          </button>
+
+          <div class="auth-inline-actions">
+            <button id="auth-reset-password" type="button" class="auth-text-btn">¿Olvidaste tu contraseña?</button>
+            <button id="auth-signout" type="button" class="auth-text-btn hidden">Cerrar sesión</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="auth-panel auth-panel-right" aria-hidden="true">
+        <div class="auth-art"></div>
+      </aside>
+    </main>
+
+    <script id="firebase-config" type="application/json" set:html={JSON.stringify(firebasePublicConfig)}></script>
+
+    <script>
+      // @ts-nocheck
+      const firebaseConfigElement = document.getElementById("firebase-config");
+      let firebasePublicConfig = {};
+      try {
+        firebasePublicConfig = firebaseConfigElement?.textContent
+          ? JSON.parse(firebaseConfigElement.textContent)
+          : {};
+      } catch {
+        firebasePublicConfig = {};
+      }
+
+      const authStatus = document.getElementById("auth-status");
+      const authModeRegisterBtn = document.getElementById("auth-mode-register");
+      const authModeLoginBtn = document.getElementById("auth-mode-login");
+      const authForm = document.getElementById("auth-form");
+      const authNameWrap = document.getElementById("auth-name-wrap");
+      const authNameInput = document.getElementById("auth-name");
+      const authEmailInput = document.getElementById("auth-email");
+      const authPasswordInput = document.getElementById("auth-password");
+      const authConfirmWrap = document.getElementById("auth-confirm-wrap");
+      const authConfirmInput = document.getElementById("auth-confirm-password");
+      const authSubmitBtn = document.getElementById("auth-submit");
+      const authGoogleBtn = document.getElementById("auth-google-btn");
+      const authResetPasswordBtn = document.getElementById("auth-reset-password");
+      const authSignoutBtn = document.getElementById("auth-signout");
+      const authUser = document.getElementById("auth-user");
+      const authUserName = document.getElementById("auth-user-name");
+      const authUserEmail = document.getElementById("auth-user-email");
+      const authUserAvatar = document.getElementById("auth-user-avatar");
+
+      let mode = "register";
+      let auth = null;
+      let authApi = null;
+      let currentUser = null;
+
+      function setStatus(message, tone = "neutral") {
+        if (!authStatus) return;
+        authStatus.textContent = message;
+        authStatus.className = "auth-status";
+        if (tone === "success") authStatus.classList.add("is-success");
+        if (tone === "error") authStatus.classList.add("is-error");
+      }
+
+      function setLoading(isLoading) {
+        if (authSubmitBtn) {
+          authSubmitBtn.disabled = isLoading;
+          authSubmitBtn.textContent = isLoading
+            ? mode === "register" ? "Creando cuenta..." : "Ingresando..."
+            : mode === "register" ? "Crear cuenta" : "Iniciar sesión";
+        }
+        if (authGoogleBtn) {
+          authGoogleBtn.disabled = isLoading;
+        }
+        if (authResetPasswordBtn) authResetPasswordBtn.disabled = isLoading;
+      }
+
+      function setMode(nextMode) {
+        mode = nextMode;
+        if (authModeRegisterBtn && authModeLoginBtn) {
+          const registerActive = nextMode === "register";
+          authModeRegisterBtn.classList.toggle("is-active", registerActive);
+          authModeLoginBtn.classList.toggle("is-active", !registerActive);
+          authModeRegisterBtn.setAttribute("aria-selected", String(registerActive));
+          authModeLoginBtn.setAttribute("aria-selected", String(!registerActive));
+        }
+        if (authNameWrap) authNameWrap.classList.toggle("hidden", nextMode !== "register");
+        if (authConfirmWrap) authConfirmWrap.classList.toggle("hidden", nextMode !== "register");
+        if (authPasswordInput) authPasswordInput.autocomplete = nextMode === "register" ? "new-password" : "current-password";
+        setStatus(nextMode === "register"
+          ? "Regístrate para tener tu acceso ciudadano."
+          : "Ingresa con tu correo o con Google.");
+        if (authSubmitBtn) {
+          authSubmitBtn.textContent = nextMode === "register" ? "Crear cuenta" : "Iniciar sesión";
+        }
+      }
+
+      function extractAuthCode(error) {
+        const candidates = [
+          String(error?.code || ""),
+          String(error?.message || ""),
+        ];
+
+        for (const candidate of candidates) {
+          const match = candidate.toLowerCase().match(/auth\/[a-z0-9-]+/);
+          if (match?.[0]) return match[0];
+        }
+
+        return "";
+      }
+
+      function normalizeError(error) {
+        const code = extractAuthCode(error);
+        switch (code) {
+          case "auth/operation-not-allowed":
+            return "Correo/contraseña no está habilitado en Firebase Authentication.";
+          case "auth/configuration-not-found":
+            return "Firebase Authentication no está configurado en este proyecto.";
+          case "auth/invalid-api-key":
+          case "auth/api-key-not-valid":
+            return "La API key de Firebase es inválida o ya no existe. Actualiza PUBLIC_FIREBASE_API_KEY con la clave Web correcta del proyecto.";
+          case "auth/app-not-authorized":
+          case "auth/unauthorized-domain":
+            return "Dominio no autorizado. Agrega 'localhost' en Authorized domains de Firebase.";
+          case "auth/invalid-credential":
+          case "auth/wrong-password":
+          case "auth/user-not-found":
+            return "Correo o contraseña incorrectos.";
+          case "auth/email-already-in-use":
+            return "Este correo ya está registrado.";
+          case "auth/invalid-email":
+            return "El correo electrónico no es válido.";
+          case "auth/weak-password":
+            return "La contraseña es muy débil. Usa al menos 8 caracteres.";
+          case "auth/popup-closed-by-user":
+            return "Cerraste la ventana de Google antes de completar el acceso.";
+          case "auth/popup-blocked":
+          case "auth/cancelled-popup-request":
+            return "El navegador bloqueó la ventana de Google. Habilita pop-ups o usa el acceso por redirección.";
+          case "auth/network-request-failed":
+            return "No hay conexión. Verifica internet e intenta otra vez.";
+          case "auth/too-many-requests":
+            return "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.";
+          default:
+            return `No se pudo completar la autenticación (${code || "error-desconocido"}).`;
+        }
+      }
+
+      function renderUser(user) {
+        currentUser = user;
+        if (!authUser || !authUserName || !authUserEmail || !authUserAvatar) return;
+        if (user) {
+          authUser.classList.remove("hidden");
+          authUserName.textContent = user.displayName || user.email || "Usuario";
+          authUserEmail.textContent = user.email || "";
+          authUserAvatar.src = user.photoURL || "/assets/images/brand/logoivo.png";
+          authUserAvatar.alt = `Foto de ${user.displayName || user.email || "usuario"}`;
+          authSignoutBtn?.classList.remove("hidden");
+          setStatus("Sesión activa correctamente.", "success");
+        } else {
+          authUser.classList.add("hidden");
+          authUserName.textContent = "";
+          authUserEmail.textContent = "";
+          authUserAvatar.src = "";
+          authUserAvatar.alt = "";
+          authSignoutBtn?.classList.add("hidden");
+          setStatus(mode === "register"
+            ? "Regístrate para tener tu acceso ciudadano."
+            : "Ingresa con tu correo o con Google.");
+        }
+      }
+
+      function hasFirebaseConfig(config) {
+        return Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
+      }
+
+      async function initFirebase() {
+        if (!hasFirebaseConfig(firebasePublicConfig)) {
+          setStatus("Falta configurar Firebase en .env para habilitar el acceso real.", "error");
+          return false;
+        }
+        if (auth && authApi) return true;
+
+        try {
+          const appMod = await import("firebase/app");
+          authApi = await import("firebase/auth");
+          const app = appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(firebasePublicConfig);
+          auth = authApi.getAuth(app);
+          await authApi.setPersistence(auth, authApi.browserLocalPersistence);
+          authApi.onAuthStateChanged(auth, renderUser);
+          return true;
+        } catch (error) {
+          setStatus(normalizeError(error), "error");
+          return false;
+        }
+      }
+
+      async function handleGoogleSignIn() {
+        const ready = await initFirebase();
+        if (!ready || !auth || !authApi) return;
+        const provider = new authApi.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+
+        setLoading(true);
+        setStatus("Abriendo Google...");
+        try {
+          await authApi.signInWithPopup(auth, provider);
+        } catch (error) {
+          const code = extractAuthCode(error);
+          if (code === "auth/popup-blocked" || code === "auth/cancelled-popup-request") {
+            setStatus("Popup bloqueado. Redirigiendo a Google...", "neutral");
+            try {
+              await authApi.signInWithRedirect(auth, provider);
+              return;
+            } catch (redirectError) {
+              setStatus(normalizeError(redirectError), "error");
+              return;
+            }
+          }
+          setStatus(normalizeError(error), "error");
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      async function handleEmailAuth(event) {
+        event.preventDefault();
+        const ready = await initFirebase();
+        if (!ready || !auth || !authApi) return;
+
+        const email = String(authEmailInput?.value || "").trim();
+        const password = String(authPasswordInput?.value || "");
+        const displayName = String(authNameInput?.value || "").trim();
+        const confirmPassword = String(authConfirmInput?.value || "");
+
+        if (!email || !password) {
+          setStatus("Completa correo y contraseña.", "error");
+          return;
+        }
+        if (password.length < 8) {
+          setStatus("La contraseña debe tener al menos 8 caracteres.", "error");
+          return;
+        }
+
+        if (mode === "register") {
+          if (displayName.length < 3) {
+            setStatus("Ingresa un nombre completo válido.", "error");
+            return;
+          }
+          if (password !== confirmPassword) {
+            setStatus("Las contraseñas no coinciden.", "error");
+            return;
+          }
+        }
+
+        setLoading(true);
+        setStatus(mode === "register" ? "Creando tu cuenta..." : "Validando acceso...");
+        try {
+          if (mode === "register") {
+            const result = await authApi.createUserWithEmailAndPassword(auth, email, password);
+            await authApi.updateProfile(result.user, { displayName });
+            await authApi.sendEmailVerification(result.user).catch(() => {});
+            setStatus("Cuenta creada. Revisa tu correo para verificarla.", "success");
+          } else {
+            await authApi.signInWithEmailAndPassword(auth, email, password);
+          }
+        } catch (error) {
+          console.error("Firebase email auth error:", error);
+          setStatus(normalizeError(error), "error");
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      async function handleResetPassword() {
+        const ready = await initFirebase();
+        if (!ready || !auth || !authApi) return;
+        const email = String(authEmailInput?.value || "").trim();
+        if (!email) {
+          setStatus("Primero escribe tu correo para recuperar tu contraseña.", "error");
+          return;
+        }
+        setLoading(true);
+        try {
+          await authApi.sendPasswordResetEmail(auth, email);
+          setStatus("Te enviamos un correo para restablecer tu contraseña.", "success");
+        } catch (error) {
+          console.error("Firebase reset password error:", error);
+          setStatus(normalizeError(error), "error");
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      async function handleSignOut() {
+        if (!auth || !authApi) return;
+        setLoading(true);
+        try {
+          await authApi.signOut(auth);
+          setStatus("Sesión cerrada correctamente.", "success");
+        } catch (error) {
+          console.error("Firebase sign out error:", error);
+          setStatus(normalizeError(error), "error");
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      authModeRegisterBtn?.addEventListener("click", () => setMode("register"));
+      authModeLoginBtn?.addEventListener("click", () => setMode("login"));
+      authGoogleBtn?.addEventListener("click", handleGoogleSignIn);
+      authForm?.addEventListener("submit", handleEmailAuth);
+      authResetPasswordBtn?.addEventListener("click", handleResetPassword);
+      authSignoutBtn?.addEventListener("click", handleSignOut);
+
+      setMode("register");
+      initFirebase();
+    </script>
+  </body>
+</html>
+
+<style>
+  .auth-page {
+    margin: 0;
+    min-height: 100vh;
+    background: #f6f8fc;
+    color: #0f172a;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .auth-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr);
+  }
+
+  .auth-panel-left {
+    background: #f7f8fa;
+    padding: clamp(1.25rem, 2vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .auth-brand {
+    position: absolute;
+    top: 1.35rem;
+    left: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #0f172a;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .auth-brand-logo {
+    object-fit: contain;
+  }
+
+  .auth-card {
+    width: min(100%, 430px);
+    margin: 0 auto;
+    padding-top: 2.5rem;
+  }
+
+  .auth-overline {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .auth-title {
+    margin: 0.35rem 0 0.65rem;
+    font-size: clamp(1.6rem, 3.4vw, 2rem);
+    line-height: 1.2;
+    color: #111827;
+    font-weight: 800;
+  }
+
+  .auth-status {
+    margin: 0 0 1rem;
+    color: #4b5563;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .auth-status.is-success {
+    color: #166534;
+  }
+
+  .auth-status.is-error {
+    color: #b91c1c;
+  }
+
+  .auth-user {
+    align-items: center;
+    gap: 0.75rem;
+    background: #ecfeff;
+    border: 1px solid #bae6fd;
+    padding: 0.65rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .auth-user-avatar {
+    width: 2.45rem;
+    height: 2.45rem;
+    object-fit: cover;
+    background: #dbeafe;
+  }
+
+  .auth-user-name {
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .auth-user-email {
+    margin: 0.2rem 0 0;
+    font-size: 0.78rem;
+    color: #334155;
+  }
+
+  .auth-mode-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #dbe1ea;
+    margin-bottom: 1rem;
+  }
+
+  .auth-mode-btn {
+    border: 0;
+    background: #ffffff;
+    color: #0f172a;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .auth-mode-btn.is-active {
+    background: #2563eb;
+    color: #ffffff;
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .auth-label {
+    display: block;
+    margin-bottom: 0.28rem;
+    color: #475569;
+    font-size: 0.71rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .auth-input {
+    width: 100%;
+    border: 1px solid #cfd5df;
+    background: #ffffff;
+    color: #0f172a;
+    padding: 0.7rem 0.75rem;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .auth-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+  }
+
+  .auth-primary-btn {
+    margin-top: 0.15rem;
+    border: 0;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 0.78rem 0.85rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .auth-primary-btn:hover {
+    background: #1d4ed8;
+  }
+
+  .auth-primary-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .auth-divider {
+    margin: 1rem 0 0.85rem;
+    display: flex;
+    align-items: center;
+    color: #64748b;
+    font-size: 0.78rem;
+    gap: 0.65rem;
+  }
+
+  .auth-divider::before,
+  .auth-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: #d6dde8;
+  }
+
+  .auth-google-btn {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #111827;
+    padding: 0.7rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .auth-google-btn:hover {
+    background: #f8fafc;
+    border-color: #c0cad8;
+  }
+
+  .auth-google-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .auth-google-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .auth-inline-actions {
+    margin-top: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .auth-text-btn {
+    border: 0;
+    background: none;
+    color: #2563eb;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .auth-text-btn:hover {
+    color: #1d4ed8;
+  }
+
+  .auth-panel-right {
+    display: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .auth-art {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 22%, rgba(255, 255, 255, 0.55) 0 12%, transparent 13% 100%),
+      radial-gradient(circle at 58% 68%, rgba(173, 216, 255, 0.35) 0 18%, transparent 19% 100%),
+      radial-gradient(circle at 82% 28%, rgba(255, 164, 220, 0.42) 0 16%, transparent 17% 100%),
+      radial-gradient(110% 70% at 30% 36%, rgba(171, 218, 255, 0.95), rgba(90, 138, 232, 0.9) 52%, rgba(234, 166, 229, 0.8) 100%),
+      linear-gradient(145deg, #bddcff 0%, #6f8fe6 44%, #e0b4f0 100%);
+    filter: saturate(1.05);
+  }
+
+  .auth-art::before,
+  .auth-art::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(16px);
+  }
+
+  .auth-art::before {
+    width: min(56vw, 460px);
+    height: min(56vw, 460px);
+    left: -18%;
+    top: 28%;
+    background: rgba(153, 232, 255, 0.42);
+  }
+
+  .auth-art::after {
+    width: min(40vw, 360px);
+    height: min(40vw, 360px);
+    right: -10%;
+    top: 8%;
+    background: rgba(230, 167, 255, 0.36);
+  }
+
+  @media (min-width: 980px) {
+    .auth-shell {
+      grid-template-columns: minmax(420px, 1fr) minmax(420px, 1fr);
+    }
+
+    .auth-panel-right {
+      display: block;
+      border-left: 1px solid #e4e9f1;
+    }
+  }
+
+  @media (max-width: 979px) {
+    .auth-panel-left {
+      justify-content: flex-start;
+      padding-top: 4.4rem;
+    }
+
+    .auth-brand {
+      top: 1rem;
+      left: 1rem;
+    }
+  }
+</style>

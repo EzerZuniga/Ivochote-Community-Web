@@ -169,7 +169,7 @@ const {
         aria-describedby="site-disclaimer-text"
         hidden
       >
-        <div class="site-disclaimer-inner">
+        <div id="site-disclaimer-panel" class="site-disclaimer-inner" tabindex="-1">
           <div class="site-disclaimer-header">
             <div class="site-disclaimer-brand">
               <img
@@ -260,16 +260,24 @@ const {
         const closeBtn = document.getElementById('preloader-close');
         const disclaimer = document.getElementById('site-disclaimer');
         const disclaimerAcknowledge = document.getElementById('site-disclaimer-ack');
+        const disclaimerPanel = document.getElementById('site-disclaimer-panel');
+        const skipToContentLink = document.querySelector('a[href="#content"]');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const alreadySeen = sessionStorage.getItem('preloaderSeen') === '1';
         const disclaimerSeen = sessionStorage.getItem('siteDisclaimerSeen') === '1';
+        let previousBodyOverflow = '';
 
         function showDisclaimer() {
           if (!disclaimer || disclaimerSeen) return;
+          previousBodyOverflow = document.body.style.overflow;
+          document.body.style.overflow = 'hidden';
           disclaimer.removeAttribute('hidden');
           requestAnimationFrame(() => {
             disclaimer.classList.add('is-visible');
-            (disclaimerAcknowledge as HTMLElement | null)?.focus();
+            if (disclaimerPanel instanceof HTMLElement) {
+              disclaimerPanel.scrollTop = 0;
+              disclaimerPanel.focus({ preventScroll: true });
+            }
           });
         }
 
@@ -277,8 +285,12 @@ const {
           if (!disclaimer) return;
           disclaimer.classList.remove('is-visible');
           sessionStorage.setItem('siteDisclaimerSeen', '1');
+          document.body.style.overflow = previousBodyOverflow;
           setTimeout(() => {
             disclaimer.setAttribute('hidden', '');
+            if (skipToContentLink instanceof HTMLElement) {
+              skipToContentLink.focus({ preventScroll: true });
+            }
           }, 220);
         }
 

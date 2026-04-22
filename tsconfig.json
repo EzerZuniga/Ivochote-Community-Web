@@ -14,15 +14,14 @@
     "isolatedModules": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"],
-      "@types/*": ["src/types/*"],
-      "@services/*": ["src/services/*"],
-      "@config/*": ["config/*"],
-      "@data/*": ["src/data/*"]
+      "@components/*": ["./src/components/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@types/*": ["./src/types/*"],
+      "@services/*": ["./src/services/*"],
+      "@config/*": ["./config/*"],
+      "@data/*": ["./src/data/*"]
     },
     "types": ["astro/client", "vite/client", "react"]
   },

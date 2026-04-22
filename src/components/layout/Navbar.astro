@@ -8,6 +8,15 @@ import eventos from '../../data/events.json';
 
 const navItems = MAIN_NAVIGATION;
 const siteTitle = SITE_CONFIG.title ?? 'Ivochote';
+const firebasePublicConfig = {
+  apiKey: (import.meta.env.PUBLIC_FIREBASE_API_KEY ?? '').trim(),
+  authDomain: (import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN ?? '').trim(),
+  projectId: (import.meta.env.PUBLIC_FIREBASE_PROJECT_ID ?? '').trim(),
+  storageBucket: (import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET ?? '').trim(),
+  messagingSenderId: (import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? '').trim(),
+  appId: (import.meta.env.PUBLIC_FIREBASE_APP_ID ?? '').trim(),
+  measurementId: (import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID ?? '').trim(),
+};
 
 interface SearchItem { title: string; description: string; href: string; category: string; }
 const searchIndex: SearchItem[] = [
@@ -115,7 +124,11 @@ const searchIndex: SearchItem[] = [
         </button>
 
         <!-- Icono usuario -->
-        <a href="/contacto" aria-label="Contacto" class="nav-icon flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200">
+        <a
+          href="/login"
+          aria-label="Acceso ciudadano"
+          class="nav-icon flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200"
+        >
           <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
         </a>
 
@@ -143,7 +156,11 @@ const searchIndex: SearchItem[] = [
         <button id="search-toggle-mobile" type="button" aria-label="Buscar" class="nav-hamburger w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-300">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
         </button>
-        <a href="/contacto" aria-label="Contacto" class="nav-hamburger w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-300">
+        <a
+          href="/login"
+          aria-label="Acceso ciudadano"
+          class="nav-hamburger w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-300"
+        >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
         </a>
         <button id="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" class="nav-hamburger w-10 h-10 flex items-center justify-center rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors duration-300">
@@ -248,10 +265,140 @@ const searchIndex: SearchItem[] = [
   </nav>
 </div>
 
+<!-- Auth overlay -->
+<div
+  id="auth-overlay"
+  class="fixed inset-0 z-[320] hidden items-center justify-center p-4 sm:p-6"
+  aria-modal="true"
+  role="dialog"
+  aria-labelledby="auth-title"
+>
+  <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" data-auth-close="true"></div>
+  <div id="auth-panel" class="relative w-full max-w-md border border-gray-200 bg-white shadow-2xl" tabindex="-1">
+    <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4 sm:px-6">
+      <h2 id="auth-title" class="text-base sm:text-lg font-bold text-primary-900">Acceso Ciudadano</h2>
+      <button
+        id="auth-close"
+        type="button"
+        aria-label="Cerrar acceso ciudadano"
+        class="inline-flex h-9 w-9 items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="space-y-4 px-5 py-5 sm:px-6">
+      <div id="auth-user" class="hidden items-center gap-3 rounded-md bg-primary-50 p-3">
+        <img id="auth-user-avatar" src="" alt="" class="h-10 w-10 flex-shrink-0 bg-primary-100 object-cover" />
+        <div class="min-w-0">
+          <p id="auth-user-name" class="truncate text-sm font-semibold text-primary-900"></p>
+          <p id="auth-user-email" class="truncate text-xs text-primary-800/70"></p>
+        </div>
+      </div>
+
+      <div id="auth-guest-panel" class="space-y-4">
+        <div class="grid grid-cols-2 border border-gray-200">
+          <button id="auth-mode-login" type="button" class="bg-primary-600 px-3 py-2 text-sm font-bold text-white">Iniciar sesión</button>
+          <button id="auth-mode-register" type="button" class="bg-white px-3 py-2 text-sm font-bold text-primary-900">Registrarse</button>
+        </div>
+
+        <button
+          id="auth-google-btn"
+          type="button"
+          class="w-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+        >
+          Continuar con Google
+        </button>
+
+        <form id="auth-email-form" class="space-y-3" novalidate>
+          <div id="auth-name-wrap" class="hidden">
+            <label for="auth-name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-600">Nombre completo</label>
+            <input
+              id="auth-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              class="block w-full border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400"
+              placeholder="Ejemplo: Juan Pérez Quispe"
+            />
+          </div>
+
+          <div>
+            <label for="auth-email" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-600">Correo electrónico</label>
+            <input
+              id="auth-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="block w-full border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400"
+              placeholder="nombre@correo.com"
+            />
+          </div>
+
+          <div>
+            <label for="auth-password" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-600">Contraseña</label>
+            <input
+              id="auth-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              minlength="8"
+              class="block w-full border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400"
+              placeholder="Mínimo 8 caracteres"
+            />
+          </div>
+
+          <div id="auth-confirm-wrap" class="hidden">
+            <label for="auth-confirm-password" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-600">Confirmar contraseña</label>
+            <input
+              id="auth-confirm-password"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              class="block w-full border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400"
+              placeholder="Repite tu contraseña"
+            />
+          </div>
+
+          <button
+            id="auth-submit"
+            type="submit"
+            class="w-full bg-primary-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+          >
+            Iniciar sesión
+          </button>
+        </form>
+
+        <button id="auth-reset-password" type="button" class="text-xs font-semibold text-primary-700 hover:text-primary-600">
+          ¿Olvidaste tu contraseña?
+        </button>
+      </div>
+
+      <button
+        id="auth-signout"
+        type="button"
+        class="hidden w-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+      >
+        Cerrar sesión
+      </button>
+
+      <p id="auth-status" class="text-sm text-gray-600">
+        Inicia sesión con Google o con tu correo para personalizar tu experiencia.
+      </p>
+    </div>
+  </div>
+</div>
+
 </header>
 
-<script define:vars={{ searchIndex }}>
+<script define:vars={{ searchIndex, firebasePublicConfig }}>
   window.__SEARCH_INDEX__ = searchIndex;
+  window.__FIREBASE_CONFIG__ = firebasePublicConfig;
 </script>
 
 <script>
@@ -388,6 +535,38 @@ const searchIndex: SearchItem[] = [
         var searchClose = document.getElementById('search-close');
         var searchResults = document.getElementById('search-results');
         var searchOpen = false;
+        var authOverlay = document.getElementById('auth-overlay') as HTMLElement | null;
+        var authPanel = document.getElementById('auth-panel') as HTMLElement | null;
+        var authToggleDesktop = document.getElementById('auth-toggle') as HTMLButtonElement | null;
+        var authToggleMobile = document.getElementById('auth-toggle-mobile') as HTMLButtonElement | null;
+        var authCloseBtn = document.getElementById('auth-close') as HTMLButtonElement | null;
+        var authGuestPanel = document.getElementById('auth-guest-panel');
+        var authModeLoginBtn = document.getElementById('auth-mode-login') as HTMLButtonElement | null;
+        var authModeRegisterBtn = document.getElementById('auth-mode-register') as HTMLButtonElement | null;
+        var authEmailForm = document.getElementById('auth-email-form') as HTMLFormElement | null;
+        var authNameWrap = document.getElementById('auth-name-wrap');
+        var authNameInput = document.getElementById('auth-name') as HTMLInputElement | null;
+        var authEmailInput = document.getElementById('auth-email') as HTMLInputElement | null;
+        var authPasswordInput = document.getElementById('auth-password') as HTMLInputElement | null;
+        var authConfirmWrap = document.getElementById('auth-confirm-wrap');
+        var authConfirmInput = document.getElementById('auth-confirm-password') as HTMLInputElement | null;
+        var authSubmitBtn = document.getElementById('auth-submit') as HTMLButtonElement | null;
+        var authGoogleBtn = document.getElementById('auth-google-btn') as HTMLButtonElement | null;
+        var authResetPasswordBtn = document.getElementById('auth-reset-password') as HTMLButtonElement | null;
+        var authStatus = document.getElementById('auth-status');
+        var authUser = document.getElementById('auth-user');
+        var authUserName = document.getElementById('auth-user-name');
+        var authUserEmail = document.getElementById('auth-user-email');
+        var authUserAvatar = document.getElementById('auth-user-avatar') as HTMLImageElement | null;
+        var authSignoutBtn = document.getElementById('auth-signout') as HTMLButtonElement | null;
+        var firebaseConfigValue = (window as any).__FIREBASE_CONFIG__ || {};
+        var authOpen = false;
+        var authMode: 'login' | 'register' = 'login';
+        var firebaseInitialized = false;
+        var firebaseInitPromise: Promise<void> | null = null;
+        var firebaseAuth: any = null;
+        var firebaseAuthApi: any = null;
+        var firebaseCurrentUser: any = null;
 
         /* Índice de búsqueda inyectado desde Astro */
         var INDEX: Array<{title:string;description:string;href:string;category:string}> = (window as any).__SEARCH_INDEX__ || [];
@@ -411,6 +590,311 @@ const searchIndex: SearchItem[] = [
             searchResults.replaceChildren();
             searchResults.classList.add('hidden');
           }
+        }
+
+        function hasFirebaseConfig(config: Record<string, string>): boolean {
+          return Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
+        }
+
+        function setAuthStatus(message: string, tone: 'neutral' | 'success' | 'error' = 'neutral') {
+          if (!authStatus) return;
+          authStatus.textContent = message;
+          if (tone === 'success') {
+            authStatus.className = 'text-sm text-green-700';
+            return;
+          }
+          if (tone === 'error') {
+            authStatus.className = 'text-sm text-red-700';
+            return;
+          }
+          authStatus.className = 'text-sm text-gray-600';
+        }
+
+        function extractFirebaseAuthCode(error: any): string {
+          var candidates = [String(error?.code || ''), String(error?.message || '')];
+          for (var i = 0; i < candidates.length; i += 1) {
+            var match = candidates[i].toLowerCase().match(/auth\/[a-z0-9-]+/);
+            if (match && match[0]) return match[0];
+          }
+          return '';
+        }
+
+        function normalizeFirebaseError(error: any): string {
+          var code = extractFirebaseAuthCode(error);
+          switch (code) {
+            case 'auth/operation-not-allowed':
+              return 'Correo/contraseña no está habilitado en Firebase Authentication.';
+            case 'auth/configuration-not-found':
+              return 'Firebase Authentication no está configurado en este proyecto.';
+            case 'auth/invalid-api-key':
+            case 'auth/api-key-not-valid':
+              return 'La API key de Firebase es inválida o fue eliminada. Actualiza PUBLIC_FIREBASE_API_KEY con la clave Web correcta.';
+            case 'auth/app-not-authorized':
+            case 'auth/unauthorized-domain':
+              return 'Dominio no autorizado. Agrega localhost en Authorized domains de Firebase.';
+            case 'auth/invalid-credential':
+            case 'auth/wrong-password':
+            case 'auth/user-not-found':
+              return 'Correo o contraseña incorrectos.';
+            case 'auth/email-already-in-use':
+              return 'Este correo ya está registrado.';
+            case 'auth/invalid-email':
+              return 'El correo electrónico no es válido.';
+            case 'auth/weak-password':
+              return 'La contraseña es muy débil. Usa al menos 8 caracteres.';
+            case 'auth/popup-closed-by-user':
+              return 'Se cerró la ventana de Google antes de completar el acceso.';
+            case 'auth/popup-blocked':
+            case 'auth/cancelled-popup-request':
+              return 'El navegador bloqueó la ventana de Google. Habilita pop-ups o usa el acceso por redirección.';
+            case 'auth/network-request-failed':
+              return 'Sin conexión. Verifica tu internet e intenta nuevamente.';
+            case 'auth/too-many-requests':
+              return 'Demasiados intentos. Espera unos minutos e inténtalo otra vez.';
+            default:
+              return 'No se pudo completar la autenticación. Intenta nuevamente.';
+          }
+        }
+
+        function setAuthLoading(isLoading: boolean) {
+          if (authSubmitBtn) {
+            authSubmitBtn.disabled = isLoading;
+            authSubmitBtn.textContent = isLoading
+              ? (authMode === 'register' ? 'Creando cuenta...' : 'Iniciando sesión...')
+              : (authMode === 'register' ? 'Crear cuenta' : 'Iniciar sesión');
+          }
+          if (authGoogleBtn) {
+            authGoogleBtn.disabled = isLoading;
+            authGoogleBtn.textContent = isLoading ? 'Procesando...' : 'Continuar con Google';
+          }
+          if (authResetPasswordBtn) authResetPasswordBtn.disabled = isLoading;
+        }
+
+        function updateAuthToggleState(user: any | null) {
+          [authToggleDesktop, authToggleMobile].forEach(function(btn) {
+            if (!btn) return;
+            btn.classList.toggle('is-authenticated', !!user);
+            var userName = user?.displayName || user?.email || 'Usuario';
+            var label = user ? ('Sesión activa: ' + userName) : 'Acceso ciudadano';
+            btn.setAttribute('aria-label', label);
+            btn.title = user ? userName : 'Acceso ciudadano';
+          });
+        }
+
+        function setAuthMode(mode: 'login' | 'register') {
+          authMode = mode;
+          if (authModeLoginBtn && authModeRegisterBtn) {
+            if (mode === 'register') {
+              authModeRegisterBtn.className = 'bg-primary-600 px-3 py-2 text-sm font-bold text-white';
+              authModeLoginBtn.className = 'bg-white px-3 py-2 text-sm font-bold text-primary-900';
+            } else {
+              authModeLoginBtn.className = 'bg-primary-600 px-3 py-2 text-sm font-bold text-white';
+              authModeRegisterBtn.className = 'bg-white px-3 py-2 text-sm font-bold text-primary-900';
+            }
+          }
+          if (authNameWrap) authNameWrap.classList.toggle('hidden', mode !== 'register');
+          if (authConfirmWrap) authConfirmWrap.classList.toggle('hidden', mode !== 'register');
+          if (authSubmitBtn) authSubmitBtn.textContent = mode === 'register' ? 'Crear cuenta' : 'Iniciar sesión';
+          if (authPasswordInput) authPasswordInput.setAttribute('autocomplete', mode === 'register' ? 'new-password' : 'current-password');
+          setAuthStatus(
+            mode === 'register'
+              ? 'Regístrate con tu correo o con Google.'
+              : 'Inicia sesión con Google o con tu correo.',
+            'neutral',
+          );
+        }
+
+        function renderAuthPanel(user: any | null) {
+          if (authUser && authUserName && authUserEmail && authUserAvatar) {
+            if (user) {
+              authUser.classList.remove('hidden');
+              authUser.classList.add('flex');
+              authUserName.textContent = user.displayName || user.email || 'Usuario';
+              authUserEmail.textContent = user.email || '';
+              authUserAvatar.src = user.photoURL || '/assets/images/brand/logoivo.png';
+              authUserAvatar.alt = 'Foto de perfil de ' + (user.displayName || user.email || 'usuario');
+            } else {
+              authUser.classList.add('hidden');
+              authUser.classList.remove('flex');
+              authUserName.textContent = '';
+              authUserEmail.textContent = '';
+              authUserAvatar.src = '';
+              authUserAvatar.alt = '';
+            }
+          }
+
+          if (authGuestPanel) authGuestPanel.classList.toggle('hidden', !!user);
+          if (authSignoutBtn) {
+            authSignoutBtn.classList.toggle('hidden', !user);
+          }
+          updateAuthToggleState(user);
+        }
+
+        function initializeFirebaseAuth(): Promise<void> {
+          if (firebaseInitialized) return Promise.resolve();
+          if (firebaseInitPromise) return firebaseInitPromise;
+
+          if (!hasFirebaseConfig(firebaseConfigValue)) {
+            setAuthStatus(
+              'Falta configurar Firebase en .env (PUBLIC_FIREBASE_API_KEY, AUTH_DOMAIN, PROJECT_ID y APP_ID).',
+              'error',
+            );
+            return Promise.resolve();
+          }
+
+          firebaseInitPromise = Promise.all([
+            import('firebase/app'),
+            import('firebase/auth'),
+          ])
+            .then(function(modules) {
+              var firebaseAppApi = modules[0];
+              firebaseAuthApi = modules[1];
+              var app = firebaseAppApi.getApps().length
+                ? firebaseAppApi.getApp()
+                : firebaseAppApi.initializeApp(firebaseConfigValue);
+              firebaseAuth = firebaseAuthApi.getAuth(app);
+              firebaseAuthApi.setPersistence(firebaseAuth, firebaseAuthApi.browserLocalPersistence).catch(function() {});
+              firebaseAuthApi.onAuthStateChanged(firebaseAuth, function(user: any) {
+                firebaseCurrentUser = user;
+                renderAuthPanel(user);
+                if (user) {
+                  setAuthStatus('Sesión iniciada correctamente.', 'success');
+                } else {
+                  setAuthStatus('Inicia sesión con Google o con tu correo para personalizar tu experiencia.', 'neutral');
+                }
+              });
+              firebaseInitialized = true;
+            })
+            .catch(function(error: any) {
+              setAuthStatus(normalizeFirebaseError(error), 'error');
+            })
+            .finally(function() {
+              firebaseInitPromise = null;
+            });
+
+          return firebaseInitPromise;
+        }
+
+        async function handleGoogleSignIn() {
+          await initializeFirebaseAuth();
+          if (!firebaseInitialized || !firebaseAuthApi || !firebaseAuth) return;
+          var provider = new firebaseAuthApi.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: 'select_account' });
+
+          setAuthLoading(true);
+          setAuthStatus('Abriendo Google...', 'neutral');
+          try {
+            await firebaseAuthApi.signInWithPopup(firebaseAuth, provider);
+            setAuthStatus('Sesión iniciada con Google.', 'success');
+          } catch (error) {
+            var code = extractFirebaseAuthCode(error);
+            if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
+              setAuthStatus('Popup bloqueado. Redirigiendo a Google...', 'neutral');
+              try {
+                await firebaseAuthApi.signInWithRedirect(firebaseAuth, provider);
+                return;
+              } catch (redirectError) {
+                setAuthStatus(normalizeFirebaseError(redirectError), 'error');
+                return;
+              }
+            }
+            setAuthStatus(normalizeFirebaseError(error), 'error');
+          } finally {
+            setAuthLoading(false);
+          }
+        }
+
+        async function handleEmailAuthSubmit(event: SubmitEvent) {
+          event.preventDefault();
+          await initializeFirebaseAuth();
+          if (!firebaseInitialized || !firebaseAuthApi || !firebaseAuth) return;
+
+          var email = (authEmailInput?.value || '').trim();
+          var password = authPasswordInput?.value || '';
+          var displayName = (authNameInput?.value || '').trim();
+          var confirmPassword = authConfirmInput?.value || '';
+
+          if (!email || !password) {
+            setAuthStatus('Debes completar correo y contraseña.', 'error');
+            return;
+          }
+          if (password.length < 8) {
+            setAuthStatus('La contraseña debe tener al menos 8 caracteres.', 'error');
+            return;
+          }
+          if (authMode === 'register') {
+            if (displayName.length < 3) {
+              setAuthStatus('Ingresa tu nombre completo (mínimo 3 caracteres).', 'error');
+              return;
+            }
+            if (password !== confirmPassword) {
+              setAuthStatus('Las contraseñas no coinciden.', 'error');
+              return;
+            }
+          }
+
+          setAuthLoading(true);
+          setAuthStatus(authMode === 'register' ? 'Creando tu cuenta...' : 'Validando credenciales...', 'neutral');
+
+          try {
+            if (authMode === 'register') {
+              var created = await firebaseAuthApi.createUserWithEmailAndPassword(firebaseAuth, email, password);
+              if (displayName) {
+                await firebaseAuthApi.updateProfile(created.user, { displayName: displayName });
+              }
+              await firebaseAuthApi.sendEmailVerification(created.user).catch(function() {});
+              setAuthStatus('Cuenta creada. Revisa tu correo para verificarla.', 'success');
+            } else {
+              await firebaseAuthApi.signInWithEmailAndPassword(firebaseAuth, email, password);
+              setAuthStatus('Sesión iniciada correctamente.', 'success');
+            }
+          } catch (error) {
+            setAuthStatus(normalizeFirebaseError(error), 'error');
+          } finally {
+            setAuthLoading(false);
+          }
+        }
+
+        async function handleResetPassword() {
+          await initializeFirebaseAuth();
+          if (!firebaseInitialized || !firebaseAuthApi || !firebaseAuth) return;
+          var email = (authEmailInput?.value || '').trim();
+          if (!email) {
+            setAuthStatus('Ingresa tu correo para enviar la recuperación.', 'error');
+            return;
+          }
+          setAuthLoading(true);
+          try {
+            await firebaseAuthApi.sendPasswordResetEmail(firebaseAuth, email);
+            setAuthStatus('Te enviamos un correo para restablecer tu contraseña.', 'success');
+          } catch (error) {
+            setAuthStatus(normalizeFirebaseError(error), 'error');
+          } finally {
+            setAuthLoading(false);
+          }
+        }
+
+        function openAuth() {
+          if (!authOverlay) return;
+          if (searchOpen) closeSearch();
+          authOpen = true;
+          authOverlay.classList.remove('hidden');
+          authOverlay.classList.add('flex');
+          document.body.style.overflow = 'hidden';
+          setAuthMode(firebaseCurrentUser ? authMode : 'login');
+          renderAuthPanel(firebaseCurrentUser);
+          initializeFirebaseAuth();
+          setTimeout(function() {
+            if (authPanel) authPanel.focus();
+          }, 20);
+        }
+
+        function closeAuth() {
+          if (!authOverlay) return;
+          authOpen = false;
+          authOverlay.classList.add('hidden');
+          authOverlay.classList.remove('flex');
+          document.body.style.overflow = '';
         }
 
         function escapeHtml(text: string): string {
@@ -504,8 +988,45 @@ const searchIndex: SearchItem[] = [
           });
         }
         document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && searchOpen) closeSearch();
+          if (e.key !== 'Escape') return;
+          if (searchOpen) { closeSearch(); return; }
+          if (authOpen) closeAuth();
         });
+
+        updateAuthToggleState(firebaseCurrentUser);
+        renderAuthPanel(firebaseCurrentUser);
+        setAuthMode('login');
+        if (authToggleDesktop) authToggleDesktop.addEventListener('click', openAuth);
+        if (authToggleMobile) authToggleMobile.addEventListener('click', openAuth);
+        if (authCloseBtn) authCloseBtn.addEventListener('click', closeAuth);
+        if (authModeLoginBtn) authModeLoginBtn.addEventListener('click', function() { setAuthMode('login'); });
+        if (authModeRegisterBtn) authModeRegisterBtn.addEventListener('click', function() { setAuthMode('register'); });
+        if (authGoogleBtn) authGoogleBtn.addEventListener('click', handleGoogleSignIn);
+        if (authEmailForm) authEmailForm.addEventListener('submit', handleEmailAuthSubmit);
+        if (authResetPasswordBtn) authResetPasswordBtn.addEventListener('click', handleResetPassword);
+        if (authOverlay) {
+          authOverlay.addEventListener('click', function(e) {
+            var target = e.target as HTMLElement;
+            if (target === authOverlay || target.dataset.authClose === 'true') {
+              closeAuth();
+            }
+          });
+        }
+        if (authSignoutBtn) {
+          authSignoutBtn.addEventListener('click', async function() {
+            await initializeFirebaseAuth();
+            if (!firebaseInitialized || !firebaseAuthApi || !firebaseAuth) return;
+            setAuthLoading(true);
+            try {
+              await firebaseAuthApi.signOut(firebaseAuth);
+              setAuthStatus('Sesión cerrada correctamente.', 'success');
+            } catch (error) {
+              setAuthStatus(normalizeFirebaseError(error), 'error');
+            } finally {
+              setAuthLoading(false);
+            }
+          });
+        }
 
         /* Desktop dropdowns — hover + keyboard */
         document.querySelectorAll('[data-dropdown]').forEach(function(wrapper) {
@@ -639,6 +1160,11 @@ const searchIndex: SearchItem[] = [
     color: #fff;
     background-color: rgba(255, 255, 255, 0.12);
   }
+  #site-header:not(.is-solid) .nav-auth-toggle.is-authenticated,
+  #site-header:not(.is-solid) .nav-auth-toggle-mobile.is-authenticated {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.22);
+  }
   #site-header:not(.is-solid) .nav-separator {
     background-color: rgba(255, 255, 255, 0.25);
   }
@@ -667,6 +1193,11 @@ const searchIndex: SearchItem[] = [
   #site-header.is-solid .nav-hamburger { color: #155A29; }
   #site-header.is-solid .nav-icon { color: #155A29; }
   #site-header.is-solid .nav-icon:hover { color: #4F8F26; background-color: rgba(79, 143, 38, 0.08); }
+  #site-header.is-solid .nav-auth-toggle.is-authenticated,
+  #site-header.is-solid .nav-auth-toggle-mobile.is-authenticated {
+    color: #155A29;
+    background-color: rgba(79, 143, 38, 0.15);
+  }
   #site-header.is-solid .nav-separator { background-color: rgba(79, 143, 38, 0.2); }
   #site-header.is-solid .pte-link { color: #155A29; }
   #site-header.is-solid .pte-link:hover { color: #4F8F26; }
