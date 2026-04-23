@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
 import { fetchNews, getCategories } from "../../services/newsService";
-import NewsSearch from "../../components/news/NewsSearch";
+import NewsSearch from "../../components/newsComponents/NewsSearch";
 
 const news = await fetchNews();
 const categories = await getCategories();
