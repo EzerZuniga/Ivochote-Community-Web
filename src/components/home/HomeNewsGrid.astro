@@ -16,47 +16,154 @@ const formatDate = (value: string) => {
     year: "numeric",
   });
 };
+
+const CAT_STYLES: Record<string, string> = {
+  institucional: "bg-primary-700 text-white",
+  obras: "bg-amber-600 text-white",
+  salud: "bg-emerald-600 text-white",
+  comunidad: "bg-sky-600 text-white",
+};
+
+const catStyle = (category?: string) =>
+  category
+    ? (CAT_STYLES[category.toLowerCase()] ?? "bg-primary-600 text-white")
+    : "bg-primary-600 text-white";
 ---
 
 {news.length > 0 ? (
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-6">
     {news.slice(0, 3).map((item) => (
-      <a
-        href={`/noticias/${item.slug}`}
-        class="news-home-card group bg-white border border-gray-200 overflow-hidden flex flex-col no-underline transition-all duration-300"
-      >
-        {item.image ? (
-          <div class="overflow-hidden bg-primary-50" style="aspect-ratio:16/9">
-            <img
-              src={item.image}
-              alt={item.title}
-              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        ) : (
-          <div class="bg-primary-100 flex items-center justify-center" style="aspect-ratio:16/9">
-            <svg class="w-8 h-8 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-          </div>
-        )}
-        <div class="p-5 flex flex-col flex-1">
-          {item.category && (
-            <span class="text-[10px] font-bold uppercase tracking-widest text-primary-600 mb-2">{item.category}</span>
+      <article class="news-home-card h-full bg-white border border-primary-200/80 shadow-[0_14px_28px_-22px_rgba(2,41,26,0.55)] overflow-hidden transition-all duration-300">
+        <a
+          href={`/noticias/${item.slug}`}
+          class="news-home-link group block h-full no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+          aria-label={`Leer noticia: ${item.title}`}
+        >
+          {item.image ? (
+            <div class="news-home-media relative overflow-hidden bg-primary-50" style="aspect-ratio:16/10">
+              <img
+                src={item.image}
+                alt={item.title}
+                class="news-home-image w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="news-home-overlay absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent opacity-0 transition-opacity duration-300" aria-hidden="true"></div>
+              <span class="news-home-hover-chip absolute right-3 bottom-3 inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white/95 text-primary-900 text-[11px] font-bold uppercase tracking-[0.08em] opacity-0 translate-y-2 transition-all duration-300" aria-hidden="true">
+                Ver noticia
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0-7 7m7-7H3" />
+                </svg>
+              </span>
+            </div>
+          ) : (
+            <div class="news-home-media bg-primary-100 flex items-center justify-center" style="aspect-ratio:16/10">
+              <svg class="w-8 h-8 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+            </div>
           )}
-          <h3 class="font-extrabold text-primary-900 text-sm sm:text-base leading-snug group-hover:text-primary-700 transition-colors line-clamp-2 flex-1">
-            {item.title}
-          </h3>
-          <time class="text-xs text-primary-900/40 mt-3 block font-medium" datetime={item.date}>
-            {formatDate(item.date)}
-          </time>
-        </div>
-        <div class="h-[3px] bg-primary-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" aria-hidden="true"></div>
-      </a>
+
+          <div class="p-5 sm:p-6 flex flex-col flex-1 bg-white">
+            <div class="flex items-center justify-between gap-3 mb-3">
+              {item.category && (
+                <span class={`inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] ${catStyle(item.category)}`}>
+                  {item.category}
+                </span>
+              )}
+              <time class="text-[11px] sm:text-xs text-primary-900/45 font-semibold whitespace-nowrap" datetime={item.date}>
+                {formatDate(item.date)}
+              </time>
+            </div>
+
+            <h3 class="font-extrabold text-primary-900 text-lg sm:text-xl leading-tight line-clamp-2 transition-colors duration-300">
+              {item.title}
+            </h3>
+
+            {item.excerpt && (
+              <p class="text-sm text-primary-900/60 mt-3 line-clamp-2">
+                {item.excerpt}
+              </p>
+            )}
+
+            <div class="mt-4 pt-3 border-t border-primary-100 flex items-center justify-between gap-3">
+              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.1em] text-primary-700">Leer más</span>
+              <svg class="news-home-arrow w-4 h-4 text-primary-700 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0-7 7m7-7H3" />
+              </svg>
+            </div>
+          </div>
+          <div class="news-home-accent h-[3px] bg-primary-600 scale-x-0 origin-left transition-transform duration-300" aria-hidden="true"></div>
+        </a>
+      </article>
     ))}
   </div>
 ) : (
   <p class="text-sm text-primary-900/50 text-center">No hay noticias disponibles.</p>
 )}
+
+<style>
+  .news-home-card:hover,
+  .news-home-card:focus-within {
+    transform: translateY(-6px);
+    border-color: rgba(79, 143, 38, 0.35);
+    box-shadow: 0 22px 42px -24px rgba(2, 41, 26, 0.58);
+  }
+
+  .news-home-card:hover .news-home-image,
+  .news-home-card:focus-within .news-home-image {
+    transform: scale(1.06);
+    filter: brightness(0.62) saturate(0.9);
+  }
+
+  .news-home-card:hover .news-home-overlay,
+  .news-home-card:focus-within .news-home-overlay {
+    opacity: 1;
+  }
+
+  .news-home-card:hover .news-home-hover-chip,
+  .news-home-card:focus-within .news-home-hover-chip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .news-home-card:hover h3,
+  .news-home-card:focus-within h3 {
+    color: #155a29;
+  }
+
+  .news-home-card:hover .news-home-arrow,
+  .news-home-card:focus-within .news-home-arrow {
+    transform: translateX(4px);
+  }
+
+  .news-home-card:hover .news-home-accent,
+  .news-home-card:focus-within .news-home-accent {
+    transform: scaleX(1);
+  }
+
+  .news-home-image {
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.5s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .news-home-card,
+    .news-home-image,
+    .news-home-overlay,
+    .news-home-hover-chip,
+    .news-home-arrow,
+    .news-home-accent {
+      transition: none !important;
+    }
+
+    .news-home-card:hover,
+    .news-home-card:focus-within {
+      transform: none;
+    }
+
+    .news-home-card:hover .news-home-image,
+    .news-home-card:focus-within .news-home-image {
+      transform: none;
+    }
+  }
+</style>

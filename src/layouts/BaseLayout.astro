@@ -240,8 +240,6 @@ const {
       </aside>
     )}
 
-    <a class="sr-only focus:not-sr-only focus:absolute top-4 left-4 bg-primary-900 text-white px-3 py-2 rounded z-[100]" href="#content">Saltar al contenido</a>
-
     <Navbar />
 
     <main id="content" class="flex-1">
@@ -249,6 +247,19 @@ const {
     </main>
 
     <Footer />
+
+    <button
+      id="scroll-to-top"
+      type="button"
+      class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center justify-center w-11 h-11 rounded-none border border-primary-500/60 bg-primary-700 text-white shadow-lg shadow-primary-900/30 hover:bg-primary-800 active:bg-primary-900 opacity-0 translate-y-3 pointer-events-none transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+      aria-label="Volver al inicio"
+      title="Volver al inicio"
+      hidden
+    >
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0-6 6m6-6 6 6" />
+      </svg>
+    </button>
 
     <script>
       (function() {
@@ -261,7 +272,6 @@ const {
         const disclaimer = document.getElementById('site-disclaimer');
         const disclaimerAcknowledge = document.getElementById('site-disclaimer-ack');
         const disclaimerPanel = document.getElementById('site-disclaimer-panel');
-        const skipToContentLink = document.querySelector('a[href="#content"]');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const alreadySeen = sessionStorage.getItem('preloaderSeen') === '1';
         const disclaimerSeen = sessionStorage.getItem('siteDisclaimerSeen') === '1';
@@ -288,9 +298,6 @@ const {
           document.body.style.overflow = previousBodyOverflow;
           setTimeout(() => {
             disclaimer.setAttribute('hidden', '');
-            if (skipToContentLink instanceof HTMLElement) {
-              skipToContentLink.focus({ preventScroll: true });
-            }
           }, 220);
         }
 
@@ -338,6 +345,50 @@ const {
 
         // Auto-cierre corto para no bloquear la navegación principal.
         setTimeout(closePreloader, 1800);
+      })();
+    </script>
+    <script>
+      (function() {
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+        if (!(scrollToTopBtn instanceof HTMLElement)) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const showAfter = 320;
+        let ticking = false;
+
+        function setVisible(visible) {
+          scrollToTopBtn.classList.toggle('opacity-0', !visible);
+          scrollToTopBtn.classList.toggle('translate-y-3', !visible);
+          scrollToTopBtn.classList.toggle('pointer-events-none', !visible);
+          scrollToTopBtn.setAttribute('aria-hidden', visible ? 'false' : 'true');
+          if (visible) {
+            scrollToTopBtn.removeAttribute('tabindex');
+          } else {
+            scrollToTopBtn.setAttribute('tabindex', '-1');
+          }
+        }
+
+        function updateVisibility() {
+          setVisible(window.scrollY > showAfter);
+        }
+
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            updateVisibility();
+            ticking = false;
+          });
+        }
+
+        scrollToTopBtn.hidden = false;
+        updateVisibility();
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        scrollToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+          scrollToTopBtn.blur();
+        });
       })();
     </script>
   </body>
