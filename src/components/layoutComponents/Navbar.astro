@@ -90,13 +90,12 @@ const searchIndex: SearchItem[] = [
                 <svg class="dropdown-chevron w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
               </button>
               <div class="nav-dropdown absolute top-full left-0 pt-2 opacity-0 invisible translate-y-2 transition-all duration-300 ease-out pointer-events-none">
-                <div class="bg-white shadow-xl shadow-black/10 border border-gray-100 min-w-[260px] overflow-hidden">
-                  <div class="h-[3px] bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700"></div>
+                <div class="bg-white shadow-xl shadow-black/10 min-w-[260px] overflow-hidden">
                   {item.children.map((child) => (
                     <a
                       href={child.href}
                       data-href={child.href}
-                      class="nav-link dropdown-item block px-5 py-3 text-[11px] font-bold text-primary-800 dropdown-stagger"
+                      class="nav-link dropdown-item block px-5 py-3 text-[11px] font-bold text-black dropdown-stagger"
                     >
                       {child.label}
                     </a>
@@ -1235,24 +1234,41 @@ const searchIndex: SearchItem[] = [
 
   /* Green sweep hover */
   .dropdown-item {
-    background: linear-gradient(to right, #2D6D1E, #2D6D1E) no-repeat left/0% 100%;
+    --dropdown-hover-green: #1faa4a;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #000;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    transition: background-size 0.3s ease, color 0.2s ease, padding-left 0.2s ease;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .dropdown-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--dropdown-hover-green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: -1;
   }
   .dropdown-item:hover {
-    background-size: 100% 100%;
     color: #fff;
     padding-left: 1.5rem;
   }
+  .dropdown-item:hover::before {
+    transform: scaleX(1);
+  }
   .dropdown-item.is-active {
-    background-size: 0% 100%;
-    color: #155A29;
+    color: #000;
     font-weight: 700;
   }
   .dropdown-item.is-active:hover {
-    background-size: 100% 100%;
     color: #fff;
+  }
+  .dropdown-item.is-active:hover::before {
+    transform: scaleX(1);
   }
 
   /* ===== Mobile accordion styles ===== */

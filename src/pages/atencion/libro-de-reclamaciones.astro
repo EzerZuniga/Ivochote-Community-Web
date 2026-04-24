@@ -1,6 +1,32 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
+import { SITE_CONFIG } from "../../../config/site.config.ts";
+
+const complaintEmail = "reclamos@ivochote.gob.pe";
+
+const complaintTypes = [
+  {
+    id: "tipo-reclamo",
+    value: "reclamo",
+    title: "Reclamo",
+    description:
+      "Disconformidad sobre un producto o servicio brindado por la municipalidad.",
+  },
+  {
+    id: "tipo-queja",
+    value: "queja",
+    title: "Queja",
+    description:
+      "Malestar respecto al trato, proceso de atención o conducta del personal.",
+  },
+];
+
+const quickTips = [
+  "Registra hechos concretos: fecha, lugar y qué ocurrió.",
+  "Adjunta evidencia legible (PDF, JPG o PNG) para una atención más rápida.",
+  "Verifica tu correo: allí llegará la confirmación de recepción.",
+];
 ---
 
 <BaseLayout
@@ -13,7 +39,7 @@ import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
   pageType="WebPage"
 >
   <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Breadcrumbs
         items={[
           { href: "/", label: "Inicio" },
@@ -22,35 +48,612 @@ import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
         ]}
       />
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Libro de Reclamaciones</h1>
-      <p class="mt-3 text-white/65 max-w-3xl">
-        Registra de forma oficial tus reclamos o quejas para que sean atendidos dentro de los plazos establecidos.
+      <p class="mt-3 text-white/80 max-w-3xl text-balance">
+        Completa este formulario oficial para registrar tu reclamo o queja. Tu solicitud será enviada al equipo de atención ciudadana de la municipalidad.
       </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href={`mailto:${complaintEmail}?subject=Libro%20de%20Reclamaciones%20-%20Consulta`}
+          class="inline-flex items-center justify-center gap-2 bg-white text-primary-900 hover:bg-primary-100 text-sm font-bold px-5 py-2.5 transition-colors"
+        >
+          Iniciar por correo
+        </a>
+        <a
+          href="/contacto"
+          class="inline-flex items-center justify-center gap-2 border border-white/60 text-white hover:bg-white/10 text-sm font-bold px-5 py-2.5 transition-colors"
+        >
+          Ir a contacto
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-    <div class="grid gap-6 lg:grid-cols-2">
-      <article class="bg-white border border-gray-200 shadow-sm p-6">
-        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Documentación necesaria</h2>
-        <ul class="space-y-2 text-sm text-primary-900/70 list-disc pl-4">
-          <li>Datos del titular (nombres, DNI y teléfono).</li>
-          <li>Detalle claro de los hechos o incidencia.</li>
-          <li>Evidencias de respaldo, si corresponde.</li>
-        </ul>
-      </article>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]">
+      <form
+        id="reclamos-form"
+        name="libro-reclamaciones"
+        method="POST"
+        action="/atencion/libro-de-reclamaciones-enviado"
+        enctype="multipart/form-data"
+        data-netlify="true"
+        netlify
+        netlify-honeypot="bot-field"
+        class="bg-white border border-gray-200 shadow-[0_18px_40px_-24px_rgba(2,41,26,0.45)] p-5 sm:p-6 space-y-7"
+      >
+        <input type="hidden" name="form-name" value="libro-reclamaciones" />
+        <input type="hidden" name="origen" value="portal-web-ivochote" />
+        <p class="hidden">
+          <label>
+            No completar este campo:
+            <input name="bot-field" />
+          </label>
+        </p>
 
-      <article class="bg-white border border-gray-200 shadow-sm p-6">
-        <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/50 mb-3">Canales de atención</h2>
-        <p class="text-sm text-primary-900/70 leading-relaxed">
-          Presencial: Oficina de Atención al Ciudadano, Municipalidad de Ivochote.
-        </p>
-        <p class="text-sm text-primary-900/70 leading-relaxed mt-2">
-          Correo: <a class="font-semibold text-primary-700 hover:text-primary-500" href="mailto:reclamos@ivochote.gob.pe">reclamos@ivochote.gob.pe</a>
-        </p>
-        <a href="/contacto" class="inline-flex mt-5 items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors">
-          Contactar ahora
-        </a>
-      </article>
+        <header class="border-b border-gray-100 pb-4">
+          <h2 class="text-lg sm:text-xl font-extrabold text-primary-900">Formulario de Registro</h2>
+          <p class="text-sm text-primary-900/65 mt-1">
+            Te tomará aproximadamente 3 minutos. Campos con <span class="text-red-600 font-semibold">*</span> son obligatorios.
+          </p>
+          <div class="mt-4 grid gap-2 sm:grid-cols-3 text-xs">
+            <p class="border border-primary-200 bg-primary-50 text-primary-900 px-3 py-2 font-semibold">Paso 1: Elige tipo</p>
+            <p class="border border-primary-200 bg-primary-50 text-primary-900 px-3 py-2 font-semibold">Paso 2: Tus datos</p>
+            <p class="border border-primary-200 bg-primary-50 text-primary-900 px-3 py-2 font-semibold">Paso 3: Cuenta lo ocurrido</p>
+          </div>
+        </header>
+
+        <p id="form-feedback" class="hidden border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900" role="status" aria-live="polite"></p>
+
+        <fieldset class="space-y-3 border border-gray-200 bg-white shadow-sm p-4 sm:p-5">
+          <legend class="text-sm font-extrabold uppercase tracking-widest text-primary-900/55 mb-1">Paso 1: Tipo de registro *</legend>
+          <div class="grid gap-3 sm:grid-cols-2">
+            {complaintTypes.map((item) => (
+              <label
+                for={item.id}
+                data-type-card={item.value}
+                class="group relative block overflow-hidden min-h-[164px] sm:min-h-[176px] rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md p-4 sm:p-5 cursor-pointer hover:border-primary-400 focus-within:ring-2 focus-within:ring-primary-300 transition-all duration-200"
+              >
+                <input id={item.id} type="radio" name="tipo_registro" value={item.value} required class="absolute h-0 w-0 opacity-0 pointer-events-none" />
+                <span data-type-strip class="hidden pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-primary-700"></span>
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <p class="text-sm font-bold text-primary-900">{item.title}</p>
+                    <p class="mt-1 text-sm text-primary-900/65 leading-relaxed">{item.description}</p>
+                    <p class="mt-1.5 text-xs text-primary-900/60">
+                      {item.value === "reclamo" ? "Úsalo cuando no estás conforme con un servicio o producto." : "Úsalo cuando el problema fue la atención o el trato."}
+                    </p>
+                  </div>
+                  <span data-type-check class="mt-0.5 ml-2 h-6 w-6 flex-shrink-0 rounded-full border-2 border-gray-300 flex items-center justify-center text-transparent bg-white transition-all">
+                    <svg class="h-3.5 w-3.5 opacity-0 transition-opacity duration-150" fill="none" stroke="currentColor" stroke-width="2.75" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                </div>
+              </label>
+            ))}
+          </div>
+          <p id="tipo-gate-message" class="text-xs text-primary-900/65">
+            Selecciona <strong>Reclamo</strong> o <strong>Queja</strong> para continuar con el formulario.
+          </p>
+        </fieldset>
+
+        <section id="datos-ciudadano-section" aria-hidden="true" class="hidden space-y-4 border border-gray-200 bg-white shadow-sm p-4 sm:p-5">
+          <h3 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/55">Paso 2: Datos del ciudadano</h3>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="space-y-1.5">
+              <label for="nombres" class="text-sm font-semibold text-primary-900">Nombres *</label>
+              <input id="nombres" name="nombres" type="text" autocomplete="given-name" required maxlength="80" placeholder="Ejemplo: Juan Carlos" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+            </div>
+            <div class="space-y-1.5">
+              <label for="apellidos" class="text-sm font-semibold text-primary-900">Apellidos *</label>
+              <input id="apellidos" name="apellidos" type="text" autocomplete="family-name" required maxlength="80" placeholder="Ejemplo: Pérez López" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+            </div>
+            <div class="space-y-1.5">
+              <label for="dni" class="text-sm font-semibold text-primary-900">DNI *</label>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input id="dni" name="dni" type="text" inputmode="numeric" pattern="[0-9]{8}" minlength="8" maxlength="8" required aria-describedby="dni-help dni-status" placeholder="12345678" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm tracking-wider focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+                <button
+                  id="validate-dni"
+                  type="button"
+                  disabled
+                  class="inline-flex w-full sm:w-auto items-center justify-center min-w-[138px] border border-primary-300 bg-primary-50 text-primary-800 text-sm font-semibold px-4 py-2.5 hover:bg-primary-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Validar DNI
+                </button>
+              </div>
+              <p id="dni-help" class="text-xs text-primary-900/60">Escribe solo números (8 dígitos).</p>
+              <p id="dni-status" class="hidden text-xs font-medium" aria-live="polite"></p>
+            </div>
+            <div class="space-y-1.5">
+              <label for="telefono" class="text-sm font-semibold text-primary-900">Teléfono *</label>
+              <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required maxlength="15" placeholder="987654321" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+            </div>
+            <div class="space-y-1.5 sm:col-span-2">
+              <label for="email" class="text-sm font-semibold text-primary-900">Correo electrónico *</label>
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="120" placeholder="nombre@correo.com" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+            </div>
+          </div>
+        </section>
+
+        <section id="detalle-caso-section" aria-hidden="true" class="hidden space-y-4 border border-gray-200 bg-white shadow-sm p-4 sm:p-5">
+          <h3 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/55">Paso 3: Detalle del caso</h3>
+          <section id="tipo-especifico-section" class="space-y-3">
+            <h4 class="text-xs font-extrabold uppercase tracking-widest text-primary-900/60">Información específica</h4>
+
+            <div id="reclamo-specific-fields" aria-hidden="true" class="hidden border border-amber-200 bg-amber-50/60 p-4 space-y-3">
+              <p class="text-sm font-semibold text-amber-900">Campos para Reclamo</p>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="space-y-1.5 sm:col-span-2">
+                  <label for="reclamo_bien_servicio" class="text-sm font-semibold text-primary-900">Producto o servicio reclamado *</label>
+                  <input id="reclamo_bien_servicio" name="reclamo_bien_servicio" type="text" data-required-for="reclamo" maxlength="120" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+                </div>
+                <div class="space-y-1.5">
+                  <label for="reclamo_monto" class="text-sm font-semibold text-primary-900">Monto referencial (S/) (opcional)</label>
+                  <input id="reclamo_monto" name="reclamo_monto" type="number" min="0" step="0.01" inputmode="decimal" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+                </div>
+                <div class="space-y-1.5">
+                  <label for="reclamo_solicitud" class="text-sm font-semibold text-primary-900">¿Qué solicitas? *</label>
+                  <select id="reclamo_solicitud" name="reclamo_solicitud" data-required-for="reclamo" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500">
+                    <option value="">Seleccionar opción</option>
+                    <option value="devolucion">Devolución</option>
+                    <option value="cambio-servicio">Corrección del servicio</option>
+                    <option value="compensacion">Compensación</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="queja-specific-fields" aria-hidden="true" class="hidden border border-sky-200 bg-sky-50/60 p-4 space-y-3">
+              <p class="text-sm font-semibold text-sky-900">Campos para Queja</p>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="space-y-1.5">
+                  <label for="queja_tipo" class="text-sm font-semibold text-primary-900">Tipo de queja *</label>
+                  <select id="queja_tipo" name="queja_tipo" data-required-for="queja" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500">
+                    <option value="">Seleccionar tipo</option>
+                    <option value="trato">Trato del personal</option>
+                    <option value="demora">Demora en la atención</option>
+                    <option value="orientacion">Orientación inadecuada</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+                <div class="space-y-1.5">
+                  <label for="queja_area_persona" class="text-sm font-semibold text-primary-900">Área o personal involucrado *</label>
+                  <input id="queja_area_persona" name="queja_area_persona" type="text" data-required-for="queja" maxlength="120" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="space-y-1.5 sm:col-span-2">
+              <label for="asunto" class="text-sm font-semibold text-primary-900">Asunto *</label>
+              <input id="asunto" name="asunto" type="text" required minlength="8" maxlength="120" placeholder="Ejemplo: Cobro no reconocido por trámite" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+            </div>
+            <div class="space-y-1.5">
+              <label for="area" class="text-sm font-semibold text-primary-900">Área relacionada *</label>
+              <select id="area" name="area" required class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500">
+                <option value="">Seleccionar área</option>
+                <option value="administracion">Administración</option>
+                <option value="servicios-municipales">Servicios Municipales</option>
+                <option value="tramites">Trámites y Registro</option>
+                <option value="obras">Obras y Mantenimiento</option>
+                <option value="atencion-ciudadana">Atención Ciudadana</option>
+                <option value="otro">Otra</option>
+              </select>
+            </div>
+            <div class="space-y-1.5">
+              <label for="fecha_hecho" class="text-sm font-semibold text-primary-900">Fecha del hecho *</label>
+              <input id="fecha_hecho" name="fecha_hecho" type="date" required class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500" />
+            </div>
+            <div class="space-y-1.5 sm:col-span-2">
+              <label for="descripcion" class="text-sm font-semibold text-primary-900">Descripción detallada *</label>
+              <textarea id="descripcion" name="descripcion" required minlength="20" maxlength="1500" rows="6" aria-describedby="descripcion-help descripcion-counter" class="w-full border border-gray-300 shadow-sm px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-500"></textarea>
+              <div class="flex items-center justify-between gap-2 text-xs text-primary-900/60">
+                <p id="descripcion-help">Escribe qué pasó, cuándo pasó y qué solución esperas.</p>
+                <p id="descripcion-counter" aria-live="polite">0 / 1500</p>
+              </div>
+            </div>
+            <div class="space-y-1.5 sm:col-span-2">
+              <label for="adjuntos" class="text-sm font-semibold text-primary-900">Adjuntar evidencias (opcional)</label>
+              <input id="adjuntos" name="adjuntos" type="file" accept=".pdf,.jpg,.jpeg,.png" multiple class="w-full border border-gray-300 shadow-sm px-3 py-2 text-sm file:mr-3 file:border-0 file:bg-primary-100 file:px-3 file:py-1.5 file:text-primary-900 file:font-semibold hover:file:bg-primary-200" />
+              <p class="text-xs text-primary-900/60">Formatos permitidos: PDF, JPG, JPEG, PNG.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="privacidad-section" aria-hidden="true" class="hidden border border-gray-200 shadow-sm p-4 bg-gray-50 space-y-3">
+          <label class="flex items-start gap-3">
+            <input id="accept-privacy" name="acepta_politica_datos" type="checkbox" required class="mt-0.5 h-4 w-4 flex-shrink-0 accent-primary-700" />
+            <span class="text-sm text-primary-900/75 leading-relaxed">
+              Declaro que la información proporcionada es veraz y autorizo el tratamiento de mis datos personales para la gestión de este registro, conforme a la Ley N.° 29733.
+            </span>
+          </label>
+        </section>
+
+        <div id="form-actions" aria-hidden="true" class="hidden flex flex-wrap gap-3 pt-1">
+          <button
+            id="submit-reclamo"
+            type="submit"
+            class="inline-flex items-center justify-center bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-6 py-2.5 shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            Enviar formulario
+          </button>
+          <button
+            type="reset"
+            class="inline-flex items-center justify-center border border-gray-300 text-primary-900 hover:bg-gray-50 text-sm font-bold px-6 py-2.5 shadow-sm hover:shadow-md transition-all duration-200"
+          >
+            Limpiar formulario
+          </button>
+        </div>
+      </form>
+
+      <aside class="space-y-6">
+        <section class="bg-white border border-gray-200 shadow-[0_14px_30px_-22px_rgba(2,41,26,0.35)] p-5">
+          <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/55 mb-3">Información clave</h2>
+          <ul class="space-y-2 text-sm text-primary-900/75 list-disc pl-4">
+            {quickTips.map((tip) => (
+              <li>{tip}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="bg-primary-50 border border-primary-100 shadow-[0_14px_30px_-22px_rgba(2,41,26,0.35)] p-5">
+          <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-800 mb-3">Canales alternos</h2>
+          <div class="space-y-2 text-sm text-primary-900/80">
+            <p><span class="font-semibold">Correo:</span> <a href={`mailto:${complaintEmail}`} class="text-primary-700 hover:text-primary-500 font-semibold">{complaintEmail}</a></p>
+            <p><span class="font-semibold">Dirección:</span> {SITE_CONFIG.address}</p>
+          </div>
+        </section>
+
+        <section class="bg-white border border-gray-200 shadow-[0_14px_30px_-22px_rgba(2,41,26,0.35)] p-5">
+          <h2 class="text-sm font-extrabold uppercase tracking-widest text-primary-900/55 mb-3">¿Necesitas apoyo?</h2>
+          <p class="text-sm text-primary-900/70">
+            Si tienes dificultades para completar el formulario, contáctanos para asistencia guiada.
+          </p>
+          <a
+            href="/contacto"
+            class="inline-flex mt-4 items-center gap-2 bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors"
+          >
+            Ir a contacto
+          </a>
+        </section>
+      </aside>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  (() => {
+    const form = document.getElementById("reclamos-form");
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const typeRadios = form.querySelectorAll<HTMLInputElement>('input[name="tipo_registro"]');
+    const typeCards = form.querySelectorAll<HTMLElement>("[data-type-card]");
+    const gateMessage = form.querySelector("#tipo-gate-message");
+    const feedback = form.querySelector("#form-feedback");
+    const citizenSection = form.querySelector("#datos-ciudadano-section");
+    const detailSection = form.querySelector("#detalle-caso-section");
+    const privacySection = form.querySelector("#privacidad-section");
+    const actionsSection = form.querySelector("#form-actions");
+    const reclamoSection = form.querySelector("#reclamo-specific-fields");
+    const quejaSection = form.querySelector("#queja-specific-fields");
+    const conditionalRequiredFields = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("[data-required-for]");
+
+    const dniInput = form.querySelector("#dni");
+    const dniStatus = form.querySelector("#dni-status");
+    const validateDniButton = form.querySelector("#validate-dni");
+    const firstNamesInput = form.querySelector("#nombres");
+    const lastNamesInput = form.querySelector("#apellidos");
+    const description = form.querySelector("#descripcion");
+    const counter = form.querySelector("#descripcion-counter");
+    const submitButton = form.querySelector("#submit-reclamo");
+
+    const gatedSections = [citizenSection, detailSection, privacySection, actionsSection];
+    let hasActivatedFlow = false;
+
+    const clearFields = (container: Element | null) => {
+      if (!container) return;
+      container.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input, select, textarea").forEach((field) => {
+        if (field instanceof HTMLInputElement && (field.type === "checkbox" || field.type === "radio")) {
+          field.checked = false;
+          return;
+        }
+        field.value = "";
+      });
+    };
+
+    const setSectionVisibility = (section: Element | null, visible: boolean) => {
+      if (!section) return;
+      section.classList.toggle("hidden", !visible);
+      section.setAttribute("aria-hidden", String(!visible));
+    };
+
+    const setFeedback = (message: string, type: "info" | "warning" = "info") => {
+      if (!(feedback instanceof HTMLElement)) return;
+      if (!message) {
+        feedback.classList.add("hidden");
+        feedback.textContent = "";
+        return;
+      }
+      feedback.classList.remove("hidden");
+      feedback.textContent = message;
+      if (type === "warning") {
+        feedback.className = "border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900";
+      } else {
+        feedback.className = "border border-sky-300 bg-sky-50 px-3 py-2 text-sm text-sky-900";
+      }
+    };
+
+    const setDniStatus = (message = "", type: "info" | "success" | "warning" | "error" = "info") => {
+      if (!(dniStatus instanceof HTMLElement)) return;
+      if (!message) {
+        dniStatus.classList.add("hidden");
+        dniStatus.textContent = "";
+        return;
+      }
+
+      dniStatus.classList.remove("hidden");
+      dniStatus.textContent = message;
+
+      if (type === "success") {
+        dniStatus.className = "text-xs font-medium text-emerald-700";
+        return;
+      }
+      if (type === "warning") {
+        dniStatus.className = "text-xs font-medium text-amber-700";
+        return;
+      }
+      if (type === "error") {
+        dniStatus.className = "text-xs font-medium text-red-700";
+        return;
+      }
+      dniStatus.className = "text-xs font-medium text-primary-700";
+    };
+
+    const setDniValidity = (valid: boolean, message = "DNI no válido") => {
+      if (!(dniInput instanceof HTMLInputElement)) return;
+      dniInput.setCustomValidity(valid ? "" : message);
+      dniInput.setAttribute("aria-invalid", String(!valid));
+    };
+
+    const getNormalizedDni = () => {
+      if (!(dniInput instanceof HTMLInputElement)) return "";
+      return dniInput.value.replace(/\D/g, "").slice(0, 8);
+    };
+
+    const syncDniButtonState = () => {
+      if (!(validateDniButton instanceof HTMLButtonElement)) return;
+      validateDniButton.disabled = getNormalizedDni().length !== 8;
+    };
+
+    const validateDniWithReniec = async () => {
+      if (!(dniInput instanceof HTMLInputElement) || !(validateDniButton instanceof HTMLButtonElement)) return;
+
+      const normalizedDni = getNormalizedDni();
+      dniInput.value = normalizedDni;
+
+      if (!/^\d{8}$/.test(normalizedDni)) {
+        setDniValidity(false, "El DNI debe tener 8 dígitos numéricos.");
+        setDniStatus("Ingresa 8 dígitos para validar el DNI.", "warning");
+        setFeedback("El DNI debe tener 8 dígitos numéricos.", "warning");
+        return;
+      }
+
+      const originalButtonText = validateDniButton.textContent ?? "Validar DNI";
+
+      try {
+        validateDniButton.disabled = true;
+        validateDniButton.textContent = "Validando...";
+        setDniStatus("Consultando RENIEC, espera un momento...", "info");
+        setDniValidity(true);
+
+        const response = await fetch(`/.netlify/functions/reniec-dni?dni=${normalizedDni}`, {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        });
+
+        const payload = (await response.json()) as {
+          success?: boolean;
+          message?: string;
+          data?: {
+            nombres?: string;
+            apellidoPaterno?: string;
+            apellidoMaterno?: string;
+          };
+        };
+
+        if (!response.ok || !payload.success || !payload.data) {
+          const message = payload.message ?? "No fue posible validar el DNI en este momento.";
+          if (response.status === 404 || response.status === 400) {
+            setDniValidity(false, message);
+            setDniStatus(message, "error");
+            setFeedback(message, "warning");
+            return;
+          }
+          setDniValidity(true);
+          setDniStatus("No pudimos validar en línea. Puedes continuar y revisar tus datos manualmente.", "warning");
+          setFeedback("RENIEC no respondió en este momento. Puedes continuar y validar tus datos manualmente.", "warning");
+          return;
+        }
+
+        const normalizedFirstNames = payload.data.nombres?.trim() ?? "";
+        const normalizedLastNames = [payload.data.apellidoPaterno, payload.data.apellidoMaterno]
+          .map((value) => value?.trim() ?? "")
+          .filter(Boolean)
+          .join(" ")
+          .trim();
+
+        if (firstNamesInput instanceof HTMLInputElement && normalizedFirstNames) {
+          firstNamesInput.value = normalizedFirstNames;
+        }
+        if (lastNamesInput instanceof HTMLInputElement && normalizedLastNames) {
+          lastNamesInput.value = normalizedLastNames;
+        }
+
+        setDniValidity(true);
+        setDniStatus("DNI validado correctamente con RENIEC.", "success");
+        setFeedback("DNI validado. Revisa los datos autocompletados antes de enviar.", "info");
+      } catch (error) {
+        console.error("DNI validation error", error);
+        setDniValidity(true);
+        setDniStatus("No hay conexión con RENIEC en este momento. Puedes continuar manualmente.", "warning");
+        setFeedback("No se pudo validar el DNI por conexión. Puedes continuar manualmente.", "warning");
+      } finally {
+        validateDniButton.textContent = originalButtonText;
+        syncDniButtonState();
+      }
+    };
+
+    const updateTypeFlow = () => {
+      const selectedType = form.querySelector<HTMLInputElement>('input[name="tipo_registro"]:checked')?.value ?? "";
+      const hasType = selectedType === "reclamo" || selectedType === "queja";
+
+      typeCards.forEach((card) => {
+        const isSelected = card.dataset.typeCard === selectedType;
+        card.classList.toggle("border-primary-700", isSelected);
+        card.classList.toggle("bg-primary-50", isSelected);
+        card.classList.toggle("ring-2", isSelected);
+        card.classList.toggle("ring-primary-200", isSelected);
+        card.classList.toggle("shadow-lg", isSelected);
+        card.classList.toggle("-translate-y-0.5", isSelected);
+
+        const strip = card.querySelector("[data-type-strip]");
+        const checkWrap = card.querySelector("[data-type-check]");
+        const checkIcon = checkWrap?.querySelector("svg");
+
+        if (strip instanceof HTMLElement) {
+          strip.classList.toggle("hidden", !isSelected);
+        }
+        if (checkWrap instanceof HTMLElement) {
+          checkWrap.classList.toggle("bg-primary-700", isSelected);
+          checkWrap.classList.toggle("border-primary-700", isSelected);
+          checkWrap.classList.toggle("bg-white", !isSelected);
+          checkWrap.classList.toggle("border-gray-300", !isSelected);
+          checkWrap.classList.toggle("text-white", isSelected);
+          checkWrap.classList.toggle("text-transparent", !isSelected);
+        }
+        if (checkIcon instanceof SVGElement) {
+          checkIcon.classList.toggle("opacity-100", isSelected);
+          checkIcon.classList.toggle("opacity-0", !isSelected);
+        }
+      });
+
+      gatedSections.forEach((section) => setSectionVisibility(section, hasType));
+
+      setSectionVisibility(reclamoSection, selectedType === "reclamo");
+      setSectionVisibility(quejaSection, selectedType === "queja");
+
+      conditionalRequiredFields.forEach((field) => {
+        const requiredFor = field.dataset.requiredFor;
+        field.required = Boolean(requiredFor && requiredFor === selectedType);
+        if (!field.required) {
+          field.removeAttribute("aria-invalid");
+        }
+      });
+
+      if (selectedType === "reclamo") {
+        clearFields(quejaSection);
+      } else if (selectedType === "queja") {
+        clearFields(reclamoSection);
+      } else {
+        clearFields(reclamoSection);
+        clearFields(quejaSection);
+      }
+
+      if (gateMessage instanceof HTMLElement) {
+        gateMessage.classList.toggle("hidden", hasType);
+      }
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = !hasType;
+      }
+
+      if (!hasType) {
+        setFeedback("Primero elige si tu caso es Reclamo o Queja para continuar.", "info");
+      } else {
+        setFeedback("");
+        if (!hasActivatedFlow) {
+          citizenSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+          hasActivatedFlow = true;
+        }
+      }
+    };
+
+    typeRadios.forEach((radio) => {
+      radio.addEventListener("change", updateTypeFlow);
+    });
+
+    if (dniInput instanceof HTMLInputElement) {
+      dniInput.addEventListener("input", () => {
+        dniInput.value = dniInput.value.replace(/\D/g, "").slice(0, 8);
+        setDniValidity(true);
+        setDniStatus("");
+        syncDniButtonState();
+      });
+
+      dniInput.addEventListener("blur", () => {
+        if (getNormalizedDni().length === 8) {
+          void validateDniWithReniec();
+        }
+      });
+    }
+
+    if (validateDniButton instanceof HTMLButtonElement) {
+      validateDniButton.addEventListener("click", () => {
+        void validateDniWithReniec();
+      });
+    }
+
+    if (description instanceof HTMLTextAreaElement && counter instanceof HTMLElement) {
+      const syncCounter = () => {
+        counter.textContent = `${description.value.length} / 1500`;
+      };
+      syncCounter();
+      description.addEventListener("input", syncCounter);
+    }
+
+    updateTypeFlow();
+    syncDniButtonState();
+
+    form.addEventListener("reset", () => {
+      window.setTimeout(() => {
+        if (counter instanceof HTMLElement) {
+          counter.textContent = "0 / 1500";
+        }
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.textContent = "Enviar formulario";
+          submitButton.disabled = true;
+        }
+        setDniStatus("");
+        setDniValidity(true);
+        syncDniButtonState();
+        hasActivatedFlow = false;
+        updateTypeFlow();
+      }, 0);
+    });
+
+    form.addEventListener("submit", (event) => {
+      const hasTypeSelected = Boolean(form.querySelector<HTMLInputElement>('input[name="tipo_registro"]:checked'));
+      if (!hasTypeSelected) {
+        event.preventDefault();
+        typeRadios[0]?.focus();
+        setFeedback("Debes seleccionar Reclamo o Queja antes de enviar.", "warning");
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        setFeedback("Revisa los campos obligatorios marcados con *.", "warning");
+        form.reportValidity();
+        return;
+      }
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Enviando...";
+      }
+      setFeedback("Estamos enviando tu registro. Por favor espera unos segundos...", "info");
+    });
+  })();
+</script>

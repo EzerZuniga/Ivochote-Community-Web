@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="Registro enviado | Libro de Reclamaciones"
+  description="Confirmación de envío del formulario del Libro de Reclamaciones de la Municipalidad del Centro Poblado de Ivochote."
+  breadcrumbs={[
+    { name: "Atención Ciudadana", href: "/atencion/libro-de-reclamaciones" },
+    { name: "Registro enviado", href: "/atencion/libro-de-reclamaciones-enviado" },
+  ]}
+  pageType="WebPage"
+>
+  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <Breadcrumbs
+        items={[
+          { href: "/", label: "Inicio" },
+          { href: "/atencion/libro-de-reclamaciones", label: "Libro de Reclamaciones" },
+          { label: "Registro enviado" },
+        ]}
+      />
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Registro enviado correctamente</h1>
+      <p class="mt-3 text-white/80 max-w-3xl">
+        Tu solicitud fue recibida. Nuestro equipo de atención ciudadana revisará la información y te contactará por los canales registrados.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="bg-white border border-gray-200 shadow-sm p-6 sm:p-7">
+      <h2 class="text-lg sm:text-xl font-bold text-primary-900">Siguientes pasos recomendados</h2>
+      <ol class="mt-4 space-y-2 text-sm text-primary-900/75 list-decimal pl-5">
+        <li>Revisa tu correo electrónico para verificar la confirmación de envío.</li>
+        <li>Guarda una copia de la información registrada y de los adjuntos enviados.</li>
+        <li>Si necesitas ampliar datos, utiliza el formulario de contacto oficial.</li>
+      </ol>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/atencion/libro-de-reclamaciones"
+          class="inline-flex items-center justify-center bg-primary-700 hover:bg-primary-600 text-white text-sm font-bold px-5 py-2.5 transition-colors"
+        >
+          Registrar otro caso
+        </a>
+        <a
+          href="/contacto"
+          class="inline-flex items-center justify-center border border-gray-300 text-primary-900 hover:bg-gray-50 text-sm font-bold px-5 py-2.5 transition-colors"
+        >
+          Ir a contacto
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
