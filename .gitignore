@@ -4,8 +4,8 @@ node_modules
 # Build output
 dist
 
-# Astro
-.astro
+# Astro (generated files)
+.astro/
 
 # Netlify (local CLI state)
 .netlify
