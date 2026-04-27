@@ -1,4 +1,4 @@
-import { apiGet } from './apiClient';
+import { apiGet } from "../api/contentClient";
 import type { TourismPlace } from '../types/tourism';
 
 export async function fetchPlaces(): Promise<TourismPlace[]> {

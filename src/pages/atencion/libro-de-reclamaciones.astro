@@ -324,6 +324,8 @@ const quickTips = [
 </BaseLayout>
 
 <script>
+  import { validateDniByReniec } from "../../api/reniecClient";
+
   (() => {
     const form = document.getElementById("reclamos-form");
     if (!(form instanceof HTMLFormElement)) return;
@@ -448,24 +450,11 @@ const quickTips = [
         setDniStatus("Consultando RENIEC, espera un momento...", "info");
         setDniValidity(true);
 
-        const response = await fetch(`/.netlify/functions/reniec-dni?dni=${normalizedDni}`, {
-          method: "GET",
-          headers: { Accept: "application/json" },
-        });
+        const payload = await validateDniByReniec(normalizedDni);
 
-        const payload = (await response.json()) as {
-          success?: boolean;
-          message?: string;
-          data?: {
-            nombres?: string;
-            apellidoPaterno?: string;
-            apellidoMaterno?: string;
-          };
-        };
-
-        if (!response.ok || !payload.success || !payload.data) {
+        if (!payload.ok || !payload.success || !payload.data) {
           const message = payload.message ?? "No fue posible validar el DNI en este momento.";
-          if (response.status === 404 || response.status === 400) {
+          if (payload.status === 404 || payload.status === 400) {
             setDniValidity(false, message);
             setDniStatus(message, "error");
             setFeedback(message, "warning");

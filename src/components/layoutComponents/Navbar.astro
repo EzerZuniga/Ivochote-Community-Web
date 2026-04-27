@@ -1,6 +1,7 @@
 ---
 import { MAIN_NAVIGATION } from '../../../config/navigation.ts';
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../../config/site.config.ts';
+import { buildFirebasePublicConfig } from "../../api/firebaseConfig";
 import noticias from '../../data/noticias.json';
 import servicios from '../../data/services.json';
 import turismo from '../../data/turismo.json';
@@ -8,15 +9,7 @@ import eventos from '../../data/events.json';
 
 const navItems = MAIN_NAVIGATION;
 const siteTitle = SITE_CONFIG.title ?? 'Ivochote';
-const firebasePublicConfig = {
-  apiKey: (import.meta.env.PUBLIC_FIREBASE_API_KEY ?? '').trim(),
-  authDomain: (import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN ?? '').trim(),
-  projectId: (import.meta.env.PUBLIC_FIREBASE_PROJECT_ID ?? '').trim(),
-  storageBucket: (import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET ?? '').trim(),
-  messagingSenderId: (import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? '').trim(),
-  appId: (import.meta.env.PUBLIC_FIREBASE_APP_ID ?? '').trim(),
-  measurementId: (import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID ?? '').trim(),
-};
+const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
 
 interface SearchItem { title: string; description: string; href: string; category: string; }
 const searchIndex: SearchItem[] = [

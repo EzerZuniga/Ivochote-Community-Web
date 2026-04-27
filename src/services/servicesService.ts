@@ -1,4 +1,4 @@
-import { apiGet } from './apiClient';
+import { apiGet } from "../api/contentClient";
 import type { ServiceItem, ServicesList } from '../types/services';
 
 export async function fetchServices(): Promise<ServicesList> {

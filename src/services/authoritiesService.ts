@@ -1,4 +1,4 @@
-import { apiGet } from "./apiClient";
+import { apiGet } from "../api/contentClient";
 import type { Authority } from "../types/authorities";
 
 export async function fetchAuthorities(): Promise<Authority[]> {

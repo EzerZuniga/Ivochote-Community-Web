@@ -1,4 +1,4 @@
-import { apiGet } from "./apiClient";
+import { apiGet } from "../api/contentClient";
 import type { EventItem, EventsList } from "../types/events";
 
 export async function fetchEvents(): Promise<EventsList> {

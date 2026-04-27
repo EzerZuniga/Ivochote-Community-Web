@@ -19,6 +19,7 @@
       "@styles/*": ["./src/styles/*"],
       "@utils/*": ["./src/utils/*"],
       "@types/*": ["./src/types/*"],
+      "@api/*": ["./src/api/*"],
       "@services/*": ["./src/services/*"],
       "@config/*": ["./config/*"],
       "@data/*": ["./src/data/*"]

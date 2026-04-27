@@ -1,4 +1,4 @@
-import { apiGet } from './apiClient';
+import { apiGet } from "../api/contentClient";
 import type { News, NewsList } from '../types/news';
 
 export async function fetchNews(): Promise<NewsList> {

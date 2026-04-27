@@ -89,8 +89,12 @@ Sitio institucional estático generado con **Astro** (SSG + Islands Architecture
     │   ├── seo/                # Head, JsonLd
     │   └── ui/                 # Button y primitivos reutilizables
     │
-    ├── services/               # Capa de acceso a datos (consume src/data/)
-    │   ├── apiClient.ts
+    ├── api/                    # Consumo de APIs (contenido mock + APIs reales)
+    │   ├── contentClient.ts
+    │   ├── firebaseConfig.ts
+    │   └── reniecClient.ts
+    │
+    ├── services/               # Lógica de dominio (usa src/api)
     │   ├── newsService.ts
     │   ├── eventsService.ts
     │   ├── authoritiesService.ts
@@ -180,7 +184,7 @@ Para otras plataformas (Vercel, Cloudflare Pages), apunta el directorio de salid
    ```
 4. Abre un **Pull Request** describiendo el problema que resuelve y la solución aplicada.
 
-> Para agregar una nueva sección: crea la página en `src/pages/`, el tipo en `src/types/`, el servicio en `src/services/`, los datos mock en `src/data/` y registra la ruta en `config/navigation.ts`.
+> Para agregar una nueva sección: crea la página en `src/pages/`, el tipo en `src/types/`, el cliente de datos en `src/api/`, el servicio en `src/services/`, los datos mock en `src/data/` y registra la ruta en `config/navigation.ts`.
 
 ---
 

@@ -1,17 +1,10 @@
 ---
 import { SITE_CONFIG } from "../../../config/site.config";
+import { buildFirebasePublicConfig } from "../../api/firebaseConfig";
 import "../../styles/globals.css";
 
 const pageTitle = `Acceso Ciudadano | ${SITE_CONFIG.shortTitle}`;
-const firebasePublicConfig = {
-  apiKey: (import.meta.env.PUBLIC_FIREBASE_API_KEY ?? "").trim(),
-  authDomain: (import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN ?? "").trim(),
-  projectId: (import.meta.env.PUBLIC_FIREBASE_PROJECT_ID ?? "").trim(),
-  storageBucket: (import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET ?? "").trim(),
-  messagingSenderId: (import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? "").trim(),
-  appId: (import.meta.env.PUBLIC_FIREBASE_APP_ID ?? "").trim(),
-  measurementId: (import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID ?? "").trim(),
-};
+const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
 ---
 
 <!doctype html>
