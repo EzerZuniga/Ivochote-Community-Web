@@ -54,16 +54,16 @@ Sitio institucional estático generado con **Astro** (SSG + Islands Architecture
 ├── tsconfig.json             # Configuración TypeScript
 ├── netlify.toml              # Build y headers de seguridad para Netlify
 │
-├── config/
-│   ├── navigation.ts         # Definición de menú y rutas del sitio
-│   └── site.config.ts        # Metadatos globales (nombre, URL, SEO)
-│
-├── public/
-│   ├── manifest.json         # Web App Manifest
+├── public/                   # Estáticos servidos en / (assets, manifest, robots, favicon)
+│   ├── manifest.json
 │   ├── robots.txt
-│   └── assets/images/        # Imágenes estáticas (brand, carrusel, servicios…)
+│   └── assets/               # Imágenes y descargas públicas
 │
 └── src/
+    ├── config/               # Configuración interna (navegación, SEO, copys)
+    │   ├── navigation.ts     # Definición de menú y rutas del sitio
+    │   └── site.config.ts    # Metadatos globales (nombre, URL, SEO)
+    │
     ├── pages/                # Rutas del sitio (archivo = URL)
     │   ├── index.astro
     │   ├── noticias/         # /noticias  /noticias/[slug]
@@ -184,7 +184,7 @@ Para otras plataformas (Vercel, Cloudflare Pages), apunta el directorio de salid
    ```
 4. Abre un **Pull Request** describiendo el problema que resuelve y la solución aplicada.
 
-> Para agregar una nueva sección: crea la página en `src/pages/`, el tipo en `src/types/`, el cliente de datos en `src/api/`, el servicio en `src/services/`, los datos mock en `src/data/` y registra la ruta en `config/navigation.ts`.
+> Para agregar una nueva sección: crea la página en `src/pages/`, el tipo en `src/types/`, el cliente de datos en `src/api/`, el servicio en `src/services/`, los datos mock en `src/data/` y registra la ruta en `src/config/navigation.ts`.
 
 ---
 

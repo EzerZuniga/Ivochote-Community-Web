@@ -21,7 +21,7 @@ export const SITE_CONFIG = {
   /** Coordenadas para JSON-LD y mapas */
   coordinates: { lat: -12.6833, lng: -72.6167 },
   /** Imagen por defecto para Open Graph */
-  ogImage: "/assets/images/brand/og-default.png",
+  ogImage: "/assets/images/brand/logoivo.png",
   /** Color de tema para dispositivos móviles */
   themeColor: "#084734",
   /** Palabras clave SEO globales */

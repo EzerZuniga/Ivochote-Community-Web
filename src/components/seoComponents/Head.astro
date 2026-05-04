@@ -3,7 +3,7 @@
  * Componente SEO reutilizable — inyecta todas las meta tags necesarias.
  * Se usa DENTRO del <head> del BaseLayout.
  */
-import { SITE_CONFIG } from '../../../config/site.config';
+import { SITE_CONFIG } from '../../config/site.config';
 
 interface Props {
   title?: string;
@@ -69,9 +69,10 @@ const hreflangLocale = SITE_CONFIG.locale.replace('_', '-');
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
 <!-- Favicon -->
-<link rel="icon" href="/favicon.ico" sizes="32x32" />
-<link rel="icon" href="/assets/images/brand/logoivo.png" type="image/png" />
-<link rel="apple-touch-icon" href="/assets/images/brand/logoivo.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="icon" href="/favicon.ico" />
 
 <!-- Manifest PWA -->
 <link rel="manifest" href="/manifest.json" />

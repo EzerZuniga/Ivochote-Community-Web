@@ -21,7 +21,7 @@
       "@types/*": ["./src/types/*"],
       "@api/*": ["./src/api/*"],
       "@services/*": ["./src/services/*"],
-      "@config/*": ["./config/*"],
+      "@config/*": ["./src/config/*"],
       "@data/*": ["./src/data/*"]
     },
     "types": ["astro/client", "vite/client", "react"]

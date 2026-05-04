@@ -3,7 +3,7 @@ import Navbar from '../components/layoutComponents/Navbar.astro';
 import Footer from '../components/layoutComponents/Footer.astro';
 import Head from '../components/seoComponents/Head.astro';
 import JsonLd from '../components/seoComponents/JsonLd.astro';
-import { SITE_CONFIG } from '../../config/site.config';
+import { SITE_CONFIG } from '../config/site.config';
 import '../styles/globals.css';
 
 interface BreadcrumbItem {
@@ -225,7 +225,7 @@ const {
           </div>
           <div class="site-disclaimer-actions">
             <a
-              href="/downloads/OFICOP.pdf"
+              href="/assets/downloads/OFICOP.pdf"
               target="_blank"
               rel="noopener noreferrer"
               class="site-disclaimer-link"
@@ -349,14 +349,15 @@ const {
     </script>
     <script>
       (function() {
-        const scrollToTopBtn = document.getElementById('scroll-to-top');
-        if (!(scrollToTopBtn instanceof HTMLElement)) return;
+        const scrollToTopBtnElement = document.getElementById('scroll-to-top');
+        if (!(scrollToTopBtnElement instanceof HTMLElement)) return;
+        const scrollToTopBtn = scrollToTopBtnElement;
 
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const showAfter = 320;
         let ticking = false;
 
-        function setVisible(visible) {
+        function setVisible(visible: boolean) {
           scrollToTopBtn.classList.toggle('opacity-0', !visible);
           scrollToTopBtn.classList.toggle('translate-y-3', !visible);
           scrollToTopBtn.classList.toggle('pointer-events-none', !visible);

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
-import { SITE_CONFIG } from "../../../config/site.config.ts";
+import { SITE_CONFIG } from "../../config/site.config.ts";
 
 const complaintEmail = "reclamos@ivochote.gob.pe";
 
@@ -73,7 +73,6 @@ const quickTips = [
         action="/atencion/libro-de-reclamaciones-enviado"
         enctype="multipart/form-data"
         data-netlify="true"
-        netlify
         netlify-honeypot="bot-field"
         class="bg-white border border-gray-200 shadow-[0_18px_40px_-24px_rgba(2,41,26,0.45)] p-5 sm:p-6 space-y-7"
       >
