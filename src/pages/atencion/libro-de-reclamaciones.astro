@@ -38,7 +38,7 @@ const quickTips = [
   ]}
   pageType="WebPage"
 >
-  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+  <section class="municipal-hero municipal-hero--reclamos bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Breadcrumbs
         items={[
@@ -46,24 +46,20 @@ const quickTips = [
           { href: "/contacto", label: "Atención Ciudadana" },
           { label: "Libro de Reclamaciones" },
         ]}
+        className="mb-6"
       />
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Libro de Reclamaciones</h1>
-      <p class="mt-3 text-white/80 max-w-3xl text-balance">
-        Completa este formulario oficial para registrar tu reclamo o queja. Tu solicitud será enviada al equipo de atención ciudadana de la municipalidad.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a
-          href={`mailto:${complaintEmail}?subject=Libro%20de%20Reclamaciones%20-%20Consulta`}
-          class="inline-flex items-center justify-center gap-2 bg-white text-primary-900 hover:bg-primary-100 text-sm font-bold px-5 py-2.5 transition-colors"
-        >
-          Iniciar por correo
-        </a>
-        <a
-          href="/contacto"
-          class="inline-flex items-center justify-center gap-2 border border-white/60 text-white hover:bg-white/10 text-sm font-bold px-5 py-2.5 transition-colors"
-        >
-          Ir a contacto
-        </a>
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0 bg-white/10 p-3.5" aria-hidden="true">
+          <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 6h8M8 10h8M8 14h5m4-11l4 4m-4-4v4h4M7 3h10v4h4v14H7V3z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Libro de Reclamaciones</h1>
+          <p class="mt-1.5 text-white/80 max-w-3xl text-balance">
+            Completa este formulario oficial para registrar tu reclamo o queja. Tu solicitud será enviada al equipo de atención ciudadana de la municipalidad.
+          </p>
+        </div>
       </div>
     </div>
   </section>

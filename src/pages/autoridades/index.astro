@@ -18,71 +18,67 @@ const [alcalde, ...regidores] = sorted;
   pageType="AboutPage"
 >
   <!-- Hero -->
-  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white overflow-hidden">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-14 sm:pb-16">
+  <div class="municipal-hero municipal-hero--autoridades bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Breadcrumbs
         items={[
           { href: "/", label: "Inicio" },
           { label: "Autoridades" },
         ]}
+        className="mb-6"
       />
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-stretch">
-        <!-- Texto -->
-        <div class="flex flex-col justify-center">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="flex-shrink-0 bg-white/10 rounded-xl p-3" aria-hidden="true">
-              <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-            </div>
-            <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80">Gobierno Local</span>
-          </div>
-
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
-            Autoridades<br class="hidden sm:block"/> Municipales
-          </h1>
-          <p class="mt-4 text-white/60 text-sm sm:text-base leading-relaxed">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0 bg-white/10 p-3.5" aria-hidden="true">
+          <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">Autoridades Municipales</h1>
+          <p class="mt-1.5 text-white/60 text-sm sm:text-base max-w-3xl">
             Representantes electos del Centro Poblado de Ivochote, Echarati, La Convención, Cusco. Comprometidos con el desarrollo y bienestar de la comunidad.
           </p>
-
-          <div class="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
-            <div>
-              <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Período</p>
-              <p class="text-white font-bold text-sm">{MUNICIPAL_MANAGEMENT_PERIOD.startYear} – {MUNICIPAL_MANAGEMENT_PERIOD.endYear}</p>
-            </div>
-            <div>
-              <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Electos</p>
-              <p class="text-white font-bold text-sm">{sorted.length} repr.</p>
-            </div>
-            <div>
-              <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Distrito</p>
-              <p class="text-white font-bold text-sm">Echarati</p>
-            </div>
-          </div>
         </div>
+      </div>
 
-        <!-- Imagen -->
-        <div class="relative mt-2 lg:mt-0 flex items-center justify-center">
-          <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl bg-white/5 border border-white/10" aria-hidden="true"></div>
-          <img
-            src="/assets/images/autoridades/autoridad.png"
-            alt={`Autoridades electas del Centro Poblado de Ivochote — Concejo Municipal ${MUNICIPAL_MANAGEMENT_PERIOD.startYear}-${MUNICIPAL_MANAGEMENT_PERIOD.endYear}`}
-            class="relative w-full rounded-2xl shadow-2xl object-contain border border-white/20"
-            loading="eager"
-            decoding="async"
-            width="560"
-            height="420"
-          />
-          <div class="absolute -bottom-4 left-4 bg-amber-400 text-amber-900 text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg select-none">
-            Concejo {MUNICIPAL_MANAGEMENT_PERIOD.startYear}–{MUNICIPAL_MANAGEMENT_PERIOD.endYear}
-          </div>
-        </div>
+      <div class="mt-7 flex flex-wrap items-center gap-6 text-sm border-t border-white/10 pt-5">
+        <span class="text-white/50">
+          <strong class="text-white font-bold">Período:</strong> {MUNICIPAL_MANAGEMENT_PERIOD.startYear} – {MUNICIPAL_MANAGEMENT_PERIOD.endYear}
+        </span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50">
+          <strong class="text-white font-bold">{sorted.length}</strong> representantes
+        </span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50">
+          <strong class="text-white font-bold">Distrito:</strong> Echarati
+        </span>
       </div>
     </div>
   </div>
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <section class="mb-10" aria-labelledby="concejo-visual-heading">
+      <h2 id="concejo-visual-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-4">
+        Concejo Municipal
+      </h2>
+      <div class="relative bg-white border border-gray-200 shadow-sm p-3 sm:p-4">
+        <img
+          src="/assets/images/autoridades/autoridad.png"
+          alt={`Autoridades electas del Centro Poblado de Ivochote — Concejo Municipal ${MUNICIPAL_MANAGEMENT_PERIOD.startYear}-${MUNICIPAL_MANAGEMENT_PERIOD.endYear}`}
+          class="w-full object-cover border border-gray-100"
+          loading="eager"
+          decoding="async"
+          width="1200"
+          height="700"
+        />
+        <div class="mt-3 inline-flex bg-amber-400 text-amber-900 text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 shadow-sm select-none">
+          Concejo {MUNICIPAL_MANAGEMENT_PERIOD.startYear}–{MUNICIPAL_MANAGEMENT_PERIOD.endYear}
+        </div>
+      </div>
+    </section>
+
     <!-- Alcalde destacado -->
     {alcalde && (
       <section class="mb-10" aria-labelledby="alcalde-heading">
@@ -99,7 +95,7 @@ const [alcalde, ...regidores] = sorted;
     {regidores.length > 0 && (
       <section aria-labelledby="concejo-heading">
         <h2 id="concejo-heading" class="text-[11px] font-bold uppercase tracking-widest text-primary-900/40 mb-4">
-          Concejo Municipal
+          Regidores
         </h2>
         <ul class="grid gap-5 sm:grid-cols-2 list-none" role="list">
           {regidores.map((a: Authority) => (

@@ -22,47 +22,42 @@ const featured = sorted.filter((e: EventItem) => e.featured);
   pageType="CollectionPage"
 >
   <!-- Hero -->
-  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+  <div class="municipal-hero municipal-hero--eventos bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Breadcrumbs
         items={[
           { href: "/", label: "Inicio" },
           { label: "Eventos" },
         ]}
+        className="mb-6"
       />
 
-      <div class="flex items-start gap-4 mb-8">
-        <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0 bg-white/10 p-3.5" aria-hidden="true">
           <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
         </div>
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">
-            Agenda Municipal {EVENTS_PAGE_COPY.agendaYear}
-          </span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
-            Eventos y<br class="hidden sm:block"/> Actividades
-          </h1>
-          <p class="mt-3 text-white/60 text-sm sm:text-base leading-relaxed max-w-lg">
+          <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">Eventos y Actividades</h1>
+          <p class="mt-1.5 text-white/60 text-sm sm:text-base max-w-3xl">
             Festividades, ferias, jornadas cívicas y actividades culturales del Centro Poblado de Ivochote durante el año.
           </p>
         </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
-        <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Eventos {EVENTS_PAGE_COPY.agendaYear}</p>
-          <p class="text-white font-bold">{sorted.length} programados</p>
-        </div>
-        <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Destacados</p>
-          <p class="text-white font-bold">{featured.length} eventos</p>
-        </div>
-        <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Entrada</p>
-          <p class="text-white font-bold">{EVENTS_PAGE_COPY.entryNote}</p>
-        </div>
+      <div class="mt-7 flex flex-wrap items-center gap-6 text-sm border-t border-white/10 pt-5">
+        <span class="text-white/50">
+          <strong class="text-white font-bold">{sorted.length}</strong> eventos {EVENTS_PAGE_COPY.agendaYear}
+        </span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50">
+          <strong class="text-white font-bold">{featured.length}</strong> destacados
+        </span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50">
+          <strong class="text-white font-bold">Entrada:</strong> {EVENTS_PAGE_COPY.entryNote}
+        </span>
       </div>
     </div>
   </div>

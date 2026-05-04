@@ -3,25 +3,30 @@ import { SITE_CONFIG } from "../../../config/site.config";
 import AuthLayout from "../../layouts/AuthLayout.astro";
 import { buildFirebasePublicConfig } from "../../api/firebaseConfig";
 
-const pageTitle = `Iniciar sesion | ${SITE_CONFIG.shortTitle}`;
-const pageDescription = "Inicia sesion para acceder al portal ciudadano de Ivochote y gestionar tus tramites en linea.";
+const pageTitle = `Registrarse | ${SITE_CONFIG.shortTitle}`;
+const pageDescription = "Crea tu cuenta en el portal ciudadano de Ivochote para realizar tramites y seguimiento en linea.";
 const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
 ---
 
 <AuthLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="auth-card-header">
     <img src="/assets/images/brand/logoivo.png" alt="Escudo institucional de Ivochote" class="auth-card-logo" width="52" height="52" />
-    <p class="auth-overline">Acceso institucional</p>
+    <p class="auth-overline">Registro ciudadano</p>
   </div>
-  <h1 class="auth-title">Ingreso al portal ciudadano</h1>
+  <h1 class="auth-title">Crea tu cuenta institucional</h1>
   <p class="auth-support-text">
-    Ingresa con tu correo registrado para continuar con tus gestiones.
+    Registra tus datos para acceder a servicios municipales, tramites y seguimiento en linea.
   </p>
   <p id="auth-status" class="auth-status" role="status" aria-live="polite">
-    Inicia sesion con Google o con tu correo.
+    Completa el formulario para crear tu cuenta.
   </p>
 
-  <form id="auth-form" class="auth-form" novalidate>
+  <form id="auth-register-form" class="auth-form" novalidate>
+    <div class="auth-field-wrap">
+      <label for="auth-name" class="auth-label">Nombre completo</label>
+      <input id="auth-name" name="name" type="text" autocomplete="name" required minlength="3" class="auth-input" placeholder="Ej. Maria Quispe" />
+    </div>
+
     <div class="auth-field-wrap">
       <label for="auth-email" class="auth-label">Correo electronico</label>
       <input id="auth-email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" required class="auth-input" placeholder="correo@ejemplo.com" />
@@ -29,10 +34,15 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
 
     <div class="auth-field-wrap">
       <label for="auth-password" class="auth-label">Contrasena</label>
-      <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="8" class="auth-input" placeholder="Minimo 8 caracteres" />
+      <input id="auth-password" name="password" type="password" autocomplete="new-password" required minlength="8" class="auth-input" placeholder="Minimo 8 caracteres" />
     </div>
 
-    <button id="auth-submit" type="submit" class="auth-primary-btn">Iniciar sesion</button>
+    <div class="auth-field-wrap">
+      <label for="auth-confirm-password" class="auth-label">Confirmar contrasena</label>
+      <input id="auth-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required minlength="8" class="auth-input" placeholder="Repite tu contrasena" />
+    </div>
+
+    <button id="auth-submit" type="submit" class="auth-primary-btn">Crear cuenta</button>
   </form>
 
   <div class="auth-divider" aria-hidden="true">o</div>
@@ -48,7 +58,7 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
   </button>
 
   <p class="auth-footnote">
-    No tienes cuenta? <a href="/login/registro" class="auth-footnote-link">Registrate</a>.
+    Ya tienes cuenta? <a href="/login" class="auth-footnote-link">Inicia sesion</a>.
   </p>
 
   <Fragment slot="scripts">
@@ -56,11 +66,6 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
 
     <script>
       // @ts-nocheck
-      const queryMode = new URLSearchParams(window.location.search).get("mode");
-      if (queryMode === "register") {
-        window.location.replace("/login/registro");
-      }
-
       const firebaseConfigElement = document.getElementById("firebase-config");
       let firebasePublicConfig = {};
       try {
@@ -71,9 +76,11 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
         firebasePublicConfig = {};
       }
 
-      const authForm = document.getElementById("auth-form");
+      const registerForm = document.getElementById("auth-register-form");
+      const authNameInput = document.getElementById("auth-name");
       const authEmailInput = document.getElementById("auth-email");
       const authPasswordInput = document.getElementById("auth-password");
+      const authConfirmInput = document.getElementById("auth-confirm-password");
       const authSubmitBtn = document.getElementById("auth-submit");
       const authGoogleBtn = document.getElementById("auth-google-btn");
       const authStatus = document.getElementById("auth-status");
@@ -91,7 +98,7 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
       function setLoading(isLoading) {
         if (authSubmitBtn) {
           authSubmitBtn.disabled = isLoading;
-          authSubmitBtn.textContent = isLoading ? "Ingresando..." : "Iniciar sesion";
+          authSubmitBtn.textContent = isLoading ? "Creando cuenta..." : "Crear cuenta";
         }
         if (authGoogleBtn) {
           authGoogleBtn.disabled = isLoading;
@@ -120,12 +127,12 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
           case "auth/app-not-authorized":
           case "auth/unauthorized-domain":
             return "Dominio no autorizado. Agrega localhost en Firebase Authorized domains.";
-          case "auth/invalid-credential":
-          case "auth/wrong-password":
-          case "auth/user-not-found":
-            return "Correo o contrasena incorrectos.";
+          case "auth/email-already-in-use":
+            return "Este correo ya esta registrado.";
           case "auth/invalid-email":
             return "El correo electronico no es valido.";
+          case "auth/weak-password":
+            return "La contrasena es muy debil. Usa al menos 8 caracteres.";
           case "auth/popup-closed-by-user":
             return "Cerraste la ventana de Google antes de completar el acceso.";
           case "auth/popup-blocked":
@@ -136,7 +143,7 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
           case "auth/too-many-requests":
             return "Demasiados intentos. Espera unos minutos e intentalo de nuevo.";
           default:
-            return `No se pudo completar la autenticacion (${code || "error-desconocido"}).`;
+            return `No se pudo completar el registro (${code || "error-desconocido"}).`;
         }
       }
 
@@ -146,7 +153,7 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
 
       async function initFirebase() {
         if (!hasFirebaseConfig(firebasePublicConfig)) {
-          setStatus("Falta configurar Firebase en .env para habilitar el acceso real.", "error");
+          setStatus("Falta configurar Firebase en .env para habilitar el registro real.", "error");
           return false;
         }
         if (auth && authApi) return true;
@@ -174,6 +181,7 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
         setStatus("Abriendo Google...");
         try {
           await authApi.signInWithPopup(auth, provider);
+          setStatus("Cuenta iniciada con Google.", "success");
         } catch (error) {
           const code = extractAuthCode(error);
           if (code === "auth/popup-blocked" || code === "auth/cancelled-popup-request") {
@@ -192,28 +200,45 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
         }
       }
 
-      async function handleEmailAuth(event) {
+      async function handleRegister(event) {
         event.preventDefault();
         const ready = await initFirebase();
         if (!ready || !auth || !authApi) return;
 
+        const name = String(authNameInput?.value || "").trim();
         const email = String(authEmailInput?.value || "").trim();
         const password = String(authPasswordInput?.value || "");
+        const confirmPassword = String(authConfirmInput?.value || "");
 
-        if (!email || !password) {
-          setStatus("Completa correo y contrasena.", "error");
+        if (name.length < 3) {
+          setStatus("Ingresa tu nombre completo (minimo 3 caracteres).", "error");
+          return;
+        }
+        if (!email || !password || !confirmPassword) {
+          setStatus("Completa todos los campos.", "error");
           return;
         }
         if (password.length < 8) {
           setStatus("La contrasena debe tener al menos 8 caracteres.", "error");
           return;
         }
+        if (password !== confirmPassword) {
+          setStatus("Las contrasenas no coinciden.", "error");
+          return;
+        }
 
         setLoading(true);
-        setStatus("Validando acceso...");
+        setStatus("Creando tu cuenta...");
+
         try {
-          await authApi.signInWithEmailAndPassword(auth, email, password);
-          setStatus("Sesion iniciada correctamente.", "success");
+          const result = await authApi.createUserWithEmailAndPassword(auth, email, password);
+          await authApi.updateProfile(result.user, { displayName: name });
+          await authApi.sendEmailVerification(result.user).catch(() => {});
+          setStatus("Cuenta creada con exito. Revisa tu correo y luego inicia sesion.", "success");
+
+          setTimeout(() => {
+            window.location.assign("/login");
+          }, 1200);
         } catch (error) {
           setStatus(normalizeError(error), "error");
         } finally {
@@ -222,7 +247,7 @@ const firebasePublicConfig = buildFirebasePublicConfig(import.meta.env);
       }
 
       authGoogleBtn?.addEventListener("click", handleGoogleSignIn);
-      authForm?.addEventListener("submit", handleEmailAuth);
+      registerForm?.addEventListener("submit", handleRegister);
       initFirebase();
     </script>
   </Fragment>

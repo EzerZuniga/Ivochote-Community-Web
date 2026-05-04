@@ -914,36 +914,319 @@
 }
 
 /* ============================================
+   MUNICIPAL HERO BACKGROUNDS
+   Reutiliza fotos locales con capas de contraste
+   para las cabeceras verdes de menús/secciones.
+   ============================================ */
+
+.municipal-hero {
+  --municipal-hero-min-height: clamp(18.5rem, 40vh, 23.5rem);
+  --municipal-hero-padding-block: clamp(2.75rem, 5.6vw, 4rem);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #072317;
+  min-height: var(--municipal-hero-min-height);
+}
+
+.municipal-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--municipal-hero-image);
+  background-size: cover;
+  background-position: var(--municipal-hero-position, center center);
+  background-repeat: no-repeat;
+  opacity: 0.62;
+  transform: scale(1.03);
+  filter: saturate(1.08) contrast(1.03);
+}
+
+.municipal-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2, 12, 9, 0.34) 0%,
+      rgba(2, 12, 9, 0.25) 45%,
+      rgba(2, 12, 9, 0.42) 100%
+    ),
+    linear-gradient(
+      120deg,
+      rgba(3, 20, 14, 0.58) 0%,
+      rgba(6, 35, 24, 0.48) 52%,
+      rgba(12, 66, 46, 0.42) 100%
+    );
+}
+
+.municipal-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.municipal-hero > :first-child {
+  position: relative;
+  box-sizing: border-box;
+  min-height: var(--municipal-hero-min-height);
+  padding-block: var(--municipal-hero-padding-block);
+}
+
+.municipal-hero > :first-child::before {
+  content: "";
+  position: absolute;
+  left: clamp(0.35rem, 1.6vw, 1rem);
+  top: clamp(2.25rem, 5.2vw, 3.1rem);
+  width: clamp(4px, 0.6vw, 8px);
+  height: clamp(96px, 12vw, 152px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(251, 191, 36, 0.95) 0%,
+    rgba(245, 158, 11, 0.74) 55%,
+    rgba(245, 158, 11, 0.2) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 226, 160, 0.25),
+    0 10px 28px rgba(56, 36, 2, 0.38);
+  opacity: 0.92;
+}
+
+.municipal-hero > :first-child::after {
+  content: "";
+  position: absolute;
+  left: clamp(1.15rem, 2.6vw, 1.9rem);
+  top: clamp(2.55rem, 5.8vw, 3.45rem);
+  width: clamp(112px, 18vw, 194px);
+  height: 1px;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+.municipal-hero > :first-child > * {
+  position: relative;
+  z-index: 1;
+}
+
+.municipal-hero h1 {
+  text-shadow: 0 2px 18px rgba(2, 12, 9, 0.5);
+}
+
+.municipal-hero p {
+  text-wrap: pretty;
+}
+
+.municipal-hero--noticias {
+  --municipal-hero-image: url("/assets/rio3.jpeg");
+  --municipal-hero-position: center 42%;
+  --municipal-hero-position-mobile: 60% 45%;
+}
+
+.municipal-hero--eventos {
+  --municipal-hero-image: url("/assets/rio5.jpeg");
+  --municipal-hero-position: center 46%;
+  --municipal-hero-position-mobile: 55% 44%;
+}
+
+.municipal-hero--autoridades {
+  --municipal-hero-image: url("/assets/colegio.jpeg");
+  --municipal-hero-position: 34% 42%;
+  --municipal-hero-position-mobile: 36% 44%;
+}
+
+.municipal-hero--servicios {
+  --municipal-hero-image: url("/assets/IE2.jpeg");
+  --municipal-hero-position: center 44%;
+  --municipal-hero-position-mobile: 52% 43%;
+}
+
+.municipal-hero--turismo {
+  --municipal-hero-image: url("/assets/puente.jpeg");
+  --municipal-hero-position: center 38%;
+  --municipal-hero-position-mobile: 60% 40%;
+}
+
+.municipal-hero--contacto {
+  --municipal-hero-image: url("/assets/ivofot.jpeg");
+  --municipal-hero-position: center 40%;
+  --municipal-hero-position-mobile: 55% 40%;
+}
+
+.municipal-hero--transparencia {
+  --municipal-hero-image: url("/assets/IE3.jpeg");
+  --municipal-hero-position: center 40%;
+  --municipal-hero-position-mobile: 58% 41%;
+}
+
+.municipal-hero--documentos {
+  --municipal-hero-image: url("/assets/IE-ivochote.jpeg");
+  --municipal-hero-position: center 40%;
+  --municipal-hero-position-mobile: 58% 40%;
+}
+
+.municipal-hero--presupuesto {
+  --municipal-hero-image: url("/assets/mercadoIvo.jpeg");
+  --municipal-hero-position: center 46%;
+  --municipal-hero-position-mobile: 58% 46%;
+}
+
+.municipal-hero--mesa-partes {
+  --municipal-hero-image: url("/assets/ivofoto.jpeg");
+  --municipal-hero-position: center 41%;
+  --municipal-hero-position-mobile: 54% 42%;
+}
+
+.municipal-hero--reclamos {
+  --municipal-hero-image: url("/assets/pongo2.jpeg");
+  --municipal-hero-position: center 28%;
+  --municipal-hero-position-mobile: 56% 22%;
+}
+
+@media (max-width: 768px) {
+  .municipal-hero {
+    --municipal-hero-min-height: clamp(17rem, 42vh, 20.5rem);
+    --municipal-hero-padding-block: clamp(2.25rem, 8vw, 3rem);
+  }
+
+  .municipal-hero::before {
+    opacity: 0.56;
+    transform: scale(1.02);
+    background-position: var(--municipal-hero-position-mobile, 56% 44%);
+  }
+
+  .municipal-hero::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(2, 12, 9, 0.38) 0%,
+        rgba(2, 12, 9, 0.31) 45%,
+        rgba(2, 12, 9, 0.47) 100%
+      ),
+      linear-gradient(
+        138deg,
+        rgba(3, 20, 14, 0.64) 0%,
+        rgba(6, 35, 24, 0.53) 52%,
+        rgba(12, 66, 46, 0.47) 100%
+      );
+  }
+
+  .municipal-hero > :first-child::before {
+    left: 0.3rem;
+    top: 2.15rem;
+    width: 4px;
+    height: 92px;
+    opacity: 0.9;
+  }
+
+  .municipal-hero > :first-child::after {
+    left: 0.95rem;
+    top: 2.45rem;
+    width: min(46vw, 150px);
+  }
+}
+
+@media (max-width: 460px) {
+  .municipal-hero {
+    --municipal-hero-min-height: clamp(16rem, 41vh, 18.75rem);
+    --municipal-hero-padding-block: clamp(1.9rem, 8.5vw, 2.4rem);
+  }
+
+  .municipal-hero > :first-child::before {
+    left: 0.22rem;
+    top: 2.05rem;
+    height: 82px;
+  }
+
+  .municipal-hero > :first-child::after {
+    left: 0.82rem;
+    top: 2.35rem;
+    width: min(54vw, 128px);
+  }
+}
+
+/* ============================================
    GLOBAL TEXT CONTRAST TUNING
    Mejora legibilidad en toda la web sin tocar
    la semántica ni la estructura de componentes.
    ============================================ */
 
-.text-white\/20 { color: rgba(255, 255, 255, 0.68); }
-.text-white\/30 { color: rgba(255, 255, 255, 0.74); }
-.text-white\/40 { color: rgba(255, 255, 255, 0.8); }
-.text-white\/50 { color: rgba(255, 255, 255, 0.86); }
-.text-white\/60 { color: rgba(255, 255, 255, 0.9); }
-.text-white\/65 { color: rgba(255, 255, 255, 0.92); }
-.text-white\/70 { color: rgba(255, 255, 255, 0.94); }
-.text-white\/80 { color: rgba(255, 255, 255, 0.97); }
+.text-white\/20 {
+  color: rgba(255, 255, 255, 0.68);
+}
+.text-white\/30 {
+  color: rgba(255, 255, 255, 0.74);
+}
+.text-white\/40 {
+  color: rgba(255, 255, 255, 0.8);
+}
+.text-white\/50 {
+  color: rgba(255, 255, 255, 0.86);
+}
+.text-white\/60 {
+  color: rgba(255, 255, 255, 0.9);
+}
+.text-white\/65 {
+  color: rgba(255, 255, 255, 0.92);
+}
+.text-white\/70 {
+  color: rgba(255, 255, 255, 0.94);
+}
+.text-white\/80 {
+  color: rgba(255, 255, 255, 0.97);
+}
 
-.text-primary-900\/40 { color: rgba(20, 83, 45, 0.72); }
-.text-primary-900\/45 { color: rgba(20, 83, 45, 0.74); }
-.text-primary-900\/50 { color: rgba(20, 83, 45, 0.78); }
-.text-primary-900\/60 { color: rgba(20, 83, 45, 0.84); }
-.text-primary-900\/65 { color: rgba(20, 83, 45, 0.87); }
-.text-primary-900\/70 { color: rgba(20, 83, 45, 0.9); }
-.text-primary-900\/75 { color: rgba(20, 83, 45, 0.92); }
-.text-primary-900\/80 { color: rgba(20, 83, 45, 0.94); }
+.text-primary-900\/40 {
+  color: rgba(20, 83, 45, 0.72);
+}
+.text-primary-900\/45 {
+  color: rgba(20, 83, 45, 0.74);
+}
+.text-primary-900\/50 {
+  color: rgba(20, 83, 45, 0.78);
+}
+.text-primary-900\/60 {
+  color: rgba(20, 83, 45, 0.84);
+}
+.text-primary-900\/65 {
+  color: rgba(20, 83, 45, 0.87);
+}
+.text-primary-900\/70 {
+  color: rgba(20, 83, 45, 0.9);
+}
+.text-primary-900\/75 {
+  color: rgba(20, 83, 45, 0.92);
+}
+.text-primary-900\/80 {
+  color: rgba(20, 83, 45, 0.94);
+}
 
-.text-primary-100\/60 { color: rgba(220, 252, 231, 0.84); }
-.text-red-100\/70 { color: rgba(254, 226, 226, 0.9); }
-.text-amber-400\/80 { color: rgba(251, 191, 36, 0.9); }
+.text-primary-100\/60 {
+  color: rgba(220, 252, 231, 0.84);
+}
+.text-red-100\/70 {
+  color: rgba(254, 226, 226, 0.9);
+}
+.text-amber-400\/80 {
+  color: rgba(251, 191, 36, 0.9);
+}
 
 /* Escala gris más legible sobre fondos claros */
-.text-gray-400 { color: #6b7280; }
-.text-gray-500 { color: #4b5563; }
+.text-gray-400 {
+  color: #6b7280;
+}
+.text-gray-500 {
+  color: #4b5563;
+}
 
 /* ============================================
    HOME NEWS CARDS SHADOW

@@ -36,7 +36,7 @@
     "bestSeason": ["mayo", "junio", "julio", "agosto", "septiembre"],
     "tips": "Se recomienda contratar un guía local. Llevar botas de trekking, impermeable y agua. Salida recomendada: 7:00 am.",
     "images": ["/assets/rio2.jpeg"],
-    "featured": true,
+    "featured": false,
     "order": 2,
     "tags": ["bosque", "biodiversidad", "trekking", "orquídeas"],
     "contact": {

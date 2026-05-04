@@ -23,5 +23,8 @@
   },
   "files.associations": {
     "*.astro": "astro"
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
   }
 }

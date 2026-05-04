@@ -1,0 +1,52 @@
+---
+import "../styles/globals.css";
+import "../styles/auth.css";
+
+interface Props {
+  pageTitle: string;
+  pageDescription: string;
+}
+
+const { pageTitle, pageDescription } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-panel auth-panel-left" aria-labelledby="auth-welcome-title">
+        <a href="/" class="auth-brand">
+          <img src="/assets/images/brand/logoivo.png" alt="Escudo de Ivochote" class="auth-brand-logo" width="34" height="34" />
+          <span class="auth-brand-text">Ivochote Digital</span>
+        </a>
+
+        <div class="auth-hero">
+          <p class="auth-hero-kicker">Municipalidad del Centro Poblado de Ivochote</p>
+          <h2 id="auth-welcome-title" class="auth-hero-title">Plataforma de atencion ciudadana</h2>
+          <p class="auth-hero-text">
+            Accede con tu cuenta para presentar solicitudes, revisar el estado de tramites y recibir notificaciones oficiales del municipio.
+          </p>
+          <ul class="auth-hero-list">
+            <li>Canal de atencion digital institucional</li>
+            <li>Proteccion de datos y sesion segura</li>
+            <li>Seguimiento de tramites en un solo lugar</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="auth-panel auth-panel-right" aria-label="Acceso ciudadano">
+        <div class="auth-card">
+          <slot />
+        </div>
+      </section>
+    </main>
+
+    <slot name="scripts" />
+  </body>
+</html>

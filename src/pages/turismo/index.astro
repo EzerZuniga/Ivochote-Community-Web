@@ -18,45 +18,42 @@ const featured = sorted.filter((p: TourismPlace) => p.featured);
   pageType="CollectionPage"
 >
   <!-- Hero -->
-  <div class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+  <div class="municipal-hero municipal-hero--turismo bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Breadcrumbs
         items={[
           { href: "/", label: "Inicio" },
           { label: "Turismo" },
         ]}
+        className="mb-6"
       />
 
-      <div class="flex items-start gap-4 mb-8">
-        <div class="flex-shrink-0 bg-white/10 rounded-xl p-3.5" aria-hidden="true">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0 bg-white/10 p-3.5" aria-hidden="true">
           <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-2 block">Selva Alta del Cusco</span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
-            Turismo en<br class="hidden sm:block"/> Ivochote
-          </h1>
-          <p class="mt-3 text-white/60 text-sm sm:text-base leading-relaxed max-w-lg">
+          <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">Turismo en Ivochote</h1>
+          <p class="mt-1.5 text-white/60 text-sm sm:text-base max-w-3xl">
             Naturaleza, cultura y gastronomía en la selva alta de La Convención. Un destino auténtico en el corazón del Cusco amazónico.
           </p>
         </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
-        <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Atractivos</p>
-          <p class="text-white font-bold">{sorted.length} destinos</p>
-        </div>
-        <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Altitud</p>
-          <p class="text-white font-bold">{TOURISM_PAGE_COPY.altitude}</p>
-        </div>
-        <div>
-          <p class="text-white/40 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Mejor época</p>
-          <p class="text-white font-bold">{TOURISM_PAGE_COPY.bestSeason}</p>
-        </div>
+      <div class="mt-7 flex flex-wrap items-center gap-6 text-sm border-t border-white/10 pt-5">
+        <span class="text-white/50">
+          <strong class="text-white font-bold">{sorted.length}</strong> destinos
+        </span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50">
+          <strong class="text-white font-bold">Altitud:</strong> {TOURISM_PAGE_COPY.altitude}
+        </span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50">
+          <strong class="text-white font-bold">Mejor época:</strong> {TOURISM_PAGE_COPY.bestSeason}
+        </span>
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@ import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
   ]}
   pageType="WebPage"
 >
-  <section class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
+  <section class="municipal-hero municipal-hero--mesa-partes bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Breadcrumbs
         items={[
@@ -20,11 +20,27 @@ import Breadcrumbs from "../../components/commonComponents/Breadcrumbs.astro";
           { href: "/contacto", label: "Atención Ciudadana" },
           { label: "Mesa de Partes Virtual" },
         ]}
+        className="mb-6"
       />
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Mesa de Partes Virtual</h1>
-      <p class="mt-3 text-white/65 max-w-3xl">
-        Registra tus solicitudes y comunicaciones oficiales de manera digital, sin necesidad de acudir presencialmente.
-      </p>
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0 bg-white/10 p-3.5" aria-hidden="true">
+          <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M6 11h12M8 15h8m5 4H3V5h18v14z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Mesa de Partes Virtual</h1>
+          <p class="mt-1.5 text-white/65 max-w-3xl">
+            Registra tus solicitudes y comunicaciones oficiales de manera digital, sin necesidad de acudir presencialmente.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-7 flex flex-wrap items-center gap-6 text-sm border-t border-white/10 pt-5">
+        <span class="text-white/50"><strong class="text-white font-bold">Canal</strong> digital oficial</span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50"><strong class="text-white font-bold">Horario:</strong> Lun–Vie, 8:00 a.m. a 4:00 p.m.</span>
+      </div>
     </div>
   </section>
 
